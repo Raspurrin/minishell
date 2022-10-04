@@ -1,0 +1,3 @@
+[submodule "libs/pipex"]
+	path = libs/pipex
+	url = https://github.com/Raspurrin/Pipex.git
