@@ -6,7 +6,7 @@
 #    By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/03 20:03:25 by mialbert          #+#    #+#              #
-#    Updated: 2022/10/03 21:09:35 by mialbert         ###   ########.fr        #
+#    Updated: 2022/10/04 15:07:34 by mialbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -23,6 +23,7 @@ RED 	:= \033[0;31m
 PURPLE	:= \033[0;35m
 B_BLUE 	:= \033[1;34m
 BLUE 	:= \033[0;34m
+FLAGS_OS = -lreadline
 
 all: minishell
 
@@ -34,7 +35,11 @@ banner:
 	@echo "\n${PURPLE}======== Minishell ========${NC}"
 
 $(NAME): banner $(OBJS)
-	@$(CC) -lreadline $(CFLAGS) $(OBJS) -o $(NAME) $(DEBUG)
+	@$(CC) $(FLAGS_OS) $(CFLAGS) $(OBJS) -o $(NAME) $(DEBUG)
+
+e: all
+	./$(NAME)
+
 clean:
 	@rm -f $(OBJS)
 	@echo "${B_RED}🧹 Cleaning: ${RED} object files $(NC)"
