@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 20:00:04 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/04 21:21:10 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/05 17:01:08 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 
-typedef struct s_parsed
-{
-	t_data		data;
-}	t_parsed;
+// typedef struct s_parsed
+// {
+	
+// }	t_parsed;
 
 #endif
