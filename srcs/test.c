@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/04 16:18:57 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/05 17:17:56 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int32_t	main(void)
 {
 	char	*str;
-	//dfdsf jdsfoaijsdsdfsdf
+	//dfdsf jdsfoaijsdsdfsdf dfdfdfdf
 	while (6942)
 	{
 		str = readline("\e[38;5;20m🦇Minihell: \e[0m");
