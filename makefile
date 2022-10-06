@@ -6,17 +6,17 @@
 #    By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/03 20:03:25 by mialbert          #+#    #+#              #
-#    Updated: 2022/10/05 20:27:29 by mialbert         ###   ########.fr        #
+#    Updated: 2022/10/06 21:11:23 by mialbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CFLAGS	=	-Wall -Wextra -Werror -pthread -g -O3
+CFLAGS	=	-Wall -Wextra -Werror -pthread -g
 NAME	=	minishell
-DEBUG	=	-fsanitize=thread
+DEBUG	=	-fsanitize=address
 LIBFT	=	./libs/libft/
-SRCS	=	./srcs/test.c 
-# ./srcs/execution/execution.c 
-# ./srcs/execution/inout_files.c
+SRCS	=	./srcs/main.c \
+			# ./srcs/execution/execution.c \
+			# ./srcs/execution/inout_files.c
 
 OBJS	= $(SRCS:.c=.o)
 
@@ -36,7 +36,7 @@ else
 SUBM_FLAG	= 
 endif
 
-all: $(SUBM_STATE) libft minishell
+all: $(SUBM_FLAG) libft minishell
 
 submodule:
 	@git submodule init 

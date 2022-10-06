@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 20:00:04 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/06 14:06:47 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/06 21:06:15 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <stdbool.h>
 # include <sys/types.h>
 # include <sys/wait.h>
+# include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libs/libft/includes/libft.h"
@@ -35,26 +36,35 @@ typedef struct s_infile
 	bool	here_doc;
 }	t_infile;
 
-typedef struct s_arg
+/**
+ * This encompasses everything between/before/after pipelines. 
+ * Information that purtains to one command. 
+ * -> <infile1 <infile2 cmd >outfile1 >outfile2 <- | cmd2 >outfile3
+ * We have an array of these structs in the data struct. To seperate
+ * information for each "pipegroup".
+ */
+typedef struct s_group
 {
 	char		**full_cmd;
 	t_infile	*infile;
-	t_outfile;	outfile;
-	char		**outcreate;
+	t_outfile	*outfile;
 	bool		builtin;
-}	t_arg;
+}	t_group;
+
+typedef struct s_env
+{
+	char			*key;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
 
 typedef struct s_data
 {
-	char	**envp;	
-	t_arg	*args;
-	size_t	cmdc;
+	char	**paths;
+	t_env	*env_head;	
+	t_group	*group;
+	size_t	groupc;
 }	t_data;
-
-typedef struct s_parsing
-{
-	
-}	t_parsing;
 
 void	execution(t_data *data);
 

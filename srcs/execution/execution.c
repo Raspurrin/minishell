@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/05 20:09:59 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/06 21:04:39 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ static char	*find_path(t_data *data, size_t	argv_i)
 	char	*path;
 
 	i = 0;
-	data->full_cmd = ft_split(data->argv[argv_i], ' ');
-	cmd = ft_strjoin("/", data->full_cmd[0]);
+	cmd = ft_strjoin("/", data->group[argv_i]full_cmd[0]);
 	while (data->path[i++])
 	{
 		path = ft_strjoin(data->path[i - 1], cmd);
@@ -63,6 +62,18 @@ void	child_cmd(t_data *data, size_t i, char **envp, int32_t fd[2])
 	}
 }
 
+void	close_files(t_group *group, size_t groupc)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < groupc)
+	{
+		close(group->infile[i++].name);
+		close(group->outfile[i++].name);
+	}
+}
+
 /**
  * Creating new child processes for each command executed, facilitating
  * inter-process communication with pipes and redirecting output and input
@@ -76,27 +87,25 @@ static void	exec_cmds(t_data *data)
 	int32_t	fd[2];
 
 	i = inout_files(data);
-	while (i < (size_t)data->argc - 3)
+	while (i < (size_t)data->groupc)
 	{
 		pipe(fd);
 		pid = fork();
 		if (pid == -1)
 			display_error(data, "fork failed", true);
 		if (pid == 0)
-			child_cmd(data, i, envp, fd);
+			child_cmd(data, i, data->env_head, fd);
 		waitpid(pid, NULL, 0);
 		dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
 		close(fd[1]);
 		i++;
 	}
-	close(data->outfile);
-	close(data->infile);
+	close_files(data->group, data->groupc);
 }
 
 void	execution(t_data *data)
 {
-	exec_cmds(&data, envp);
+	exec_cmds(&data);
 	free_at_exit(&data);
-	return (0);
 }
