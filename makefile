@@ -6,7 +6,7 @@
 #    By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/03 20:03:25 by mialbert          #+#    #+#              #
-#    Updated: 2022/10/04 21:26:17 by mialbert         ###   ########.fr        #
+#    Updated: 2022/10/05 20:27:29 by mialbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,9 @@ CFLAGS	=	-Wall -Wextra -Werror -pthread -g -O3
 NAME	=	minishell
 DEBUG	=	-fsanitize=thread
 LIBFT	=	./libs/libft/
-SRCS	=	./srcs/test.c
+SRCS	=	./srcs/test.c 
+# ./srcs/execution/execution.c 
+# ./srcs/execution/inout_files.c
 
 OBJS	= $(SRCS:.c=.o)
 
@@ -36,7 +38,7 @@ endif
 
 all: $(SUBM_STATE) libft minishell
 
-submodule: 
+submodule:
 	@git submodule init 
 	@git submodule update
 
@@ -45,7 +47,7 @@ submodule:
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 banner:
-	@echo "\n${PURPLE}======== Minishell ========${NC}"
+	@echo "\n${PURPLE}======== Minishell ========$(NC)"
 
 libft: 
 	@echo "\n${BLUE}======== Libft ========${NC}"
