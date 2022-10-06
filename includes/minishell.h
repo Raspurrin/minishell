@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 20:00:04 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/06 21:06:15 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/07 01:17:24 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdint.h>
+# include <unistd.h>
 # include <stdbool.h>
 # include <sys/types.h>
 # include <sys/wait.h>
@@ -27,12 +28,14 @@
 typedef struct s_outfile
 {
 	char	*name;
+	int32_t	fd;
 	bool	append;
 }	t_outfile;
 
 typedef struct s_infile
 {
 	char	*name;
+	int32_t	fd;
 	bool	here_doc;
 }	t_infile;
 
@@ -53,6 +56,7 @@ typedef struct s_group
 
 typedef struct s_env
 {
+	char			*keyvalue;
 	char			*key;
 	char			*value;
 	struct s_env	*next;
@@ -61,11 +65,17 @@ typedef struct s_env
 typedef struct s_data
 {
 	char	**paths;
-	t_env	*env_head;	
+	t_env	*envp_head;	
 	t_group	*group;
 	size_t	groupc;
+	size_t	envpc;
 }	t_data;
 
 void	execution(t_data *data);
+void	init(t_data *data, char **envp);
+void	display_error(t_data *data, char *error_msg, bool yeet);
+void	print_group(void);
+char	**env_2darr(t_data *data, t_env *lst);
+void	free_at_exit(t_data *data);
 
 #endif

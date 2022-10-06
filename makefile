@@ -6,7 +6,7 @@
 #    By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/03 20:03:25 by mialbert          #+#    #+#              #
-#    Updated: 2022/10/06 21:11:23 by mialbert         ###   ########.fr        #
+#    Updated: 2022/10/06 23:15:09 by mialbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,11 @@ NAME	=	minishell
 DEBUG	=	-fsanitize=address
 LIBFT	=	./libs/libft/
 SRCS	=	./srcs/main.c \
-			# ./srcs/execution/execution.c \
-			# ./srcs/execution/inout_files.c
+			./srcs/execution/execution.c \
+			./srcs/execution/inout_files.c \
+			./srcs/init.c \
+			./srcs/utils.c \
+			./srcs/error.c
 
 OBJS	= $(SRCS:.c=.o)
 

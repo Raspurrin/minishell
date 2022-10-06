@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/06 21:04:39 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/07 01:48:51 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,17 @@
  * Cmd takes the first element and joins it with '/': "/ls"
  * Path combines the path with cmd: "usr/bin/ls" and checks its accessibility.
  */
-static char	*find_path(t_data *data, size_t	argv_i)
+static char	*find_path(t_data *data, size_t	group_i)
 {
 	size_t	i;
 	char	*cmd;
 	char	*path;
 
 	i = 0;
-	cmd = ft_strjoin("/", data->group[argv_i]full_cmd[0]);
-	while (data->path[i++])
+	cmd = ft_strjoin("/", data->group[group_i].full_cmd[0]);
+	while (data->paths[i++])
 	{
-		path = ft_strjoin(data->path[i - 1], cmd);
+		path = ft_strjoin(data->paths[i - 1], cmd);
 		if (access(path, F_OK | X_OK) == 0)
 			return (free(cmd), path);
 		else
@@ -44,33 +44,33 @@ static char	*find_path(t_data *data, size_t	argv_i)
  * Which is why this is done in a child process. 
  * At the very last itteration, the output is redirected to a file. 
  */
-void	child_cmd(t_data *data, size_t i, char **envp, int32_t fd[2])
+static void	child_cmd(t_data *data, size_t i, int32_t fd[2])
 {
 	char	*path;
 
-	path = find_path(data, i + 2);
-	if (i == (size_t)data->argc - 4)
-		dup2(data->outfile, STDOUT_FILENO);
-	else
+	path = find_path(data, i);
+	// if (i == (size_t)data->argc - 4)
+	// 	dup2(data->outfile, STDOUT_FILENO);
+	// else
 		dup2(fd[1], STDOUT_FILENO);
 	close(fd[0]);
 	close(fd[1]);
-	if (execve(path, data->full_cmd, envp) == -1)
+	if (execve(path, data->group[i].full_cmd, env_2darr(data, data->envp_head)) == -1)
 	{
 		free(path);
 		display_error(data, "execve failed", true);
 	}
 }
 
-void	close_files(t_group *group, size_t groupc)
+static void	close_files(t_group *group, size_t groupc)
 {
 	size_t	i;
 
 	i = 0;
 	while (i < groupc)
 	{
-		close(group->infile[i++].name);
-		close(group->outfile[i++].name);
+		close(group->infile[i++].fd);
+		close(group->outfile[i++].fd);
 	}
 }
 
@@ -86,7 +86,7 @@ static void	exec_cmds(t_data *data)
 	int32_t	pid;
 	int32_t	fd[2];
 
-	i = inout_files(data);
+	i = 0;
 	while (i < (size_t)data->groupc)
 	{
 		pipe(fd);
@@ -94,7 +94,7 @@ static void	exec_cmds(t_data *data)
 		if (pid == -1)
 			display_error(data, "fork failed", true);
 		if (pid == 0)
-			child_cmd(data, i, data->env_head, fd);
+			child_cmd(data, i, fd);
 		waitpid(pid, NULL, 0);
 		dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
@@ -106,6 +106,6 @@ static void	exec_cmds(t_data *data)
 
 void	execution(t_data *data)
 {
-	exec_cmds(&data);
-	free_at_exit(&data);
+	exec_cmds(data);
+	free_at_exit(data);
 }
