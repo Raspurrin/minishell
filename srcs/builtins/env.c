@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   utils.c                                            :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/10/06 23:06:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/07 01:39:36 by mialbert         ###   ########.fr       */
+/*   Created: 2022/10/08 01:52:49 by mialbert          #+#    #+#             */
+/*   Updated: 2022/10/08 01:53:52 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-char	**env_2darr(t_data *data, t_env *lst)
+void	print_env(t_data *data, t_group *group)
 {
-	char	**env;
-	size_t	i;
+	t_env	*lst;
 
-	i = 0;
-	env = malloc(data->envpc * sizeof(char *));
+	lst = data->envp_head;
 	while (lst->next != NULL)
 	{
-		env[i++] = lst->keyvalue;
+		printf("keyvalue: %s\n", lst->keyvalue);
 		lst = lst->next;
 	}
-	return (env);
 }

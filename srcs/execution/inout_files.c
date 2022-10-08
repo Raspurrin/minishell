@@ -6,11 +6,63 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 03:43:43 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/06 23:14:18 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/07 19:04:55 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static void	here_doc(t_group *group)
+{
+	(void)group;
+	return ;
+}
+
+void	infiles(t_data *data, t_group *group)
+{
+	size_t	i;
+	int32_t	fd;
+
+	i = 0;
+	fd = 0;
+	(void)data;
+	while (i < group->infilec)
+	{
+		if (group->infile[i].here_doc == true)
+			here_doc(group);
+		else
+		{
+			if (open(group->infile[i].name, O_RDWR, 0666) == -1)
+				display_error(data, "Opening infile failed", true);
+		}
+		i++;
+	}
+	dup2(fd, STDIN_FILENO);
+}
+
+void	outfiles(t_group *group, int32_t fd[2])
+{
+	size_t	i;
+	int32_t	outfile;
+
+	i = 0;
+	outfile = 0;
+	if (group->outfilec == 0)
+	{
+		dup2(fd[1], STDOUT_FILENO);
+		return ;
+	}
+	while (i < group->outfilec)
+	{
+		if (group->outfile->append == true)
+			outfile = open(group->outfile[i].name, O_RDWR | O_CREAT \
+													| O_APPEND, 0666);
+		else
+			outfile = open(group->outfile[i].name, O_RDWR | O_CREAT, 0666);
+		i++;
+	}
+	dup2(outfile, STDOUT_FILENO);
+}
 
 /**
  * A heredoc is a file literal. It is a multi-line string taken from STDIN

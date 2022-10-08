@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 20:00:04 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/07 01:17:24 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/08 03:39:33 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,10 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libs/libft/includes/libft.h"
+
+typedef struct s_group	t_group;
+typedef struct s_data	t_data;
+typedef void			(t_func)(t_data *data, t_group *group);
 
 typedef struct s_outfile
 {
@@ -51,7 +55,9 @@ typedef struct s_group
 	char		**full_cmd;
 	t_infile	*infile;
 	t_outfile	*outfile;
-	bool		builtin;
+	int32_t		infilec;
+	int32_t		outfilec;
+	t_func		*builtin;
 }	t_group;
 
 typedef struct s_env
@@ -59,6 +65,7 @@ typedef struct s_env
 	char			*keyvalue;
 	char			*key;
 	char			*value;
+	bool			printed;
 	struct s_env	*next;
 }	t_env;
 
@@ -77,5 +84,9 @@ void	display_error(t_data *data, char *error_msg, bool yeet);
 void	print_group(void);
 char	**env_2darr(t_data *data, t_env *lst);
 void	free_at_exit(t_data *data);
+void	infiles(t_data *data, t_group *group);
+void	outfiles(t_group *group, int32_t fd[2]);
+void	export(t_data *data);
+char	*get_path(t_data *data);
 
 #endif

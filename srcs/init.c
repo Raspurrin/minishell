@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 22:46:32 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/07 01:39:16 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/07 23:45:23 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void	init_env(t_data *data, char **envp)
 	}
 	lst->next = NULL;
 }
+
+
 
 void	init(t_data *data, char **envp)
 {

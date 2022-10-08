@@ -6,11 +6,23 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/07 01:48:51 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/08 02:57:02 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static void	close_files(t_group *group, size_t groupc)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < groupc)
+	{
+		close(group->infile[i++].fd);
+		close(group->outfile[i++].fd);
+	}
+}
 
 /**
  * Full_cmd contains the cmd with all its flags in seperate elements: "ls -la"
@@ -49,28 +61,16 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2])
 	char	*path;
 
 	path = find_path(data, i);
-	// if (i == (size_t)data->argc - 4)
-	// 	dup2(data->outfile, STDOUT_FILENO);
-	// else
-		dup2(fd[1], STDOUT_FILENO);
+	outfiles(data->group, &fd[2]);
 	close(fd[0]);
 	close(fd[1]);
-	if (execve(path, data->group[i].full_cmd, env_2darr(data, data->envp_head)) == -1)
+	printf("data->group[i].full_cmd: %s", *(data->group[i].full_cmd));
+	printf("%s", path);
+	if (execve(path, data->group[i].full_cmd, \
+		env_2darr(data, data->envp_head)) == -1)
 	{
 		free(path);
 		display_error(data, "execve failed", true);
-	}
-}
-
-static void	close_files(t_group *group, size_t groupc)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < groupc)
-	{
-		close(group->infile[i++].fd);
-		close(group->outfile[i++].fd);
 	}
 }
 
@@ -89,6 +89,8 @@ static void	exec_cmds(t_data *data)
 	i = 0;
 	while (i < (size_t)data->groupc)
 	{
+		if (data->group->infile)
+			infiles(data, data->group);
 		pipe(fd);
 		pid = fork();
 		if (pid == -1)
