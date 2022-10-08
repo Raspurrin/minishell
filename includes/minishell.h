@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 20:00:04 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/08 03:39:33 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/08 04:44:06 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdint.h>
+# include <dirent.h>
 # include <unistd.h>
 # include <stdbool.h>
 # include <sys/types.h>
@@ -55,8 +56,8 @@ typedef struct s_group
 	char		**full_cmd;
 	t_infile	*infile;
 	t_outfile	*outfile;
-	int32_t		infilec;
-	int32_t		outfilec;
+	size_t		infilec;
+	size_t		outfilec;
 	t_func		*builtin;
 }	t_group;
 
@@ -71,6 +72,7 @@ typedef struct s_env
 
 typedef struct s_data
 {
+	DIR		*dirp;
 	char	**paths;
 	t_env	*envp_head;	
 	t_group	*group;
@@ -78,15 +80,31 @@ typedef struct s_data
 	size_t	envpc;
 }	t_data;
 
-void	execution(t_data *data);
+// general 
 void	init(t_data *data, char **envp);
 void	display_error(t_data *data, char *error_msg, bool yeet);
-void	print_group(void);
-char	**env_2darr(t_data *data, t_env *lst);
 void	free_at_exit(t_data *data);
+
+// environment variable linked list handlers
+void	print_env(t_data *data, t_group *group);
+char	**env_2darr(t_data *data, t_env *lst);
+void	print_group(void);
+
+// execution
+void	execution(t_data *data);
 void	infiles(t_data *data, t_group *group);
 void	outfiles(t_group *group, int32_t fd[2]);
 void	export(t_data *data);
 char	*get_path(t_data *data);
+
+// builtins:
+void	exit_check(t_data *data, t_group *group);
+void	cd(t_data *data, t_group *group);
+void	echo(t_data *data, t_group *group);
+void	exit_check(t_data *data, t_group *group);
+void	export(t_data *data);
+void	export_add(t_data *data, t_group *group);
+void	pwd(t_data *data, t_group *group);
+void	unset(t_data *data, t_group *group);
 
 #endif

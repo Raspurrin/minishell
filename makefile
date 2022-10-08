@@ -6,7 +6,7 @@
 #    By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/03 20:03:25 by mialbert          #+#    #+#              #
-#    Updated: 2022/10/06 23:15:09 by mialbert         ###   ########.fr        #
+#    Updated: 2022/10/08 04:38:21 by mialbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,14 @@ SRCS	=	./srcs/main.c \
 			./srcs/execution/inout_files.c \
 			./srcs/init.c \
 			./srcs/utils.c \
-			./srcs/error.c
+			./srcs/error.c \
+			./srcs/builtins/cd.c \
+			./srcs/builtins/echo.c \
+			./srcs/builtins/env.c \
+			./srcs/builtins/exit.c \
+			./srcs/builtins/export.c \
+			./srcs/builtins/pwd.c \
+			./srcs/builtins/unset.c
 
 OBJS	= $(SRCS:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 03:04:01 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/08 03:16:13 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/08 04:47:44 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,9 @@ void	echo(t_data *data, t_group *group)
 {
 	bool	option;
 
+	(void)data;
 	option = false;
-	while (ft_isspace)
-		*(group->full_cmd)++;
-	if (ft_strncmp('-n', *(group->full_cmd), 2))
+	if (ft_strncmp("-n", (group->full_cmd[1]), 2))
 		option = true;
 	while (*(group->full_cmd))
 		printf("%s", *group->full_cmd++);

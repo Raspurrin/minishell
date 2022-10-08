@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 03:16:49 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/08 03:29:46 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/08 04:49:40 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,12 @@ char	*get_path(t_data *data)
 			return (lst->key);
 		lst = lst->next;
 	}
+	return (NULL);
 }
 
-static void	pwd(t_data *data, t_group *group)
+void	pwd(t_data *data, t_group *group)
 {
-	printf("%s", lst->value);
+	(void)data;
+	(void)group;
+	printf("%s", get_path(data));
 }
