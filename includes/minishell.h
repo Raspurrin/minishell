@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 20:00:04 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/06 14:06:47 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/08 18:08:27 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,21 +25,21 @@
 
 typedef struct s_outfile
 {
-	char	*name;
-	bool	append;
+	char	**name;
+	bool	*append;
 }	t_outfile;
 
 typedef struct s_infile
 {
-	char	*name;
-	bool	here_doc;
+	char	**name;
+	bool	*here_doc;
 }	t_infile;
 
 typedef struct s_arg
 {
 	char		**full_cmd;
 	t_infile	*infile;
-	t_outfile;	outfile;
+	t_outfile	*outfile;
 	char		**outcreate;
 	bool		builtin;
 }	t_arg;
@@ -51,10 +51,26 @@ typedef struct s_data
 	size_t	cmdc;
 }	t_data;
 
-typedef struct s_parsing
+typedef struct t_parsing
 {
-	
+	char	*infile;
+	char	*outfile;
+	char	*command;
+	struct	t_parsing	*next;
 }	t_parsing;
+
+typedef struct token
+{
+	char			*command;
+	char			**command_ops;
+	t_infile		*infile;
+	t_outfile		*outfile;
+	int				counter_infile;
+	int				counter_outfile;
+	int				read_in;
+	int				read_out;
+	struct token	*next;
+}t_token;
 
 void	execution(t_data *data);
 

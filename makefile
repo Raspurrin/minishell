@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+         #
+#    By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/03 20:03:25 by mialbert          #+#    #+#              #
-#    Updated: 2022/10/05 20:27:29 by mialbert         ###   ########.fr        #
+#    Updated: 2022/10/07 22:39:53 by pmoghadd         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CFLAGS	=	-Wall -Wextra -Werror -pthread -g -O3
 NAME	=	minishell
-DEBUG	=	-fsanitize=thread
+DEBUG	=	-fsanitize=address
 LIBFT	=	./libs/libft/
 SRCS	=	./srcs/test.c 
 # ./srcs/execution/execution.c 
@@ -36,7 +36,7 @@ else
 SUBM_FLAG	= 
 endif
 
-all: $(SUBM_STATE) libft minishell
+all: $(SUBM_FLAG) libft minishell
 
 submodule:
 	@git submodule init 
@@ -58,6 +58,9 @@ $(NAME): banner $(OBJS)
 
 e: all
 	./$(NAME)
+
+test: 
+	gcc -Wall -Werror -Wextra -g srcs/lltest.c libs/libft/libft.a -fsanitize=address
 
 clean:
 	@rm -f $(OBJS)
