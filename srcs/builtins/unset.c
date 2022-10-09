@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:10:21 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/08 04:50:09 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/08 21:13:57 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,5 @@ void	unset(t_data *data, t_group *group)
 		prev = lst;
 		lst = lst->next;
 	}
+	lst->next = NULL;
 }

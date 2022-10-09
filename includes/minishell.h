@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 20:00:04 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/08 04:44:06 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/08 20:15:31 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,10 +72,11 @@ typedef struct s_env
 
 typedef struct s_data
 {
-	DIR		*dirp;
+	// DIR		*dirp;
 	char	**paths;
 	t_env	*envp_head;	
 	t_group	*group;
+	char	*pwd;
 	size_t	groupc;
 	size_t	envpc;
 }	t_data;
@@ -94,7 +95,6 @@ void	print_group(void);
 void	execution(t_data *data);
 void	infiles(t_data *data, t_group *group);
 void	outfiles(t_group *group, int32_t fd[2]);
-void	export(t_data *data);
 char	*get_path(t_data *data);
 
 // builtins:
@@ -102,9 +102,10 @@ void	exit_check(t_data *data, t_group *group);
 void	cd(t_data *data, t_group *group);
 void	echo(t_data *data, t_group *group);
 void	exit_check(t_data *data, t_group *group);
-void	export(t_data *data);
+void	export(t_data *data, t_group *group);
 void	export_add(t_data *data, t_group *group);
 void	pwd(t_data *data, t_group *group);
+char	*init_pwd(t_data *data);
 void	unset(t_data *data, t_group *group);
 
 #endif
