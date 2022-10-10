@@ -6,15 +6,15 @@
 #    By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/03 20:03:25 by mialbert          #+#    #+#              #
-#    Updated: 2022/10/07 22:39:53 by pmoghadd         ###   ########.fr        #
+#    Updated: 2022/10/10 15:28:52 by pmoghadd         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CFLAGS	=	-Wall -Wextra -Werror -pthread -g -O3
+# CFLAGS	=	-Wall -Wextra -Werror
 NAME	=	minishell
-DEBUG	=	-fsanitize=address
+#DEBUG	=	-fsanitize=address
 LIBFT	=	./libs/libft/
-SRCS	=	./srcs/test.c 
+SRCS	=	./srcs/test.c ./srcs/initialize.c ./srcs/lexical_scan.c
 # ./srcs/execution/execution.c 
 # ./srcs/execution/inout_files.c
 
