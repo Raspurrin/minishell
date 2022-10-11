@@ -6,11 +6,23 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/05 20:09:59 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/08 02:57:02 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+static void	close_files(t_group *group, size_t groupc)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < groupc)
+	{
+		close(group->infile[i++].fd);
+		close(group->outfile[i++].fd);
+	}
+}
 
 /**
  * Full_cmd contains the cmd with all its flags in seperate elements: "ls -la"
@@ -18,18 +30,17 @@
  * Cmd takes the first element and joins it with '/': "/ls"
  * Path combines the path with cmd: "usr/bin/ls" and checks its accessibility.
  */
-static char	*find_path(t_data *data, size_t	argv_i)
+static char	*find_path(t_data *data, size_t	group_i)
 {
 	size_t	i;
 	char	*cmd;
 	char	*path;
 
 	i = 0;
-	data->full_cmd = ft_split(data->argv[argv_i], ' ');
-	cmd = ft_strjoin("/", data->full_cmd[0]);
-	while (data->path[i++])
+	cmd = ft_strjoin("/", data->group[group_i].full_cmd[0]);
+	while (data->paths[i++])
 	{
-		path = ft_strjoin(data->path[i - 1], cmd);
+		path = ft_strjoin(data->paths[i - 1], cmd);
 		if (access(path, F_OK | X_OK) == 0)
 			return (free(cmd), path);
 		else
@@ -45,18 +56,18 @@ static char	*find_path(t_data *data, size_t	argv_i)
  * Which is why this is done in a child process. 
  * At the very last itteration, the output is redirected to a file. 
  */
-void	child_cmd(t_data *data, size_t i, char **envp, int32_t fd[2])
+static void	child_cmd(t_data *data, size_t i, int32_t fd[2])
 {
 	char	*path;
 
-	path = find_path(data, i + 2);
-	if (i == (size_t)data->argc - 4)
-		dup2(data->outfile, STDOUT_FILENO);
-	else
-		dup2(fd[1], STDOUT_FILENO);
+	path = find_path(data, i);
+	outfiles(data->group, &fd[2]);
 	close(fd[0]);
 	close(fd[1]);
-	if (execve(path, data->full_cmd, envp) == -1)
+	printf("data->group[i].full_cmd: %s", *(data->group[i].full_cmd));
+	printf("%s", path);
+	if (execve(path, data->group[i].full_cmd, \
+		env_2darr(data, data->envp_head)) == -1)
 	{
 		free(path);
 		display_error(data, "execve failed", true);
@@ -75,28 +86,28 @@ static void	exec_cmds(t_data *data)
 	int32_t	pid;
 	int32_t	fd[2];
 
-	i = inout_files(data);
-	while (i < (size_t)data->argc - 3)
+	i = 0;
+	while (i < (size_t)data->groupc)
 	{
+		if (data->group->infile)
+			infiles(data, data->group);
 		pipe(fd);
 		pid = fork();
 		if (pid == -1)
 			display_error(data, "fork failed", true);
 		if (pid == 0)
-			child_cmd(data, i, envp, fd);
+			child_cmd(data, i, fd);
 		waitpid(pid, NULL, 0);
 		dup2(fd[0], STDIN_FILENO);
 		close(fd[0]);
 		close(fd[1]);
 		i++;
 	}
-	close(data->outfile);
-	close(data->infile);
+	close_files(data->group, data->groupc);
 }
 
 void	execution(t_data *data)
 {
-	exec_cmds(&data, envp);
-	free_at_exit(&data);
-	return (0);
+	exec_cmds(data);
+	free_at_exit(data);
 }

@@ -5,18 +5,31 @@
 #                                                     +:+ +:+         +:+      #
 #    By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/10/03 20:03:25 by mialbert          #+#    #+#              #
-#    Updated: 2022/10/10 15:28:52 by pmoghadd         ###   ########.fr        #
+#    Created: 2022/10/11 18:45:17 by pmoghadd          #+#    #+#              #
+#    Updated: 2022/10/11 18:45:18 by pmoghadd         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-# CFLAGS	=	-Wall -Wextra -Werror
+
+
+CFLAGS	=	-Wall -Wextra -Werror -pthread -g
 NAME	=	minishell
-#DEBUG	=	-fsanitize=address
+DEBUG	=	-fsanitize=address
 LIBFT	=	./libs/libft/
-SRCS	=	./srcs/test.c ./srcs/initialize.c ./srcs/lexical_scan.c
-# ./srcs/execution/execution.c 
-# ./srcs/execution/inout_files.c
+SRCS	=	./srcs/main.c \
+			./srcs/execution/execution.c \
+			./srcs/execution/inout_files.c \
+			./srcs/init.c \
+			./srcs/utils.c \
+			./srcs/error.c \
+			./srcs/builtins/cd.c \
+			./srcs/builtins/echo.c \
+			./srcs/builtins/env.c \
+			./srcs/builtins/exit.c \
+			./srcs/builtins/export.c \
+			./srcs/builtins/pwd.c \
+			./srcs/builtins/unset.c
+>>>>>>> b7cb9ba3cb1e3ffd6e9626c13cf86966fa9cbfd6
 
 OBJS	= $(SRCS:.c=.o)
 
