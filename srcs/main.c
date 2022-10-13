@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/09 21:38:05 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/13 15:56:35 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ static void	parser(t_data *data)
 	data->group[0].outfile[0].name = "outfile1";
 	data->group[0].outfile[1].name = "outfile2";
 	data->group[0].outfilec = 2;
-	data->group[0].builtin = false;
 
 	data->group[1].full_cmd = malloc(sizeof(char *) * 2);
 	data->group[1].full_cmd[0] = ft_strdup("echo");
@@ -48,7 +47,6 @@ static void	parser(t_data *data)
 	data->group[1].outfile[0].name = "outfile3";
 	data->group[1].outfile[1].name = "outfile4";
 	data->group[1].outfilec = 2;
-	data->group[1].builtin = false;
 
 	data->group[2].full_cmd = malloc(sizeof(char *) * 2);
 	data->group[2].full_cmd[0] = ft_strdup("export");
