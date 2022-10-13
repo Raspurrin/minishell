@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:10:18 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/09 15:30:39 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/09 21:11:14 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,20 +55,25 @@ void	export(t_data *data, t_group *group)
 
 void	export_add(t_data *data, t_group *group)
 {
+	size_t	i;
 	t_env	*lst;
 	t_env	*new;
 	char	**tmp;
 
-	new = ft_calloc(sizeof(t_env), 1);
-	tmp = ft_split(group->full_cmd[1], '=');
-	new->keyvalue = group->full_cmd[1];
-	new->key = tmp[0];
-	new->value = tmp[1];
-	new->printed = false;
-	new->next = NULL;
-	lst = data->envp_head;
-
-	while (lst->next != NULL)
-		lst = lst->next;
-	lst->next = new;
+	i = 1;
+	while (group->full_cmd[i])
+	{
+		new = ft_calloc(sizeof(t_env), 1);
+		tmp = ft_split(group->full_cmd[1], '=');
+		new->keyvalue = group->full_cmd[i];
+		new->key = tmp[0];
+		new->value = tmp[1];
+		new->printed = false;
+		new->next = NULL;
+		lst = data->envp_head;
+		while (lst->next != NULL)
+			lst = lst->next;
+		lst->next = new;
+		i++;
+	}
 }

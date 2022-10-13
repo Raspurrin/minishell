@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+         #
+#    By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/11 18:45:17 by pmoghadd          #+#    #+#              #
-#    Updated: 2022/10/11 18:45:18 by pmoghadd         ###   ########.fr        #
+#    Updated: 2022/10/13 15:16:28 by mialbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,6 @@ SRCS	=	./srcs/main.c \
 			./srcs/builtins/export.c \
 			./srcs/builtins/pwd.c \
 			./srcs/builtins/unset.c
->>>>>>> b7cb9ba3cb1e3ffd6e9626c13cf86966fa9cbfd6
 
 OBJS	= $(SRCS:.c=.o)
 

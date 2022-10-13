@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:10:21 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/08 21:13:57 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/09 21:31:33 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,30 @@
 
 void	unset(t_data *data, t_group *group)
 {
+	size_t	i;
 	t_env	*lst;
 	t_env	*prev;
 
-	lst = data->envp_head;
-	prev = lst;
-	while (lst->next != NULL)
+	i = 0;
+	while (group->full_cmd[i])
 	{
-		if (ft_strncmp(group->full_cmd[1], lst->key, ft_strlen(lst->key)) == 0)
-		{
-			if (lst == data->envp_head)
-				lst->next = data->envp_head;
-			else
-				prev->next = lst->next;
-			break ;
-		}
+		lst = data->envp_head;
 		prev = lst;
-		lst = lst->next;
+		while (lst->next != NULL)
+		{
+			if (ft_strncmp(group->full_cmd[i], lst->key, \
+									ft_strlen(lst->key)) == 0)
+			{
+				if (lst == data->envp_head)
+					lst->next = data->envp_head;
+				else
+					prev->next = lst->next;
+				break ;
+			}
+			prev = lst;
+			lst = lst->next;
+		}
+		lst->next = NULL;
 	}
-	lst->next = NULL;
+	i++;
 }

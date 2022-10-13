@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/09 14:50:27 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/09 21:38:05 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,10 @@ static void	parser(t_data *data)
 
 	data->group[3].full_cmd = malloc(sizeof(char *) * 2);
 	data->group[3].full_cmd[0] = ft_strdup("export");
-	data->group[3].full_cmd[1] = ft_strdup("something=");
-	data->group[3].full_cmd[2] = NULL;
+	data->group[3].full_cmd[1] = ft_strdup("something=blue");
+	data->group[3].full_cmd[2] = ft_strdup("sosdf=sdfsdf");
+	data->group[3].full_cmd[3] = ft_strdup("rtwrtw=aaaaaabbnnn");
+	data->group[3].full_cmd[4] = NULL;
 
 	data->group[4].full_cmd = malloc(sizeof(char *) * 2);
 	data->group[4].full_cmd[0] = ft_strdup("env");
@@ -65,8 +67,9 @@ static void	parser(t_data *data)
 
 	data->group[5].full_cmd = malloc(sizeof(char *) * 2);
 	data->group[5].full_cmd[0] = ft_strdup("unset");
-	data->group[5].full_cmd[1] = ft_strdup("USER");
-	data->group[5].full_cmd[2] = NULL;
+	data->group[5].full_cmd[1] = ft_strdup("something");
+	data->group[5].full_cmd[2] = ft_strdup("sosdf");
+	data->group[5].full_cmd[3] = NULL;
 
 	data->group[6].full_cmd = malloc(sizeof(char *) * 2);
 	data->group[6].full_cmd[0] = ft_strdup("export");
@@ -101,12 +104,12 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 	init(&data, envp);
 	parser(&data);
 	export_add(&data, &data.group[3]);
-	export_add(&data, &data.group[6]);
+	unset(&data, &data.group[5]);
+	// export_add(&data, &data.group[6]);
 	print_env(&data, data.group);
 	// pwd(&data, data.group);
 	// printf("%s", get_path(&data));
-	unset(&data, &data.group[5]);
-	export(&data, &data.group[2]);
+	// export(&data, &data.group[2]);
 
 	// print_env(&data, &data.group[3]);
 	// export(&data, &data.group[2]);
