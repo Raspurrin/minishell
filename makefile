@@ -6,12 +6,12 @@
 #    By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/11 18:45:17 by pmoghadd          #+#    #+#              #
-#    Updated: 2022/10/13 15:16:28 by mialbert         ###   ########.fr        #
+#    Updated: 2022/10/13 17:44:59 by mialbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
-
+OBJ_DIR =	object_files
 CFLAGS	=	-Wall -Wextra -Werror -pthread -g
 NAME	=	minishell
 DEBUG	=	-fsanitize=address
@@ -28,15 +28,20 @@ SRCS	=	./srcs/main.c \
 			./srcs/builtins/exit.c \
 			./srcs/builtins/export.c \
 			./srcs/builtins/pwd.c \
-			./srcs/builtins/unset.c
+			./srcs/builtins/unset.c \
+			./srcs/parsing/initialize.c \
+			./srcs/parsing/lexical_scan.c \
+			./srcs/parsing/llreal.c \
+			./srcs/parsing/real.c \
+			./srcs/parsing/minishell_split.c
 
 OBJS	= $(SRCS:.c=.o)
 
 NC		:= \033[0m
 B_RED	:= \033[1;31m
 RED 	:= \033[0;31m
-PURPLE	:= \033[0;35m
-B_BLUE 	:= \033[1;34m
+PINK	:= \033[0;35m
+VIOLET 	:= \033[1;34m
 BLUE 	:= \033[0;34m
 FLAGS_OS = -lreadline
 
@@ -55,11 +60,11 @@ submodule:
 	@git submodule update
 
 %.o : %.c
-	@echo "$(B_BLUE)Compiling: $(BLUE)$(notdir $<) 🔨$(NC)"
+	@echo "$(VIOLET)Compiling: $(BLUE)$(notdir $<) 🔨$(NC)"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 banner:
-	@echo "\n${PURPLE}======== Minishell ========$(NC)"
+	@echo "\n${PINK}======== Minishell ========$(NC)"
 
 libft: 
 	@echo "\n${BLUE}======== Libft ========${NC}"
@@ -67,15 +72,17 @@ libft:
 
 $(NAME): banner $(OBJS)
 	@$(CC) $(FLAGS_OS) $(CFLAGS) $(OBJS) $(LIBFT)libft.a -o $(NAME) $(DEBUG)
+	@mkdir object_files
+	@mv $(OBJS) object_files
 
 e: all
 	./$(NAME)
 
 test: 
-	gcc -Wall -Werror -Wextra -g srcs/lltest.c libs/libft/libft.a -fsanitize=address
+	gcc -Wall -Werror -Wextra -g srcs/parsing/llreal.c libs/libft/libft.a -fsanitize=address
 
 clean:
-	@rm -f $(OBJS)
+	@rm -rf $(OBJ_DIR)
 	@echo "${B_RED}🧹 Cleaning: ${RED} object files $(NC)"
 
 fclean: clean

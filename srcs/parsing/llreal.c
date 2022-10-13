@@ -1,4 +1,4 @@
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 #include <stdlib.h>
 
 int	skip_spaces(char *s)
@@ -44,7 +44,7 @@ void	add_infile(char *s, t_token *data, int k)
 void	make_token(char *s, t_token *data)
 {
 	int		i;
-	char	c;
+	// char	c;
     int     counter;
 
 	i = 0;

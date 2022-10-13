@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/10/13 15:57:03 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/13 18:03:58 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ typedef struct s_group
 	size_t		outfilec;
 	int			read_in;
 	int			read_out;
+	t_command	*word;
 }	t_group;
 
 typedef struct s_env

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   lexical_scan.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:24:43 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/10/10 19:33:00 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/10/13 17:50:12 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 int	skip_chars(char *s)
 {
@@ -61,9 +61,9 @@ int	special_chars(t_group **info, char *s)
 
 int	quoted_word_extract(t_group **info, char *s)
 {
-	int	i;
+	// int	i;
 	int	end;
-	int	space;
+	// int	space;
 
 	end = skip_quotes(s);
 	words_init(info, ft_substr(s, 0, end));
