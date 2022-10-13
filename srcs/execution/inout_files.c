@@ -6,62 +6,61 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 03:43:43 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/07 19:04:55 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/14 01:35:01 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	here_doc(t_group *group)
+static void	here_doc(t_infile *lst)
 {
-	(void)group;
+	(void)lst;
 	return ;
 }
 
 void	infiles(t_data *data, t_group *group)
 {
-	size_t	i;
-	int32_t	fd;
+	int32_t		fd;
+	t_infile	*lst;
 
-	i = 0;
 	fd = 0;
-	(void)data;
-	while (i < group->infilec)
+	lst = group->infile;
+	while (lst != NULL)
 	{
-		if (group->infile[i].here_doc == true)
-			here_doc(group);
+		if (lst->here_doc == true)
+			here_doc(lst);
 		else
 		{
-			if (open(group->infile[i].name, O_RDWR, 0666) == -1)
+			fd = open(lst->name, O_RDWR, 0666);
+			if (fd == -1)
 				display_error(data, "Opening infile failed", true);
+			if (lst->next == NULL)
+				dup2(fd, STDIN_FILENO);
+			close (fd);
 		}
-		i++;
+		lst = lst->next;
 	}
-	dup2(fd, STDIN_FILENO);
 }
 
-void	outfiles(t_group *group, int32_t fd[2])
+void	outfiles(t_group *group)
 {
-	size_t	i;
-	int32_t	outfile;
+	int32_t		fd;
+	int16_t		flag;
+	t_outfile	*lst;
 
-	i = 0;
-	outfile = 0;
-	if (group->outfilec == 0)
+	lst = group->outfile;
+	while (lst != NULL)
 	{
-		dup2(fd[1], STDOUT_FILENO);
-		return ;
-	}
-	while (i < group->outfilec)
-	{
-		if (group->outfile->append == true)
-			outfile = open(group->outfile[i].name, O_RDWR | O_CREAT \
-													| O_APPEND, 0666);
+		if (lst->append == true)
+			flag = (O_RDWR | O_CREAT | O_APPEND);
 		else
-			outfile = open(group->outfile[i].name, O_RDWR | O_CREAT, 0666);
-		i++;
+			flag = (O_RDWR | O_CREAT | O_TRUNC);
+		fd = open(lst->name, flag, 0666);
+		if (lst->next == NULL)
+			dup2(fd, STDOUT_FILENO);
+		close(fd);
+		lst = lst->next;
 	}
-	dup2(outfile, STDOUT_FILENO);
 }
 
 /**

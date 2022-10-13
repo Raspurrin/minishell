@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/10/13 18:03:58 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/14 01:35:28 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ typedef void			(t_func)(t_data *data, t_group *group);
 typedef struct s_outfile
 {
 	char				*name;
-	int32_t				fd;
 	bool				append;
 	struct s_outfile	*next;
 }	t_outfile;
@@ -41,7 +40,6 @@ typedef struct s_outfile
 typedef struct s_infile
 {
 	char			*name;
-	int32_t			fd;
 	bool			here_doc;
 	struct s_infile	*next;
 }	t_infile;
@@ -80,11 +78,6 @@ typedef struct s_group
 	char		**full_cmd;
 	t_infile	*infile;
 	t_outfile	*outfile;
-	size_t		infilec;
-	size_t		outfilec;
-	int			read_in;
-	int			read_out;
-	t_command	*word;
 }	t_group;
 
 typedef struct s_env
@@ -137,7 +130,7 @@ void	print_group(void);
 /* execution */
 void	execution(t_data *data);
 void	infiles(t_data *data, t_group *group);
-void	outfiles(t_group *group, int32_t fd[2]);
+void	outfiles(t_group *group);
 char	*get_path(t_data *data);
 
 /* builtins: */

@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/13 15:56:35 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/14 01:54:46 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,31 +22,34 @@ static void	parser(t_data *data)
 	data->group[0].full_cmd[0] = ft_strdup("cd");
 	data->group[0].full_cmd[1] = ft_strdup("../");
 	data->group[0].full_cmd[2] = NULL;
-	data->group[0].infile = malloc(sizeof(t_infile *) * 3);
-	data->group[0].infile[0].name = "file1";
-	data->group[0].infile[1].name = "file2";
-	data->group[0].infilec = 2;
-	// data->group[0].infile[2] = NULL;
+	data->group[0].infile = malloc(sizeof(t_infile));
+	data->group[0].infile->name = "file1";
+	data->group[0].infile->here_doc = false;
+	data->group[0].infile->next = malloc(sizeof(t_infile));
+	data->group[0].infile->next->name = "file2";
+	data->group[0].infile->next->here_doc = false;
+	data->group[0].infile->next->next = NULL;
 
-	data->group[0].outfile = malloc(sizeof(t_outfile *) * 2);
-	data->group[0].outfile[0].name = "outfile1";
-	data->group[0].outfile[1].name = "outfile2";
-	data->group[0].outfilec = 2;
+	data->group[0].outfile = malloc(sizeof(t_outfile));
+	data->group[0].outfile->name = "outfile1";
+	data->group[0].outfile->append = false;
+	data->group[0].outfile->next = malloc(sizeof(t_outfile));
+	data->group[0].outfile->next->name = "outfile1";
+	data->group[0].outfile->next->append = false;
+	data->group[0].outfile->next->next = NULL;
 
 	data->group[1].full_cmd = malloc(sizeof(char *) * 2);
 	data->group[1].full_cmd[0] = ft_strdup("echo");
-	data->group[1].full_cmd[1] = ft_strdup("Heyo Winny the Pooneh");
+	data->group[1].full_cmd[1] = ft_strdup("Heyo Winnie the Pooneh");
 	data->group[1].full_cmd[2] = NULL;
 
 	data->group[1].infile = malloc(sizeof(t_infile *) * 2);
 	data->group[1].infile[0].name = "infile1";
-	data->group[1].infilec = 1;
 	// data->group[1].infile[1].name = "infile2";
 
 	data->group[1].outfile = malloc(sizeof(t_outfile *) * 2);
 	data->group[1].outfile[0].name = "outfile3";
 	data->group[1].outfile[1].name = "outfile4";
-	data->group[1].outfilec = 2;
 
 	data->group[2].full_cmd = malloc(sizeof(char *) * 2);
 	data->group[2].full_cmd[0] = ft_strdup("export");
@@ -101,10 +104,10 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 	(void)argv;
 	init(&data, envp);
 	parser(&data);
-	export_add(&data, &data.group[3]);
-	unset(&data, &data.group[5]);
+	// export_add(&data, &data.group[3]);
+	// unset(&data, &data.group[5]);
 	// export_add(&data, &data.group[6]);
-	print_env(&data, data.group);
+	// print_env(&data, data.group);
 	// pwd(&data, data.group);
 	// printf("%s", get_path(&data));
 	// export(&data, &data.group[2]);
@@ -135,7 +138,7 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 		// if (ft_strncmp(str, "unset", 5) == 0)
 		// 	unset(&data, &data.group[5]);
 		// exit_check(&data, data.group);
-		// execution(&data);
+		execution(&data);
 		// free(str);
 	// }
 	return (0);

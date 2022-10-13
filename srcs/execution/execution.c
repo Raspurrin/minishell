@@ -6,23 +6,11 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/08 02:57:02 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/14 01:55:52 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static void	close_files(t_group *group, size_t groupc)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < groupc)
-	{
-		close(group->infile[i++].fd);
-		close(group->outfile[i++].fd);
-	}
-}
 
 /**
  * Full_cmd contains the cmd with all its flags in seperate elements: "ls -la"
@@ -103,7 +91,7 @@ static void	exec_cmds(t_data *data)
 		close(fd[1]);
 		i++;
 	}
-	close_files(data->group, data->groupc);
+	// close_files(data->group, data->groupc);
 }
 
 void	execution(t_data *data)

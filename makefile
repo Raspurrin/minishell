@@ -6,7 +6,7 @@
 #    By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/11 18:45:17 by pmoghadd          #+#    #+#              #
-#    Updated: 2022/10/13 17:44:59 by mialbert         ###   ########.fr        #
+#    Updated: 2022/10/13 18:29:31 by mialbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,12 +28,7 @@ SRCS	=	./srcs/main.c \
 			./srcs/builtins/exit.c \
 			./srcs/builtins/export.c \
 			./srcs/builtins/pwd.c \
-			./srcs/builtins/unset.c \
-			./srcs/parsing/initialize.c \
-			./srcs/parsing/lexical_scan.c \
-			./srcs/parsing/llreal.c \
-			./srcs/parsing/real.c \
-			./srcs/parsing/minishell_split.c
+			./srcs/builtins/unset.c
 
 OBJS	= $(SRCS:.c=.o)
 
@@ -82,7 +77,7 @@ test:
 	gcc -Wall -Werror -Wextra -g srcs/parsing/llreal.c libs/libft/libft.a -fsanitize=address
 
 clean:
-	@rm -rf $(OBJ_DIR)
+	@rm -rf $(OBJ_DIR) $(OBJS)
 	@echo "${B_RED}🧹 Cleaning: ${RED} object files $(NC)"
 
 fclean: clean
