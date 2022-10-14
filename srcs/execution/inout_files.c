@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 03:43:43 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/14 01:35:01 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/14 02:45:36 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,15 @@ static void	here_doc(t_infile *lst)
 	return ;
 }
 
+/**
+ * @brief I have a boolean to check whether or not the file is a heredoc 
+ * and treat it accordingly. Otherwise, I keep opening files and checking 
+ * if it exists or not, in which case I throw an error and then I only 
+ * dup the last inputfile/heredoc, as that is the only input considered
+ * for the command.
+ * @param group contains all the infiles, outfiles and commans of the 
+ * current pipegroup.
+ */
 void	infiles(t_data *data, t_group *group)
 {
 	int32_t		fd;
@@ -42,6 +51,16 @@ void	infiles(t_data *data, t_group *group)
 	}
 }
 
+/**
+ * @brief I check whether or not the outfile should use append mode.
+ * And I always create the file, but I only consider the output of the 
+ * last output file. Dup duplicates it to STDOUT: 
+ * 0 - STDIN		->	0 - STDIN
+ * 1 - STDOUT 			1 - fd		<- this temporarily closes STDOUT.
+ * 2 - STDERR			2 - STDERR
+ * 3 - fd 
+ * @param group 
+ */
 void	outfiles(t_group *group)
 {
 	int32_t		fd;

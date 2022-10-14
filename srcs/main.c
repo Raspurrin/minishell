@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/14 02:36:36 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/14 04:06:27 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 // just for testing purposes
 static void	parser(t_data *data)
 {
-	data->groupc = 1;
+	data->groupc = 2;
 	data->group = malloc(sizeof(t_group) * 2);
 	data->group[0].full_cmd = ft_calloc(2, sizeof(char *));
 	data->group[0].full_cmd[0] = ft_strdup("ls");

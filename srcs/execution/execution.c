@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/14 02:20:04 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/14 04:08:49 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2], char **env)
 	char	*path;
 
 	path = find_path(data, i);
-	outfiles(data->group);
+	outfiles(&data->group[i]);
 	close(fd[0]);
 	close(fd[1]);
 	ft_printf_fd(STDERR_FILENO, "data->group[i].full_cmd: %s\n", *(data->group[i].full_cmd));
@@ -81,8 +81,8 @@ static void	exec_cmds(t_data *data, char **env)
 	i = 0;
 	while (i < (size_t)data->groupc)
 	{
-		if (data->group->infile)
-			infiles(data, data->group);
+		// if (data->group->infile)
+		infiles(data, &data->group[i]);
 		pipe(fd);
 		pid = fork();
 		if (pid == -1)
@@ -95,7 +95,6 @@ static void	exec_cmds(t_data *data, char **env)
 		close(fd[1]);
 		i++;
 	}
-	// close_files(data->group, data->groupc);
 }
 
 void	execution(t_data *data, char **env)
