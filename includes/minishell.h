@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/10/14 01:35:28 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/14 02:11:35 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ char	**env_2darr(t_data *data, t_env *lst);
 void	print_group(void);
 
 /* execution */
-void	execution(t_data *data);
+void	execution(t_data *data, char **env);
 void	infiles(t_data *data, t_group *group);
 void	outfiles(t_group *group);
 char	*get_path(t_data *data);

@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/14 01:54:46 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/14 02:36:36 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,11 @@
 // just for testing purposes
 static void	parser(t_data *data)
 {
-	data->groupc = 2;
+	data->groupc = 1;
 	data->group = malloc(sizeof(t_group) * 2);
-	data->group[0].full_cmd = ft_calloc(3, sizeof(char *));
-	data->group[0].full_cmd[0] = ft_strdup("cd");
-	data->group[0].full_cmd[1] = ft_strdup("../");
-	data->group[0].full_cmd[2] = NULL;
+	data->group[0].full_cmd = ft_calloc(2, sizeof(char *));
+	data->group[0].full_cmd[0] = ft_strdup("ls");
+	data->group[0].full_cmd[1] = NULL;
 	data->group[0].infile = malloc(sizeof(t_infile));
 	data->group[0].infile->name = "file1";
 	data->group[0].infile->here_doc = false;
@@ -34,48 +33,67 @@ static void	parser(t_data *data)
 	data->group[0].outfile->name = "outfile1";
 	data->group[0].outfile->append = false;
 	data->group[0].outfile->next = malloc(sizeof(t_outfile));
-	data->group[0].outfile->next->name = "outfile1";
+	data->group[0].outfile->next->name = "outfile2";
 	data->group[0].outfile->next->append = false;
 	data->group[0].outfile->next->next = NULL;
 
-	data->group[1].full_cmd = malloc(sizeof(char *) * 2);
-	data->group[1].full_cmd[0] = ft_strdup("echo");
-	data->group[1].full_cmd[1] = ft_strdup("Heyo Winnie the Pooneh");
+	data->group[1].full_cmd = ft_calloc(3, sizeof(char *));
+	data->group[1].full_cmd[0] = ft_strdup("grep");
+	data->group[1].full_cmd[1] = ft_strdup("file");
 	data->group[1].full_cmd[2] = NULL;
+	data->group[1].infile = malloc(sizeof(t_infile));
+	data->group[1].infile->name = "file1";
+	data->group[1].infile->here_doc = false;
+	data->group[1].infile->next = malloc(sizeof(t_infile));
+	data->group[1].infile->next->name = "file2";
+	data->group[1].infile->next->here_doc = false;
+	data->group[1].infile->next->next = NULL;
 
-	data->group[1].infile = malloc(sizeof(t_infile *) * 2);
-	data->group[1].infile[0].name = "infile1";
+	data->group[1].outfile = malloc(sizeof(t_outfile));
+	data->group[1].outfile->name = "outfile3";
+	data->group[1].outfile->append = false;
+	data->group[1].outfile->next = malloc(sizeof(t_outfile));
+	data->group[1].outfile->next->name = "outfile4";
+	data->group[1].outfile->next->append = false;
+	data->group[1].outfile->next->next = NULL;
+	// data->group[1].full_cmd = malloc(sizeof(char *) * 2);
+	// data->group[1].full_cmd[0] = ft_strdup("echo");
+	// data->group[1].full_cmd[1] = ft_strdup("Heyo Winnie the Pooneh");
+	// data->group[1].full_cmd[2] = NULL;
+
+	// data->group[1].infile = malloc(sizeof(t_infile *) * 2);
+	// data->group[1].infile[0].name = "infile1";
 	// data->group[1].infile[1].name = "infile2";
 
-	data->group[1].outfile = malloc(sizeof(t_outfile *) * 2);
-	data->group[1].outfile[0].name = "outfile3";
-	data->group[1].outfile[1].name = "outfile4";
+	// data->group[1].outfile = malloc(sizeof(t_outfile *) * 2);
+	// data->group[1].outfile[0].name = "outfile3";
+	// data->group[1].outfile[1].name = "outfile4";
 
-	data->group[2].full_cmd = malloc(sizeof(char *) * 2);
-	data->group[2].full_cmd[0] = ft_strdup("export");
-	data->group[2].full_cmd[1] = NULL;
+	// data->group[2].full_cmd = malloc(sizeof(char *) * 2);
+	// data->group[2].full_cmd[0] = ft_strdup("export");
+	// data->group[2].full_cmd[1] = NULL;
 
-	data->group[3].full_cmd = malloc(sizeof(char *) * 2);
-	data->group[3].full_cmd[0] = ft_strdup("export");
-	data->group[3].full_cmd[1] = ft_strdup("something=blue");
-	data->group[3].full_cmd[2] = ft_strdup("sosdf=sdfsdf");
-	data->group[3].full_cmd[3] = ft_strdup("rtwrtw=aaaaaabbnnn");
-	data->group[3].full_cmd[4] = NULL;
+	// data->group[3].full_cmd = malloc(sizeof(char *) * 2);
+	// data->group[3].full_cmd[0] = ft_strdup("export");
+	// data->group[3].full_cmd[1] = ft_strdup("something=blue");
+	// data->group[3].full_cmd[2] = ft_strdup("sosdf=sdfsdf");
+	// data->group[3].full_cmd[3] = ft_strdup("rtwrtw=aaaaaabbnnn");
+	// data->group[3].full_cmd[4] = NULL;
 
-	data->group[4].full_cmd = malloc(sizeof(char *) * 2);
-	data->group[4].full_cmd[0] = ft_strdup("env");
-	data->group[4].full_cmd[1] = NULL;
+	// data->group[4].full_cmd = malloc(sizeof(char *) * 2);
+	// data->group[4].full_cmd[0] = ft_strdup("env");
+	// data->group[4].full_cmd[1] = NULL;
 
-	data->group[5].full_cmd = malloc(sizeof(char *) * 2);
-	data->group[5].full_cmd[0] = ft_strdup("unset");
-	data->group[5].full_cmd[1] = ft_strdup("something");
-	data->group[5].full_cmd[2] = ft_strdup("sosdf");
-	data->group[5].full_cmd[3] = NULL;
+	// data->group[5].full_cmd = malloc(sizeof(char *) * 2);
+	// data->group[5].full_cmd[0] = ft_strdup("unset");
+	// data->group[5].full_cmd[1] = ft_strdup("something");
+	// data->group[5].full_cmd[2] = ft_strdup("sosdf");
+	// data->group[5].full_cmd[3] = NULL;
 
-	data->group[6].full_cmd = malloc(sizeof(char *) * 2);
-	data->group[6].full_cmd[0] = ft_strdup("export");
-	data->group[6].full_cmd[1] = ft_strdup("something123=red");
-	data->group[6].full_cmd[2] = NULL;
+	// data->group[6].full_cmd = malloc(sizeof(char *) * 2);
+	// data->group[6].full_cmd[0] = ft_strdup("export");
+	// data->group[6].full_cmd[1] = ft_strdup("something123=red");
+	// data->group[6].full_cmd[2] = NULL;
 }
 
 // static void	ctrl_c(int32_t sig)
@@ -104,6 +122,7 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 	(void)argv;
 	init(&data, envp);
 	parser(&data);
+	execution(&data, envp);
 	// export_add(&data, &data.group[3]);
 	// unset(&data, &data.group[5]);
 	// export_add(&data, &data.group[6]);
@@ -138,7 +157,6 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 		// if (ft_strncmp(str, "unset", 5) == 0)
 		// 	unset(&data, &data.group[5]);
 		// exit_check(&data, data.group);
-		execution(&data);
 		// free(str);
 	// }
 	return (0);
