@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/10/14 02:11:35 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/14 17:13:40 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libs/libft/includes/libft.h"
+
+# define READ 0
+# define WRITE 1
 
 typedef struct s_group	t_group;
 typedef struct s_data	t_data;
@@ -130,7 +133,7 @@ void	print_group(void);
 /* execution */
 void	execution(t_data *data, char **env);
 void	infiles(t_data *data, t_group *group);
-void	outfiles(t_group *group);
+void	outfiles(t_data *data, t_group *group);
 char	*get_path(t_data *data);
 
 /* builtins: */

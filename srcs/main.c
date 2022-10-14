@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/14 04:58:49 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/14 17:14:05 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	parser(t_data *data)
 	data->group[0].full_cmd[1] = NULL;
 	data->group[0].infile = malloc(sizeof(t_infile));
 	data->group[0].infile->name = "file1";
-	data->group[0].infile->here_doc = true;
+	data->group[0].infile->here_doc = false;
 	data->group[0].infile->next = malloc(sizeof(t_infile));
 	data->group[0].infile->next->name = "file2";
 	data->group[0].infile->next->here_doc = false;
@@ -42,8 +42,8 @@ static void	parser(t_data *data)
 	data->group[1].full_cmd[1] = ft_strdup("file");
 	data->group[1].full_cmd[2] = NULL;
 	data->group[1].infile = malloc(sizeof(t_infile));
-	data->group[1].infile->name = "file1";
-	data->group[1].infile->here_doc = false;
+	data->group[1].infile->name = "file4";
+	data->group[1].infile->here_doc = true;
 	data->group[1].infile->next = malloc(sizeof(t_infile));
 	data->group[1].infile->next->name = "file2";
 	data->group[1].infile->next->here_doc = false;
@@ -122,7 +122,7 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 	(void)argv;
 	init(&data, envp);
 	parser(&data);
-	execution(&data, envp);
+	// execution(&data, envp);
 	// export_add(&data, &data.group[3]);
 	// unset(&data, &data.group[5]);
 	// export_add(&data, &data.group[6]);
@@ -135,13 +135,13 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 	// export(&data, &data.group[2]);
 	// while (69)
 	// {
-	// 	// signal(SIGINT, ctrl_c);
-	// 	// signal(SIGQUIT, ctrl_bslash);
-	// 	// signal(SIGQUIT, SIG_IGN);
+		// signal(SIGINT, ctrl_c);
+		// signal(SIGQUIT, ctrl_bslash);
+		// signal(SIGQUIT, SIG_IGN);
 		// str = readline("🦇Mishell: ");
 		// if (str == NULL)
 		// 	break ;
-	// 	add_history(str);
+		// add_history(str);
 		// if (ft_strncmp(str, "pwd", 3) == 0) // added these just for testing sake, dw they not stayin' xd 
 		// 	pwd(&data, data.group);
 		// if (ft_strncmp(str, "cd", 2) == 0)
@@ -156,8 +156,8 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 		// 	print_env(&data, &data.group[4]);
 		// if (ft_strncmp(str, "unset", 5) == 0)
 		// 	unset(&data, &data.group[5]);
-		// exit_check(&data, data.group);
-		// free(str);
+	// 	exit_check(&data, data.group);
+	// 	free(str);
 	// }
 	return (0);
 }

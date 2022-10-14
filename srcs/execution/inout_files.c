@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 03:43:43 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/14 05:06:05 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/14 16:57:43 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ static int32_t	here_doc(t_data *data, t_infile *lst)
 	char		*line;
 
 	line = ft_calloc(2, 1);
+	printf("hi\n");
 	fd = open(lst->name, O_RDWR | O_CREAT, 0666);
 	if (fd == -1)
 		display_error(data, "Heredoc inout_files, Open infile failed", true);
@@ -31,6 +32,7 @@ static int32_t	here_doc(t_data *data, t_infile *lst)
 	{
 		free(line);
 		line = get_next_line(STDIN_FILENO);
+		printf("%s\n", line);
 		write (fd, line, ft_strlen(line));
 	}
 	free(line);
@@ -80,7 +82,7 @@ void	infiles(t_data *data, t_group *group)
  * 3 - fd 
  * @param group 
  */
-void	outfiles(t_group *group)
+void	outfiles(t_data *data, t_group *group)
 {
 	int32_t		fd;
 	int16_t		flag;
@@ -94,6 +96,8 @@ void	outfiles(t_group *group)
 		else
 			flag = (O_RDWR | O_CREAT | O_TRUNC);
 		fd = open(lst->name, flag, 0666);
+		if (fd == -1)
+			display_error(data, "Opening outfile failed", true);
 		if (lst->next == NULL)
 			dup2(fd, STDOUT_FILENO);
 		close(fd);

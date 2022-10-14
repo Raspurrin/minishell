@@ -6,7 +6,7 @@
 #    By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/11 18:45:17 by pmoghadd          #+#    #+#              #
-#    Updated: 2022/10/14 02:26:36 by mialbert         ###   ########.fr        #
+#    Updated: 2022/10/14 17:55:34 by mialbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -57,6 +57,7 @@ submodule:
 %.o : %.c
 	@echo "$(VIOLET)Compiling: $(BLUE)$(notdir $<) 🔨$(NC)"
 	@$(CC) $(CFLAGS) -c $< -o $@
+	mv $@ object_files
 
 banner:
 	@echo "\n${PINK}======== Minishell ========$(NC)"
