@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/14 04:06:27 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/14 04:58:49 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	parser(t_data *data)
 	data->group[0].full_cmd[1] = NULL;
 	data->group[0].infile = malloc(sizeof(t_infile));
 	data->group[0].infile->name = "file1";
-	data->group[0].infile->here_doc = false;
+	data->group[0].infile->here_doc = true;
 	data->group[0].infile->next = malloc(sizeof(t_infile));
 	data->group[0].infile->next->name = "file2";
 	data->group[0].infile->next->here_doc = false;
