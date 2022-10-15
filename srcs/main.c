@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/14 17:14:05 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/15 03:14:19 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,14 @@ static void	parser(t_data *data)
 	data->group[1].outfile->next->name = "outfile4";
 	data->group[1].outfile->next->append = false;
 	data->group[1].outfile->next->next = NULL;
-	// data->group[1].full_cmd = malloc(sizeof(char *) * 2);
-	// data->group[1].full_cmd[0] = ft_strdup("echo");
-	// data->group[1].full_cmd[1] = ft_strdup("Heyo Winnie the Pooneh");
-	// data->group[1].full_cmd[2] = NULL;
+
+	data->group[2].full_cmd = malloc(sizeof(char *) * 2);
+	data->group[2].full_cmd[0] = ft_strdup("echo");
+	data->group[2].full_cmd[1] = ft_strdup("-nnnnnn");
+	data->group[2].full_cmd[2] = ft_strdup("-n");
+	data->group[2].full_cmd[3] = ft_strdup("-nnnnnnn");
+	data->group[2].full_cmd[4] = ft_strdup("Winnie the Pooneh");
+	data->group[2].full_cmd[5] = NULL;
 
 	// data->group[1].infile = malloc(sizeof(t_infile *) * 2);
 	// data->group[1].infile[0].name = "infile1";
@@ -113,6 +117,8 @@ static void	parser(t_data *data)
 
 // }
 
+// "hello $ENV how is it going"
+
 int32_t	main(int32_t argc, char **argv, char **envp)
 {
 	t_data	data;
@@ -122,6 +128,7 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 	(void)argv;
 	init(&data, envp);
 	parser(&data);
+	echo(&data, &data.group[2]);
 	// execution(&data, envp);
 	// export_add(&data, &data.group[3]);
 	// unset(&data, &data.group[5]);
@@ -135,27 +142,27 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 	// export(&data, &data.group[2]);
 	// while (69)
 	// {
-		// signal(SIGINT, ctrl_c);
-		// signal(SIGQUIT, ctrl_bslash);
-		// signal(SIGQUIT, SIG_IGN);
-		// str = readline("🦇Mishell: ");
-		// if (str == NULL)
-		// 	break ;
-		// add_history(str);
-		// if (ft_strncmp(str, "pwd", 3) == 0) // added these just for testing sake, dw they not stayin' xd 
-		// 	pwd(&data, data.group);
-		// if (ft_strncmp(str, "cd", 2) == 0)
-		// 	cd(&data, &data.group[0]);
-		// if (ft_strncmp(str, "echo", 4) == 0)
-		// 	echo(&data, &data.group[1]);
-		// if (ft_strncmp(str, "export", 6) == 0)
-		// 	export(&data, &data.group[2]);
-		// if (ft_strncmp(str, "export2", 7) == 0)
-		// 	export_add(&data, &data.group[3]);
-		// if (ft_strncmp(str, "env", 3) == 0)
-		// 	print_env(&data, &data.group[4]);
-		// if (ft_strncmp(str, "unset", 5) == 0)
-		// 	unset(&data, &data.group[5]);
+	// 	signal(SIGINT, ctrl_c);
+	// 	signal(SIGQUIT, ctrl_bslash);
+	// 	signal(SIGQUIT, SIG_IGN);
+	// 	str = readline("🦇Mishell: ");
+	// 	if (str == NULL)
+	// 		break ;
+	// 	add_history(str);
+	// 	if (ft_strncmp(str, "pwd", 3) == 0) // added these just for testing sake, dw they not stayin' xd 
+	// 		pwd(&data, data.group);
+	// 	if (ft_strncmp(str, "cd", 2) == 0)
+	// 		cd(&data, &data.group[0]);
+	// 	if (ft_strncmp(str, "echo", 4) == 0)
+	// 		echo(&data, &data.group[1]);
+	// 	if (ft_strncmp(str, "export", 6) == 0)
+	// 		export(&data, &data.group[2]);
+	// 	if (ft_strncmp(str, "export2", 7) == 0)
+	// 		export_add(&data, &data.group[3]);
+	// 	if (ft_strncmp(str, "env", 3) == 0)
+	// 		print_env(&data, &data.group[4]);
+	// 	if (ft_strncmp(str, "unset", 5) == 0)
+	// 		unset(&data, &data.group[5]);
 	// 	exit_check(&data, data.group);
 	// 	free(str);
 	// }
