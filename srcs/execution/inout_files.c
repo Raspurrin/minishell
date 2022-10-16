@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 03:43:43 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/14 16:57:43 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/16 03:16:07 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	infiles(t_data *data, t_group *group)
 	lst = group->infile;
 	while (lst != NULL)
 	{
+		printf("in infiles\n");
 		if (lst->here_doc == true)
 			fd = here_doc(data, lst);
 		else
@@ -91,6 +92,7 @@ void	outfiles(t_data *data, t_group *group)
 	lst = group->outfile;
 	while (lst != NULL)
 	{
+		printf("in outfiles\n");
 		if (lst->append == true)
 			flag = (O_RDWR | O_CREAT | O_APPEND);
 		else

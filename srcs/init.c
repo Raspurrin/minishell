@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 22:46:32 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/09 15:28:00 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/15 15:52:55 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void	init_env(t_data *data, char **envp)
 	t_env	*lst;
 
 	data->envp_head = malloc(sizeof(t_env));
+	if (!data->envp_head)
+		return (display_error(data, "Malloc failed", true));
 	lst = data->envp_head;
 	while (*envp != NULL)
 	{
@@ -49,6 +51,8 @@ void	init_env(t_data *data, char **envp)
 		if (*envp != NULL)
 		{
 			lst->next = malloc(sizeof(t_env));
+			if (!lst->next)
+				return (display_error(data, "Malloc failed", true));
 			lst = lst->next;
 		}
 	}

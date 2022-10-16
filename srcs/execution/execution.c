@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/14 17:14:56 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/16 03:22:40 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,43 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2], char **env)
 {
 	char	*path;
 
+	// (void)fd;
 	path = find_path(data, i);
 	outfiles(data, &data->group[i]);
+	if (data->group->outfile == NULL)
+	{
+		printf("yo\n");
+		dup2(fd[WRITE], STDOUT_FILENO);
+	}
 	close(fd[READ]);
 	close(fd[WRITE]);
-	ft_printf_fd(STDERR_FILENO, "data->group[i].full_cmd: %s\n", *(data->group[i].full_cmd));
+	ft_printf_fd(STDERR_FILENO, "data->group[i].full_cmd: %s\n", \
+									*(data->group[i].full_cmd));
 	printf("%s", path);
 	if (execve(path, data->group[i].full_cmd, env) == -1)
 	{
 		free(path);
 		display_error(data, "execve failed", true);
 	}
+}
+
+t_builtin	builtin_check(char *cmd)
+{
+	if (ft_strncmp(cmd, "cd", 2) == 0)
+		return (&unset);
+	else if (ft_strncmp(cmd, "echo", 4) == 0)
+		return (&echo);
+	else if (ft_strncmp(cmd, "env", 3) == 0)
+		return (&print_env);
+	else if (ft_strncmp(cmd, "exit", 4) == 0)
+		return (&exit_check);
+	else if (ft_strncmp(cmd, "export", 6) == 0)
+		return (&export);
+	else if (ft_strncmp(cmd, "pwd", 3) == 0)
+		return (&pwd);
+	else if (ft_strncmp(cmd, "unset", 5) == 0)
+		return (&unset);
+	return (NULL);
 }
 
 /**
@@ -74,16 +100,17 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2], char **env)
  */
 static void	exec_cmds(t_data *data, char **env)
 {
-	size_t	i;
-	int32_t	pid;
-	int32_t	fd[2];
+	size_t		i;
+	int32_t		pid;
+	int32_t		fd[2];
+	// t_builtin	builtin;
 
 	i = 0;
 	while (i < (size_t)data->groupc)
 	{
-		// if (data->group->infile)
-		infiles(data, &data->group[i]);
-		pipe(fd);
+		// infiles(data, &data->group[i]);
+		// pipe(fd); <----- stopped working bc of this wtf 
+		// builtin = builtin_check(data->group[i].full_cmd[0]);
 		pid = fork();
 		if (pid == -1)
 			display_error(data, "fork failed", true);

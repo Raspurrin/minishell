@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 03:04:01 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/15 03:13:42 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/15 17:59:51 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	echo(t_data *data, t_group *group)
 
 	i = 1;
 	(void)data;
-	newline = false;
+	newline = !false;
 	group->full_cmd++;
 	while ((ft_strncmp("-n", (*group->full_cmd), 2) == 0) && *group->full_cmd)
 	{
@@ -48,9 +48,8 @@ void	echo(t_data *data, t_group *group)
 				return (print_echo(newline, group->full_cmd));
 		}
 		group->full_cmd++;
-		newline = true;
+		newline = !true;
 		i = 1;
 	}
 	return (print_echo(newline, group->full_cmd));
 }
-

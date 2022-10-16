@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/10/14 17:13:40 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/15 20:47:57 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@
 
 typedef struct s_group	t_group;
 typedef struct s_data	t_data;
-typedef void			(t_func)(t_data *data, t_group *group);
+typedef void			(*t_builtin)(t_data *, t_group *);
 
 typedef struct s_outfile
 {
