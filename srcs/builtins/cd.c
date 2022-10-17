@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 03:22:30 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/08 19:09:43 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/17 11:08:13 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,10 @@
 */
 void	cd(t_data *data, t_group *group)
 {
-	size_t	i;
 	size_t	len;
+	t_env	*env;
 
-	i = 0;
+	env = find_node(data->envp_head, "PWD");
 	chdir(group->full_cmd[1]);
 	if (ft_strncmp(group->full_cmd[1], "../", 3) == 0)
 	{
@@ -33,6 +33,7 @@ void	cd(t_data *data, t_group *group)
 			data->pwd = "/";
 		else
 			data->pwd = ft_substr(data->pwd, 0, len);
+		env->value = data->pwd;
 	}
 	else
 	{

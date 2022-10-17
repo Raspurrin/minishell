@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/10/15 20:47:57 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/17 11:07:26 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,6 +129,7 @@ void	free_at_exit(t_data *data);
 void	print_env(t_data *data, t_group *group);
 char	**env_2darr(t_data *data, t_env *lst);
 void	print_group(void);
+t_env	*find_node(t_env *lst, char *key);
 
 /* execution */
 void	execution(t_data *data, char **env);
