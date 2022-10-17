@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/10/17 11:07:26 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/17 15:42:34 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ typedef struct s_data
 	char	*pwd;
 	size_t	groupc;
 	size_t	envpc;
+	int32_t	tmp_fd;
 }	t_data;
 
 /*		initialize		*/
@@ -133,8 +134,8 @@ t_env	*find_node(t_env *lst, char *key);
 
 /* execution */
 void	execution(t_data *data, char **env);
-void	infiles(t_data *data, t_group *group);
-void	outfiles(t_data *data, t_group *group);
+bool	infiles(t_data *data, t_group *group);
+bool	outfiles(t_data *data, t_group *group);
 char	*get_path(t_data *data);
 
 /* builtins: */
@@ -147,5 +148,6 @@ void	export_add(t_data *data, t_group *group);
 void	pwd(t_data *data, t_group *group);
 char	*init_pwd(t_data *data);
 void	unset(t_data *data, t_group *group);
+bool	builtin_check(t_data *data, t_group *group);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/11 18:45:17 by pmoghadd          #+#    #+#              #
-#    Updated: 2022/10/14 17:58:48 by mialbert         ###   ########.fr        #
+#    Updated: 2022/10/17 16:45:45 by mialbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 OBJ_DIR =	object_files
 CFLAGS	=	-Wall -Wextra -Werror -pthread -g
 NAME	=	minishell
-DEBUG	=	-fsanitize=address
+#DEBUG	=	-fsanitize=address
 LIBFT	=	./libs/libft/
 SRCS	=	./srcs/main.c \
 			./srcs/execution/execution.c \

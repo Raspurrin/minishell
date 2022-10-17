@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 03:43:43 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/16 03:16:07 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/17 16:46:54 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int32_t	here_doc(t_data *data, t_infile *lst)
  * @param group contains all the infiles, outfiles and commans of the 
  * current pipegroup.
  */
-void	infiles(t_data *data, t_group *group)
+bool	infiles(t_data *data, t_group *group)
 {
 	int32_t		fd;
 	t_infile	*lst;
@@ -66,11 +66,12 @@ void	infiles(t_data *data, t_group *group)
 			if (fd == -1)
 				display_error(data, "Opening infile failed", true);
 			if (lst->next == NULL)
-				dup2(fd, STDIN_FILENO);
+				return (dup2(fd, STDIN_FILENO), true);
 			close (fd);
 		}
 		lst = lst->next;
 	}
+	return (false);
 }
 
 /**
@@ -83,7 +84,7 @@ void	infiles(t_data *data, t_group *group)
  * 3 - fd 
  * @param group 
  */
-void	outfiles(t_data *data, t_group *group)
+bool	outfiles(t_data *data, t_group *group)
 {
 	int32_t		fd;
 	int16_t		flag;
@@ -92,6 +93,7 @@ void	outfiles(t_data *data, t_group *group)
 	lst = group->outfile;
 	while (lst != NULL)
 	{
+		printf("I am in outfiles");
 		printf("in outfiles\n");
 		if (lst->append == true)
 			flag = (O_RDWR | O_CREAT | O_APPEND);
@@ -101,8 +103,9 @@ void	outfiles(t_data *data, t_group *group)
 		if (fd == -1)
 			display_error(data, "Opening outfile failed", true);
 		if (lst->next == NULL)
-			dup2(fd, STDOUT_FILENO);
+			return (dup2(fd, STDOUT_FILENO), true);
 		close(fd);
 		lst = lst->next;
 	}
+	return (false);
 }
