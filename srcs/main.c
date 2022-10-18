@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/18 12:45:05 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/18 18:22:07 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,5 +181,6 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 	// 	exit_check(&data, data.group);
 	// 	free(str);
 	// }
+	free_data(&data);
 	return (0);
 }

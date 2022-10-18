@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/10/17 15:42:34 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/18 18:22:23 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ int		normal_word_extract(t_group **info, char *s);
 void	init(t_data *data, char **envp);
 void	display_error(t_data *data, char *error_msg, bool yeet);
 void	free_at_exit(t_data *data);
+void	free_data(t_data *data);
 
 /* environment variable linked list handlers */
 void	print_env(t_data *data, t_group *group);

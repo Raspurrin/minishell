@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/18 12:32:00 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/18 17:14:47 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,11 +76,11 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2], char **env)
 	char	*path;
 
 	ft_printf_fd(STDERR_FILENO, "------------\nin child process:\n");
-	if (!infiles(data, &data->group[i]) && i > 0)
-	{
+	// if (!infiles(data, &data->group[i]) && i > 0)
+	// {
 		ft_printf_fd(STDERR_FILENO, "dupping tmp_fd(previous fd[0]) to STDIN\n");
 		dup2(data->tmp_fd, STDIN_FILENO);
-	}
+	// }
 	// ft_printf_fd(STDERR_FILENO, "child_cmd - i: %d\n", i);
 	path = find_path(data, i);
 	printf("%s\n", path);
