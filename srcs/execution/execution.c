@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/18 12:01:07 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/18 12:32:00 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,18 +91,22 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2], char **env)
 	}
 	ft_printf_fd(STDERR_FILENO, "storing fd[0] in tmp_fd\n");
 	close(fd[WRITE]);
-	close(data->tmp_fd);
 	ft_printf_fd(STDERR_FILENO, "closing fd[1] in the child\n");
+	if (i > 0)
+		close(data->tmp_fd);
+	ft_printf_fd(STDERR_FILENO, "closing tmp_fd in the child\n");
 	// ft_printf_fd(STDERR_FILENO, "data->group[i].full_cmd: %s\n", 
 	// 								*(data->group[i].full_cmd));
 	printf("STDOUT is not closed\n");
 	if (builtin_check(data, data->group) == true)
 		return (ft_printf_fd(STDERR_FILENO, "builtin\n"), free(path));
+	ft_printf_fd(STDERR_FILENO, "before execv\n");
 	if (execve(path, data->group[i].full_cmd, env) == -1)
 	{
 		free(path);
 		display_error(data, "execve failed", true);
 	}
+	ft_printf_fd(STDERR_FILENO, "after execv\n");
 }
 
 /**
@@ -121,7 +125,8 @@ static void	exec_cmds(t_data *data, char **env)
 	i = 0;
 	while (i < (size_t)data->groupc)
 	{
-		
+		ft_printf_fd(STDERR_FILENO, "------------\nBegin in parent:\n");
+		ft_printf_fd(STDERR_FILENO, "creating pipe\n");
 		pipe(fd);
 		// ft_printf_fd(STDERR_FILENO, "exec_cmds - i: %d\n", i);
 		pid = fork();
@@ -130,6 +135,7 @@ static void	exec_cmds(t_data *data, char **env)
 		if (pid == 0)
 			child_cmd(data, i, fd, env);
 		waitpid(pid, NULL, 0);
+		ft_printf_fd(STDERR_FILENO, "------------\nEnd in parent:\n");
 		if (i > 0)
 		{
 			ft_printf_fd(STDERR_FILENO, "closing tmp_fd\n");
@@ -139,7 +145,7 @@ static void	exec_cmds(t_data *data, char **env)
 			close(data->tmp_fd);
 		data->tmp_fd = fd[READ];
 		close(fd[WRITE]);
-		ft_printf_fd(STDERR_FILENO, "closing fd[1] in the parent\n");	
+		ft_printf_fd(STDERR_FILENO, "closing fd[1]\n");	
 		i++;
 	}
 }

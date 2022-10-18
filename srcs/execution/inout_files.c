@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 03:43:43 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/17 16:46:54 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/18 12:58:03 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ static int32_t	here_doc(t_data *data, t_infile *lst)
 	line = ft_calloc(2, 1);
 	printf("hi\n");
 	fd = open(lst->name, O_RDWR | O_CREAT, 0666);
+	ft_printf_fd(STDERR_FILENO, "In heredoc\n");
 	if (fd == -1)
 		display_error(data, "Heredoc inout_files, Open infile failed", true);
 	while (ft_strncmp(line, lst->name, ft_strlen(lst->name) + 1) != 10)
@@ -62,12 +63,25 @@ bool	infiles(t_data *data, t_group *group)
 			fd = here_doc(data, lst);
 		else
 		{
-			fd = open(lst->name, O_RDWR, 0666);
+			fd = open(lst->name, O_RDONLY, 0666);
+			ft_printf_fd(STDERR_FILENO, "This is dup: %d\n", fd);
 			if (fd == -1)
 				display_error(data, "Opening infile failed", true);
-			if (lst->next == NULL)
-				return (dup2(fd, STDIN_FILENO), true);
 			close (fd);
+		}
+		if (lst->next == NULL)
+		{
+			ft_printf_fd(STDERR_FILENO, "dupping infile to STDIN\n");
+			ft_printf_fd(STDERR_FILENO, "closing infile\n");
+			ft_printf_fd(STDERR_FILENO, "This is fd: %d\n", fd);
+			ft_printf_fd(STDERR_FILENO, "STDIN: %d\n", STDIN_FILENO);
+			char	buf[2];
+			ft_printf_fd(STDERR_FILENO, "reading: %d\n", STDIN_FILENO);
+			read(STDIN_FILENO, buf, 2);
+			ft_printf_fd(STDERR_FILENO, "This is dup return: %d\n", (dup2(fd, STDIN_FILENO)));
+			perror("perror: \n");
+			close(fd);
+			return (true);
 		}
 		lst = lst->next;
 	}

@@ -6,7 +6,7 @@
 #    By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/11 18:45:17 by pmoghadd          #+#    #+#              #
-#    Updated: 2022/10/17 16:45:45 by mialbert         ###   ########.fr        #
+#    Updated: 2022/10/18 13:41:22 by mialbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 OBJ_DIR =	object_files
 CFLAGS	=	-Wall -Wextra -Werror -pthread -g
 NAME	=	minishell
-#DEBUG	=	-fsanitize=address
+DEBUG	=	-fsanitize=address
 LIBFT	=	./libs/libft/
 SRCS	=	./srcs/main.c \
 			./srcs/execution/execution.c \
@@ -66,7 +66,7 @@ libft:
 	@$(MAKE) -C $(LIBFT)
 
 $(NAME): banner $(OBJS)
-	@$(CC) $(FLAGS_OS) $(CFLAGS) $(OBJS) $(LIBFT)libft.a -o $(NAME) $(DEBUG)
+	@$(CC) $(FLAGS_OS) $(CFLAGS) $(OBJS) $(LIBFT)libft.a $(DEBUG) -o $(NAME)
 	@mkdir object_files
 	@mv $(OBJS) object_files
 
