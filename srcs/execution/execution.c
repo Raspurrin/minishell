@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/17 18:24:08 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/18 12:01:07 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2], char **env)
 	char	*path;
 
 	ft_printf_fd(STDERR_FILENO, "------------\nin child process:\n");
-	if (!infiles(data, &data->group[i]))
+	if (!infiles(data, &data->group[i]) && i > 0)
 	{
 		ft_printf_fd(STDERR_FILENO, "dupping tmp_fd(previous fd[0]) to STDIN\n");
 		dup2(data->tmp_fd, STDIN_FILENO);
@@ -89,11 +89,10 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2], char **env)
 		ft_printf_fd(STDERR_FILENO, "dupped fd[1] to STDOUT\n");
 		dup2(fd[WRITE], STDOUT_FILENO);
 	}
-	data->tmp_fd = fd[READ];
 	ft_printf_fd(STDERR_FILENO, "storing fd[0] in tmp_fd\n");
-	close(fd[READ]);
 	close(fd[WRITE]);
-	ft_printf_fd(STDERR_FILENO, "closing the pipe in the child\n");
+	close(data->tmp_fd);
+	ft_printf_fd(STDERR_FILENO, "closing fd[1] in the child\n");
 	// ft_printf_fd(STDERR_FILENO, "data->group[i].full_cmd: %s\n", 
 	// 								*(data->group[i].full_cmd));
 	printf("STDOUT is not closed\n");
@@ -131,9 +130,16 @@ static void	exec_cmds(t_data *data, char **env)
 		if (pid == 0)
 			child_cmd(data, i, fd, env);
 		waitpid(pid, NULL, 0);
-		close(fd[READ]);
+		if (i > 0)
+		{
+			ft_printf_fd(STDERR_FILENO, "closing tmp_fd\n");
+			close(data->tmp_fd);
+		}
+		if (i > 0) 
+			close(data->tmp_fd);
+		data->tmp_fd = fd[READ];
 		close(fd[WRITE]);
-		ft_printf_fd(STDERR_FILENO, "closing the pipe in the parent\n");	
+		ft_printf_fd(STDERR_FILENO, "closing fd[1] in the parent\n");	
 		i++;
 	}
 }
