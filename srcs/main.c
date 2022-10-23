@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/18 18:22:07 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/20 12:17:25 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ static void	parser(t_data *data)
 	data->group[0].full_cmd[0] = ft_strdup("ls");
 	data->group[0].full_cmd[1] = ft_strdup("-la");
 	data->group[0].full_cmd[2] = NULL;
-	data->group[0].infile = NULL;
-	// data->group[0].infile->name = "file1";
-	// data->group[0].infile->here_doc = false;
-	// data->group[0].infile->next = malloc(sizeof(t_infile));
+	data->group[0].infile = malloc(sizeof(t_infile));
+	data->group[0].infile->name = "file3";
+	data->group[0].infile->here_doc = false;
+	data->group[0].infile->next = NULL;
 	// data->group[0].infile->next->name = "file2";
 	// data->group[0].infile->next->here_doc = false;
 	// data->group[0].infile->next->next = NULL;
@@ -110,14 +110,15 @@ static void	parser(t_data *data)
 // 	data->group[6].full_cmd[2] = NULL;
 }
 
-// static void	ctrl_c(int32_t sig)
-// {
-// 	(void)sig;
-// 	// printf("test");
-// 	// write(STDIN_FILENO, "", 0);
-// 	rl_on_new_line();
-// 	// rl_redisplay();
-// }
+static void	ctrl_c(int32_t sig)
+{
+	(void)sig;
+	printf("test");
+	write(STDIN_FILENO, "", 0);
+	fl_replace_line("", 0); // test if this works? 
+	rl_on_new_line();
+	rl_redisplay();
+}
 
 // static void	ctrl_bslash(int32_t sig)
 // {

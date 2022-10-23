@@ -6,24 +6,27 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 23:06:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/18 18:27:25 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/18 23:24:16 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	lstclear(void **lst)
+void	lstclear(t_env *lst)
 {
 	t_env	*tmp;
 
-	tmp = (t_env *)lst;
 	if (!lst)
 		return ;
+	tmp = (t_env *)lst;
 	while (tmp != NULL)
 	{
 		tmp = (tmp)->next;
-		free(*lst);
-		*lst = tmp;
+		free(lst->keyvalue);
+		free(lst->key);
+		free(lst->value);
+		free(lst);
+		lst = tmp;
 	}
 	tmp = NULL;
 }
@@ -34,13 +37,13 @@ void	free_data(t_data *data)
 
 	i = 0;
 	free_2d_guard(&data->paths);
-	lstclear((void **)data->envp_head);
+	lstclear((void *)data->envp_head);
 	free(data->pwd);
 	while (i < data->groupc)
 	{
 		free_2d_guard(&data->group[i].full_cmd);
-		lstclear((void *)data->group[i].outfile);
-		lstclear((void *)data->group[i].infile);
+		// lstclear((void *)data->group[i].outfile);
+		// lstclear((void *)data->group[i].infile);
 		i++;
 	}
 }

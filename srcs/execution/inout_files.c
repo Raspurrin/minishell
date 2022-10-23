@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 03:43:43 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/18 12:58:03 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/20 12:06:21 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ bool	infiles(t_data *data, t_group *group)
 		else
 		{
 			fd = open(lst->name, O_RDONLY, 0666);
+			printf("%s\n", lst->name);
 			ft_printf_fd(STDERR_FILENO, "This is dup: %d\n", fd);
 			if (fd == -1)
 				display_error(data, "Opening infile failed", true);
@@ -71,13 +72,14 @@ bool	infiles(t_data *data, t_group *group)
 		}
 		if (lst->next == NULL)
 		{
+			char buf[1021];
+			ft_bzero(buf, 1021);
+			read(fd, buf, 7);
+			ft_printf_fd(STDERR_FILENO, "reading file: %s\n", buf);
 			ft_printf_fd(STDERR_FILENO, "dupping infile to STDIN\n");
 			ft_printf_fd(STDERR_FILENO, "closing infile\n");
 			ft_printf_fd(STDERR_FILENO, "This is fd: %d\n", fd);
 			ft_printf_fd(STDERR_FILENO, "STDIN: %d\n", STDIN_FILENO);
-			char	buf[2];
-			ft_printf_fd(STDERR_FILENO, "reading: %d\n", STDIN_FILENO);
-			read(STDIN_FILENO, buf, 2);
 			ft_printf_fd(STDERR_FILENO, "This is dup return: %d\n", (dup2(fd, STDIN_FILENO)));
 			perror("perror: \n");
 			close(fd);
