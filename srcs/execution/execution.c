@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/24 17:30:50 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/24 21:10:07 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,17 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2], char **env)
 	// dup2(fd2, STDIN_FILENO);
 	path = find_path(data, i);
 	printf("%s\n", path);
-	if (!outfiles(data, &data->group[i]) && i != (data->groupc - 1))
+	if (i != data->groupc - 1)
 	{
-		ft_printf_fd(STDERR_FILENO, "dupped fd[1] to STDOUT\n");
+		if (data->group[i].outfile)
+		{
+			ft_printf_fd(STDERR_FILENO, "Dupping STDOUT\n");
+			dup(STDOUT_FILENO);
+		}
+		ft_printf_fd(STDERR_FILENO, "Dupping fd[1] to STDOUT\n");
 		dup2(fd[WRITE], STDOUT_FILENO);
 	}
+	outfiles(data, &data->group[i]);
 	ft_printf_fd(STDERR_FILENO, "storing fd[0] in tmp_fd\n");
 	close(fd[WRITE]);
 	ft_printf_fd(STDERR_FILENO, "closing fd[1] in the child\n");
