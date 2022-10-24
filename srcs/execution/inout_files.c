@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 03:43:43 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/20 12:06:21 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/24 17:32:05 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,31 +58,32 @@ bool	infiles(t_data *data, t_group *group)
 	lst = group->infile;
 	while (lst != NULL)
 	{
-		printf("in infiles\n");
+		printf("=========in infiles=======\n");
 		if (lst->here_doc == true)
 			fd = here_doc(data, lst);
 		else
 		{
 			fd = open(lst->name, O_RDONLY, 0666);
-			printf("%s\n", lst->name);
-			ft_printf_fd(STDERR_FILENO, "This is dup: %d\n", fd);
 			if (fd == -1)
 				display_error(data, "Opening infile failed", true);
-			close (fd);
+			// close (fd);
 		}
 		if (lst->next == NULL)
 		{
-			char buf[1021];
-			ft_bzero(buf, 1021);
-			read(fd, buf, 7);
-			ft_printf_fd(STDERR_FILENO, "reading file: %s\n", buf);
-			ft_printf_fd(STDERR_FILENO, "dupping infile to STDIN\n");
-			ft_printf_fd(STDERR_FILENO, "closing infile\n");
-			ft_printf_fd(STDERR_FILENO, "This is fd: %d\n", fd);
-			ft_printf_fd(STDERR_FILENO, "STDIN: %d\n", STDIN_FILENO);
-			ft_printf_fd(STDERR_FILENO, "This is dup return: %d\n", (dup2(fd, STDIN_FILENO)));
+			// char	buf[1000];
+			// ft_bzero(buf, 1000);
+			// read(fd, buf, 1000);
+			// ft_printf_fd(STDERR_FILENO, "name file: %s\n", lst->name);
+			// ft_printf_fd(STDERR_FILENO, "reading file: %s\n", buf);
+			// ft_printf_fd(STDERR_FILENO, "dupping infile to STDIN\n");
+			// ft_printf_fd(STDERR_FILENO, "This is fd: %d\n", fd);
+			// ft_printf_fd(STDERR_FILENO, "STDIN: %d\n", STDIN_FILENO);
+			// ft_printf_fd(STDERR_FILENO, "This is dup return: %d\n", \
+			// 								(dup2(fd, STDIN_FILENO)));
+			// int fd2 = open("file1", O_RDONLY, 0666);
+			dup2(fd, STDIN_FILENO);
 			perror("perror: \n");
-			close(fd);
+			// close(fd);
 			return (true);
 		}
 		lst = lst->next;
@@ -107,10 +108,9 @@ bool	outfiles(t_data *data, t_group *group)
 	t_outfile	*lst;
 
 	lst = group->outfile;
+	ft_printf_fd(STDERR_FILENO, "==========outfiles=========\n");
 	while (lst != NULL)
 	{
-		printf("I am in outfiles");
-		printf("in outfiles\n");
 		if (lst->append == true)
 			flag = (O_RDWR | O_CREAT | O_APPEND);
 		else

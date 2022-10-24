@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/20 11:50:14 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/24 17:30:50 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,9 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2], char **env)
 		ft_printf_fd(STDERR_FILENO, "dupping tmp_fd(previous fd[0]) to STDIN\n");
 		dup2(data->tmp_fd, STDIN_FILENO);
 	}
-	// ft_printf_fd(STDERR_FILENO, "child_cmd - i: %d\n", i);
+	ft_printf_fd(STDERR_FILENO, "child_cmd - i: %d\n", i);
+	// int fd2 = open("file1", O_RDONLY, 0666);
+	// dup2(fd2, STDIN_FILENO);
 	path = find_path(data, i);
 	printf("%s\n", path);
 	if (!outfiles(data, &data->group[i]) && i != (data->groupc - 1))
@@ -97,7 +99,7 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2], char **env)
 	ft_printf_fd(STDERR_FILENO, "closing tmp_fd in the child\n");
 	// ft_printf_fd(STDERR_FILENO, "data->group[i].full_cmd: %s\n", 
 	// 								*(data->group[i].full_cmd));
-	printf("STDOUT is not closed\n");
+	// printf("STDOUT is not closed\n");
 	if (builtin_check(data, data->group) == true)
 		return (ft_printf_fd(STDERR_FILENO, "builtin\n"), free(path));
 	ft_printf_fd(STDERR_FILENO, "before execv\n");
