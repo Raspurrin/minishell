@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 01:54:20 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/08 05:00:51 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/25 19:24:53 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,16 @@ void	exit_check(t_data *data, t_group *group)
 
 	i = 0;
 	nbr = 0;
-	if (ft_strncmp(group->full_cmd[0], "exit", 4) == 0)
+	if (group->full_cmd[2] != NULL)
+		return (display_error(data, "exit: too many arguments", false));
+	if (group->full_cmd[1])
 	{
-		if (group->full_cmd[1])
-		{
-			while (ft_isdigit(group->full_cmd[1][i]))
-				i++;
-			if (group->full_cmd[1][i] && !ft_isdigit(group->full_cmd[1][i]))
-				return (display_error(data, "", false));
-			nbr = ft_atoi(group->full_cmd[1]);
-		}
-		printf("exit\n");
-		exit(nbr);
+		while (ft_isdigit(group->full_cmd[1][i]))
+			i++;
+		if (group->full_cmd[1][i] && !ft_isdigit(group->full_cmd[1][i]))
+			return (display_error(data, "", false));
+		nbr = ft_atoi(group->full_cmd[1]);
 	}
+	printf("exit\n");
+	exit(nbr);
 }

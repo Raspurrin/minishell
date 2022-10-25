@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/10/24 22:28:51 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/25 19:26:35 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,7 +134,7 @@ void	print_group(void);
 t_env	*find_node(t_env *lst, char *key);
 
 /* execution */
-void	execution(t_data *data, char **env);
+void	execution(t_data *data);
 bool	infiles(t_data *data, t_group *group);
 bool	outfiles(t_data *data, t_group *group);
 char	*get_path(t_data *data);

@@ -6,7 +6,7 @@
 #    By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/11 18:45:17 by pmoghadd          #+#    #+#              #
-#    Updated: 2022/10/25 17:09:15 by mialbert         ###   ########.fr        #
+#    Updated: 2022/10/25 18:56:29 by mialbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,7 +28,12 @@ SRCS	=	./srcs/main.c \
 			./srcs/builtins/exit.c \
 			./srcs/builtins/export.c \
 			./srcs/builtins/pwd.c \
-			./srcs/builtins/unset.c
+			./srcs/builtins/unset.c \
+			./srcs/parsing/initialize.c \
+			./srcs/parsing/lexical_scan.c \
+			./srcs/parsing/llreal.c \
+			./srcs/parsing/minishell_split.c \
+			./srcs/parsing/real.c
 
 OBJS	= $(SRCS:.c=.o)
 

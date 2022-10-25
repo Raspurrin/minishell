@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/25 17:10:55 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/25 19:25:05 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,6 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 	(void)argv;
 	ft_bzero(&data, sizeof(data));
 	init(&data, envp);
-
-
 	while (69)
 	{
 		// signal(SIGINT, ctrl_c);
@@ -50,7 +48,6 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 		if (str == NULL)
 			break ;
 		add_history(str);
-		// exit_check(&data, data.group);
 		// parser(&data);
 		// execution(&data, envp);
 		free(str);

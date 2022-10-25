@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 18:01:38 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/10/13 17:45:21 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/25 19:00:30 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,6 @@ void	initialize(t_group	**data)
 	(*data)->outfile->name = ft_calloc(sizeof(char), 100);
 	(*data)->infile->here_doc = (bool *)malloc(sizeof(bool));
 	(*data)->outfile->append = (bool *)malloc(sizeof(bool));
-	(*data)->infilec = 0;
-	(*data)->outfilec = 0;
-	(*data)->read_in = 0;
-	(*data)->read_out = 0;
 }
 
 void	in_file_init(t_group	**info, char *s, char *name)
@@ -85,4 +81,3 @@ void	words_init(t_group	**info, char *name)
 	// (*info)->word->next = new;
 	// (*info)->word = head;
 }
-

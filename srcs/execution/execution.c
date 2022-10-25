@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/25 17:02:35 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/25 19:28:12 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ bool	builtin_check(t_data *data, t_group *group)
  * Which is why this is done in a child process. 
  * At the very last itteration, the output is redirected to a file. 
  */
-static void	child_cmd(t_data *data, size_t i, int32_t fd[2], char **env)
+static void	child_cmd(t_data *data, size_t i, int32_t fd[2])
 {
 	char	*path;
 
@@ -80,7 +80,8 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2], char **env)
 	if (builtin_check(data, data->group) == true)
 		return (free(path));
 
-	if (execve(path, data->group[i].full_cmd, env) == -1)
+	if (execve(path, data->group[i].full_cmd, \
+				env_2darr(data, data->envp_head)) == -1)
 	{
 		free(path);
 		display_error(data, "execve failed", true);
@@ -93,7 +94,7 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2], char **env)
  * from the commands to STDIN and STDOUT with dup2, which will then be used
  * by the next command. Closing the fds so the program doesn't wait for input.
  */
-static void	exec_cmds(t_data *data, char **env)
+static void	exec_cmds(t_data *data)
 {
 	size_t		i;
 	int32_t		pid;
@@ -113,7 +114,7 @@ static void	exec_cmds(t_data *data, char **env)
 		if (pid == -1)
 			display_error(data, "fork failed", true);
 		else if (pid == 0)
-			child_cmd(data, i, fd, env);
+			child_cmd(data, i, fd);
 		waitpid(pid, NULL, 0);
 		if (i > 0)
 			close(data->tmp_fd);
@@ -123,8 +124,8 @@ static void	exec_cmds(t_data *data, char **env)
 	}
 }
 
-void	execution(t_data *data, char **env)
+void	execution(t_data *data)
 {
-	exec_cmds(data, env);
+	exec_cmds(data);
 	free_at_exit(data);
 }
