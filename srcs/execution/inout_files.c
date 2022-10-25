@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 03:43:43 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/24 22:28:43 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/25 17:04:02 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,7 @@ static int32_t	here_doc(t_data *data, t_infile *lst)
 	char		*line;
 
 	line = ft_calloc(2, 1);
-	printf("hi\n");
 	fd = open(lst->name, O_RDWR | O_CREAT, 0666);
-	ft_printf_fd(STDERR_FILENO, "In heredoc\n");
 	if (fd == -1)
 		display_error(data, "Heredoc inout_files, Open infile failed", true);
 	while (ft_strncmp(line, lst->name, ft_strlen(lst->name) + 1) != 10)
@@ -58,7 +56,6 @@ bool	infiles(t_data *data, t_group *group)
 	lst = group->infile;
 	while (lst != NULL)
 	{
-		printf("=========in infiles=======\n");
 		if (lst->here_doc == true)
 			fd = here_doc(data, lst);
 		else
@@ -66,26 +63,9 @@ bool	infiles(t_data *data, t_group *group)
 			fd = open(lst->name, O_RDONLY, 0666);
 			if (fd == -1)
 				display_error(data, "Opening infile failed", true);
-			// close (fd);
 		}
 		if (lst->next == NULL)
-		{
-			// char	buf[1000];
-			// ft_bzero(buf, 1000);
-			// read(fd, buf, 1000);
-			// ft_printf_fd(STDERR_FILENO, "name file: %s\n", lst->name);
-			// ft_printf_fd(STDERR_FILENO, "reading file: %s\n", buf);
-			// ft_printf_fd(STDERR_FILENO, "dupping infile to STDIN\n");
-			// ft_printf_fd(STDERR_FILENO, "This is fd: %d\n", fd);
-			// ft_printf_fd(STDERR_FILENO, "STDIN: %d\n", STDIN_FILENO);
-			// ft_printf_fd(STDERR_FILENO, "This is dup return: %d\n", \
-			// 								(dup2(fd, STDIN_FILENO)));
-			// int fd2 = open("file1", O_RDONLY, 0666);
-			dup2(fd, STDIN_FILENO);
-			perror("perror: \n");
-			// close(fd);
-			return (true);
-		}
+			return (dup2(fd, STDIN_FILENO), true);
 		lst = lst->next;
 	}
 	return (false);
@@ -108,7 +88,6 @@ bool	outfiles(t_data *data, t_group *group)
 	t_outfile	*lst;
 
 	lst = group->outfile;
-	ft_printf_fd(STDERR_FILENO, "==========outfiles=========\n");
 	while (lst != NULL)
 	{
 		if (lst->append == true)
@@ -119,11 +98,7 @@ bool	outfiles(t_data *data, t_group *group)
 		if (fd == -1)
 			display_error(data, "Opening outfile failed", true);
 		if (lst->next == NULL)
-		{
-			printf("[OK] STDOUT can still be used\n");
-			ft_printf_fd(STDERR_FILENO, "Dupping %s to STDOUT\n", lst->name);
 			return (dup2(fd, STDOUT_FILENO), true);
-		}
 		close(fd);
 		lst = lst->next;
 	}

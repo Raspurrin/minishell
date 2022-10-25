@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/25 02:18:53 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/25 17:02:35 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,18 +25,12 @@ static char	*find_path(t_data *data, size_t	group_i)
 	char	*path;
 
 	i = 0;
-	// printf("hi\n");
-	// printf("group_i: %zu\n", group_i);
-	// ft_printf_fd(STDERR_FILENO, "data->group[group_i].full_cmd[0]: %s\n", data->group[group_i].full_cmd[0]);
 	cmd = ft_strjoin("/", data->group[group_i].full_cmd[0]);
 	while (data->paths[i++])
 	{
 		path = ft_strjoin(data->paths[i - 1], cmd);
 		if (access(path, F_OK | X_OK) == 0)
-		{
-			// printf("path: %s\n", path);
 			return (free(cmd), path);
-		}
 		else
 			free(path);
 	}
@@ -75,40 +69,22 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2], char **env)
 {
 	char	*path;
 
-	ft_printf_fd(STDERR_FILENO, "------------\nin child process:\n");
-	if (!infiles(data, &data->group[i]) && i > 0)
-	{
-		ft_printf_fd(STDERR_FILENO, "dupping tmp_fd(previous fd[0]) to STDIN\n");
-		dup2(data->tmp_fd, STDIN_FILENO);
-	}
-	ft_printf_fd(STDERR_FILENO, "child_cmd - i: %d\n", i);
-	// int fd2 = open("file1", O_RDONLY, 0666);
-	// dup2(fd2, STDIN_FILENO);
 	path = find_path(data, i);
-	printf("%s\n", path);
+	if (!infiles(data, &data->group[i]) && i > 0)
+		dup2(data->tmp_fd, STDIN_FILENO);
 	if (!outfiles(data, &data->group[i]) && i != data->groupc - 1)
-	{
-		ft_printf_fd(STDERR_FILENO, "Dupping fd[1] to STDOUT\n");
 		dup2(fd[WRITE], STDOUT_FILENO);
-	}
-	ft_printf_fd(STDERR_FILENO, "storing fd[0] in tmp_fd\n");
 	close(fd[WRITE]);
-	ft_printf_fd(STDERR_FILENO, "closing fd[1] in the child\n");
 	if (i > 0)
 		close(data->tmp_fd);
-	ft_printf_fd(STDERR_FILENO, "closing tmp_fd in the child\n");
-	// ft_printf_fd(STDERR_FILENO, "data->group[i].full_cmd: %s\n", 
-	// 								*(data->group[i].full_cmd));
-	// printf("STDOUT is not closed\n");
 	if (builtin_check(data, data->group) == true)
-		return (ft_printf_fd(STDERR_FILENO, "builtin\n"), free(path));
-	ft_printf_fd(STDERR_FILENO, "before execv\n");
+		return (free(path));
+
 	if (execve(path, data->group[i].full_cmd, env) == -1)
 	{
 		free(path);
 		display_error(data, "execve failed", true);
 	}
-	ft_printf_fd(STDERR_FILENO, "after execv\n");
 }
 
 /**
@@ -132,27 +108,17 @@ static void	exec_cmds(t_data *data, char **env)
 	}
 	while (i < (size_t)data->groupc)
 	{
-		ft_printf_fd(STDERR_FILENO, "------------\nBegin in parent:\n");
-		ft_printf_fd(STDERR_FILENO, "creating pipe\n");
 		pipe(fd);
-		// ft_printf_fd(STDERR_FILENO, "exec_cmds - i: %d\n", i);
 		pid = fork();
 		if (pid == -1)
 			display_error(data, "fork failed", true);
-		if (pid == 0)
+		else if (pid == 0)
 			child_cmd(data, i, fd, env);
 		waitpid(pid, NULL, 0);
-		ft_printf_fd(STDERR_FILENO, "------------\nEnd in parent:\n");
 		if (i > 0)
-		{
-			ft_printf_fd(STDERR_FILENO, "closing tmp_fd\n");
-			close(data->tmp_fd);
-		}
-		if (i > 0) 
 			close(data->tmp_fd);
 		data->tmp_fd = fd[READ];
 		close(fd[WRITE]);
-		ft_printf_fd(STDERR_FILENO, "closing fd[1]\n");	
 		i++;
 	}
 }

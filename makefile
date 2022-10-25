@@ -6,13 +6,13 @@
 #    By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/11 18:45:17 by pmoghadd          #+#    #+#              #
-#    Updated: 2022/10/18 13:41:22 by mialbert         ###   ########.fr        #
+#    Updated: 2022/10/25 17:09:15 by mialbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 OBJ_DIR =	object_files
-CFLAGS	=	-Wall -Wextra -Werror -pthread -g
+CFLAGS	=	-Wall -Wextra -Werror -g
 NAME	=	minishell
 DEBUG	=	-fsanitize=address
 LIBFT	=	./libs/libft/
@@ -66,14 +66,14 @@ libft:
 	@$(MAKE) -C $(LIBFT)
 
 $(NAME): banner $(OBJS)
-	@$(CC) $(FLAGS_OS) $(CFLAGS) $(OBJS) $(LIBFT)libft.a $(DEBUG) -o $(NAME)
+	@$(CC) $(FLAGS_OS) $(CFLAGS) $(OBJS) $(LIBFT)libft.a $(DEBUG) -o $(NAME) -lreadline
 	@mkdir object_files
 	@mv $(OBJS) object_files
 
 e: all
 	./$(NAME)
 
-test: 
+test:
 	gcc -Wall -Werror -Wextra -g srcs/parsing/llreal.c libs/libft/libft.a -fsanitize=address
 
 clean:
