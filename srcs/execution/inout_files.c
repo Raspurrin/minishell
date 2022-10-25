@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 03:43:43 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/24 21:11:10 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/24 22:28:43 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ bool	infiles(t_data *data, t_group *group)
  * 3 - fd 
  * @param group 
  */
-void	outfiles(t_data *data, t_group *group)
+bool	outfiles(t_data *data, t_group *group)
 {
 	int32_t		fd;
 	int16_t		flag;
@@ -122,9 +122,10 @@ void	outfiles(t_data *data, t_group *group)
 		{
 			printf("[OK] STDOUT can still be used\n");
 			ft_printf_fd(STDERR_FILENO, "Dupping %s to STDOUT\n", lst->name);
-			dup2(fd, STDOUT_FILENO);
+			return (dup2(fd, STDOUT_FILENO), true);
 		}
 		close(fd);
 		lst = lst->next;
 	}
+	return (false);
 }

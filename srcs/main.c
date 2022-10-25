@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/24 21:02:44 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/24 22:34:52 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ static void	parser(t_data *data)
 	// data->group[0].infile->next->name = "file2";
 	// data->group[0].infile->next->here_doc = false;
 	// data->group[0].infile->next->next = NULL;
-	data->group[0].outfile = malloc(sizeof(t_outfile));
-	data->group[0].outfile->name = "outfile2";
-	data->group[0].outfile->append = false;
-	data->group[0].outfile->next = NULL;
+	// data->group[0].outfile = malloc(sizeof(t_outfile));
+	// data->group[0].outfile->name = "outfile3";
+	// data->group[0].outfile->append = false;
+	data->group[0].outfile = NULL;
 
 	// data->group[0].outfile = malloc(sizeof(t_outfile));
 	// data->group[0].outfile->name = "outfile1";
@@ -46,7 +46,7 @@ static void	parser(t_data *data)
 	data->group[1].full_cmd[0] = ft_strdup("grep");
 	data->group[1].full_cmd[1] = ft_strdup("file");
 	data->group[1].full_cmd[2] = NULL;
-	data->group[1].outfile = NULL;
+	// data->group[1].outfile = NULL;
 	data->group[1].infile = NULL;
 	// data->group[1].infile = malloc(sizeof(t_infile));
 	// data->group[1].infile->name = "file2";
@@ -57,13 +57,13 @@ static void	parser(t_data *data)
 	// data->group[1].infile->next->here_doc = false;
 	// data->group[1].infile->next->next = NULL;
 
-	// data->group[1].outfile = malloc(sizeof(t_outfile));
-	// data->group[1].outfile->name = "outfile3";
-	// data->group[1].outfile->append = false;
-	// data->group[1].outfile->next = malloc(sizeof(t_outfile));
-	// data->group[1].outfile->next->name = "outfile4";
-	// data->group[1].outfile->next->append = false;
-	// data->group[1].outfile->next->next = NULL;
+	data->group[1].outfile = malloc(sizeof(t_outfile));
+	data->group[1].outfile->name = "outfile3";
+	data->group[1].outfile->append = false;
+	data->group[1].outfile->next = malloc(sizeof(t_outfile));
+	data->group[1].outfile->next->name = "outfile4";
+	data->group[1].outfile->next->append = true;
+	data->group[1].outfile->next->next = NULL;
 
 	// data->group[1].infile = malloc(sizeof(t_infile *) * 2);
 	// data->group[1].infile[0].name = "infile1";
