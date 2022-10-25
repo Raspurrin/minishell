@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 22:46:32 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/15 15:52:55 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/25 22:44:42 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void	init_env(t_data *data, char **envp)
 void	init(t_data *data, char **envp)
 {
 	init_path(data, envp);
+	printf("before init_env: %p\n", data->envp_head);
 	init_env(data, envp);
-	init_pwd(data);
+	printf("after init_env: %p\n", data->envp_head);
+	// init_pwd(data);
 }

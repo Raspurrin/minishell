@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 23:06:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/18 23:24:16 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/25 22:29:52 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ char	**env_2darr(t_data *data, t_env *lst)
 	size_t	i;
 
 	i = 0;
+	if (!lst)
+		return (display_error(data, "Env list failed to create", true), NULL);
 	env = malloc(data->envpc * sizeof(char *));
 	while (lst->next != NULL)
 	{

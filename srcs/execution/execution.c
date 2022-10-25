@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/25 02:18:53 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/25 22:02:19 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ bool	builtin_check(t_data *data, t_group *group)
  * Which is why this is done in a child process. 
  * At the very last itteration, the output is redirected to a file. 
  */
-static void	child_cmd(t_data *data, size_t i, int32_t fd[2], char **env)
+static void	child_cmd(t_data *data, size_t i, int32_t fd[2])
 {
 	char	*path;
 
@@ -103,7 +103,8 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2], char **env)
 	if (builtin_check(data, data->group) == true)
 		return (ft_printf_fd(STDERR_FILENO, "builtin\n"), free(path));
 	ft_printf_fd(STDERR_FILENO, "before execv\n");
-	if (execve(path, data->group[i].full_cmd, env) == -1)
+	if (execve(path, data->group[i].full_cmd, env_2darr(data, \
+										data->envp_head)) == -1)
 	{
 		free(path);
 		display_error(data, "execve failed", true);
@@ -117,7 +118,7 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2], char **env)
  * from the commands to STDIN and STDOUT with dup2, which will then be used
  * by the next command. Closing the fds so the program doesn't wait for input.
  */
-static void	exec_cmds(t_data *data, char **env)
+static void	exec_cmds(t_data *data)
 {
 	size_t		i;
 	int32_t		pid;
@@ -140,8 +141,7 @@ static void	exec_cmds(t_data *data, char **env)
 		if (pid == -1)
 			display_error(data, "fork failed", true);
 		if (pid == 0)
-			child_cmd(data, i, fd, env);
-		waitpid(pid, NULL, 0);
+			child_cmd(data, i, fd);
 		ft_printf_fd(STDERR_FILENO, "------------\nEnd in parent:\n");
 		if (i > 0)
 		{
@@ -157,8 +157,18 @@ static void	exec_cmds(t_data *data, char **env)
 	}
 }
 
-void	execution(t_data *data, char **env)
+void	execution(t_data *data)
 {
-	exec_cmds(data, env);
+	size_t	i;
+	int32_t	status;
+
+	i = 0;
+	exec_cmds(data);
+	while (i < data->groupc)
+	{
+		wait(&status);
+		data->status = status;
+		i++;
+	}
 	free_at_exit(data);
 }
