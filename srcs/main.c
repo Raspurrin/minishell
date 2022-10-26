@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/26 17:04:46 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/26 18:17:40 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ static void	ctrl_bslash(int32_t sig)
 int32_t	main(int32_t argc, char **argv, char **envp)
 {
 	t_data	data;
-	char	*str;
+	// char	*str;
 
 	(void)argc;
 	(void)argv;
@@ -143,7 +143,6 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 	data.tmp_fd = 0;
 	init(&data, envp);
 	printf("after init: %p\n", data.envp_head);
-	// print_2d_fd(env_2darr(&data, data.envp_head), STDOUT_FILENO);
 	parser(&data);
 	execution(&data);
 	// char	buf[1000];
@@ -162,17 +161,17 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 
 	// print_env(&data, &data.group[3]);
 	// export(&data, &data.group[2]);
-	while (69)
-	{
+	// while (69)
+	// {
 		signal(SIGINT, ctrl_c);
 		signal(SIGQUIT, ctrl_bslash);
 		signal(SIGQUIT, SIG_IGN);
-		str = readline("🦇Mishell: ");
-		if (str == NULL)
-			break ;
-		add_history(str);
-		free(str);
-	}
+	// 	str = readline("🦇Mishell: ");
+	// 	if (str == NULL)
+	// 		break ;
+	// 	add_history(str);
+	// 	free(str);
+	// }
 	// free_data(&data);
 	return (0);
 }
