@@ -6,14 +6,15 @@
 #    By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/11 18:45:17 by pmoghadd          #+#    #+#              #
-#    Updated: 2022/10/18 13:41:22 by mialbert         ###   ########.fr        #
+#    Updated: 2022/10/26 15:45:55 by mialbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 OBJ_DIR =	object_files
-CFLAGS	=	-Wall -Wextra -Werror -pthread -g
+CFLAGS	=	-Wall -Wextra -Werror -g
 NAME	=	minishell
+READLINE = 	-I $(HOME)/goinfre/.brew/opt/readline/include/ -L $(HOME)/goinfre/.brew/opt/readline/lib/ -lreadline
 DEBUG	=	-fsanitize=address
 LIBFT	=	./libs/libft/
 SRCS	=	./srcs/main.c \
@@ -66,9 +67,9 @@ libft:
 	@$(MAKE) -C $(LIBFT)
 
 $(NAME): banner $(OBJS)
-	@$(CC) $(FLAGS_OS) $(CFLAGS) $(OBJS) $(LIBFT)libft.a $(DEBUG) -o $(NAME)
-	@mkdir object_files
-	@mv $(OBJS) object_files
+	@$(CC) $(FLAGS_OS) $(CFLAGS) $(OBJS) $(LIBFT)libft.a $(READLINE) $(DEBUG) -o $(NAME)
+# @mkdir object_files
+# @mv $(OBJS) object_files
 
 e: all
 	./$(NAME)

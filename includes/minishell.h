@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/10/25 22:02:04 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/26 17:35:14 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 # include <signal.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+# include </Users/mialbert/goinfre/.brew/opt/readline/include/readline/readline.h>
+# include </Users/mialbert/goinfre/.brew/opt/readline/include/readline/history.h>
 # include "../libs/libft/includes/libft.h"
 
 # define READ 0
@@ -81,6 +81,7 @@ typedef struct s_group
 	char		**full_cmd;
 	t_infile	*infile;
 	t_outfile	*outfile;
+	t_builtin	builtin;
 }	t_group;
 
 typedef struct s_env
@@ -150,6 +151,5 @@ void	export_add(t_data *data, t_group *group);
 void	pwd(t_data *data, t_group *group);
 char	*init_pwd(t_data *data);
 void	unset(t_data *data, t_group *group);
-bool	builtin_check(t_data *data, t_group *group);
 
 #endif

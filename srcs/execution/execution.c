@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/25 22:02:19 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/26 17:35:22 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,22 +44,25 @@ static char	*find_path(t_data *data, size_t	group_i)
 	return (display_error(data, "path failed", true), NULL);
 }
 
+// but what if full_cmd[0] == "echowfjselfijal";
 bool	builtin_check(t_data *data, t_group *group)
 {
+	(void)data;
+
 	if (ft_strncmp(group->full_cmd[0], "cd", 2) == 0)
-		unset(data, group);
+		group->builtin = &unset;
 	else if (ft_strncmp(group->full_cmd[0], "echo", 4) == 0)
-		echo(data, group);
+		group->builtin = &echo;
 	else if (ft_strncmp(group->full_cmd[0], "env", 3) == 0)
-		print_env(data, group);
+		group->builtin = &print_env;
 	else if (ft_strncmp(group->full_cmd[0], "exit", 4) == 0)
-		exit_check(data, group);
+		group->builtin = &exit_check;
 	else if (ft_strncmp(group->full_cmd[0], "export", 6) == 0)
-		export(data, group);
+		group->builtin = &export;
 	else if (ft_strncmp(group->full_cmd[0], "pwd", 3) == 0)
-		pwd(data, group);
+		group->builtin = &pwd;
 	else if (ft_strncmp(group->full_cmd[0], "unset", 5) == 0)
-		unset(data, group);
+		group->builtin = &unset;
 	else
 		return (false);
 	return (true);
@@ -101,7 +104,7 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2])
 	// 								*(data->group[i].full_cmd));
 	// printf("STDOUT is not closed\n");
 	if (builtin_check(data, data->group) == true)
-		return (ft_printf_fd(STDERR_FILENO, "builtin\n"), free(path));
+		return (data->group[i].builtin(data, &data->group[i]), free(path));
 	ft_printf_fd(STDERR_FILENO, "before execv\n");
 	if (execve(path, data->group[i].full_cmd, env_2darr(data, \
 										data->envp_head)) == -1)
@@ -125,11 +128,11 @@ static void	exec_cmds(t_data *data)
 	int32_t		fd[2];
 
 	i = 0;
-	if (data->groupc == 1)
+	if (data->groupc == 1 && builtin_check(data, data->group))
 	{
 		infiles(data, data->group);
+		data->group[i].builtin(data, &data->group[i]);
 		outfiles(data, data->group);
-		builtin_check(data, data->group);
 	}
 	while (i < (size_t)data->groupc)
 	{

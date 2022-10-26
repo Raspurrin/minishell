@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 03:43:43 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/24 22:28:43 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/26 17:08:05 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static int32_t	here_doc(t_data *data, t_infile *lst)
 	{
 		free(line);
 		line = get_next_line(STDIN_FILENO);
-		printf("%s\n", line);
 		write (fd, line, ft_strlen(line));
 	}
 	free(line);

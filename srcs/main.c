@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/25 22:37:58 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/26 17:04:46 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,21 @@
 #include <stdlib.h>
 
 // just for testing purposes
-// static void	parser(t_data *data)
-// {
-// 	data->groupc = 2;
-// 	data->group = malloc(sizeof(t_group) * 2);
-// 	data->group[0].full_cmd = ft_calloc(3, sizeof(char *));
-// 	data->group[0].full_cmd[0] = ft_strdup("ls");
-// 	data->group[0].full_cmd[1] = ft_strdup("-la");
-// 	data->group[0].full_cmd[2] = NULL;
-// 	data->group[0].infile = malloc(sizeof(t_infile));
-// 	data->group[0].infile->name = ft_strdup("file1");
-// 	data->group[0].infile->here_doc = false;
-// 	data->group[0].infile->next = NULL;
+static void	parser(t_data *data)
+{
+	data->groupc = 1;
+	data->group = calloc(sizeof(t_group), 1);
+	data->group[0].full_cmd = ft_calloc(3, sizeof(char *));
+	data->group[0].full_cmd[0] = ft_strdup("ls");
+	data->group[0].full_cmd[1] = ft_strdup("-la");
+	data->group[0].full_cmd[2] = NULL;
+	data->group[0].infile = malloc(sizeof(t_infile));
+	data->group[0].infile->name = ft_strdup("file1");
+	data->group[0].infile->here_doc = true;
+	data->group[0].infile->next = malloc(sizeof(t_infile));
+	data->group[0].infile->next->name = ft_strdup("file2");
+	data->group[0].infile->next->here_doc = true;
+	data->group[0].infile->next->next = NULL;
 	// data->group[0].infile->next->name = "file2";
 	// data->group[0].infile->next->here_doc = false;
 	// data->group[0].infile->next->next = NULL;
@@ -109,32 +112,30 @@
 // 	data->group[6].full_cmd[0] = ft_strdup("export");
 // 	data->group[6].full_cmd[1] = ft_strdup("something123=red");
 // 	data->group[6].full_cmd[2] = NULL;
-// }
+}
 
-// static void	ctrl_c(int32_t sig)
-// {
-// 	(void)sig;
-// 	printf("test");
-// 	write(STDIN_FILENO, "", 0);
-// 	fl_replace_line("", 0); // test if this works? 
-// 	rl_on_new_line();
-// 	rl_redisplay();
-// }
+static void	ctrl_c(int32_t sig)
+{
+	(void)sig;
+	rl_replace_line("\n", 1); // test if this works? 
+	rl_on_new_line();
+	rl_redisplay();
+}
 
-// static void	ctrl_bslash(int32_t sig)
-// {
-// 	(void)sig;
-// 	rl_redisplay();
-// 	signal(SIGQUIT, SIG_IGN);
+static void	ctrl_bslash(int32_t sig)
+{
+	(void)sig;
+	rl_redisplay();
+	signal(SIGQUIT, SIG_IGN);
 
-// }
+}
 
 // "hello $ENV how is it going"
 
 int32_t	main(int32_t argc, char **argv, char **envp)
 {
 	t_data	data;
-	// char	*str;
+	char	*str;
 
 	(void)argc;
 	(void)argv;
@@ -143,8 +144,8 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 	init(&data, envp);
 	printf("after init: %p\n", data.envp_head);
 	// print_2d_fd(env_2darr(&data, data.envp_head), STDOUT_FILENO);
-	// parser(&data);
-	// execution(&data);
+	parser(&data);
+	execution(&data);
 	// char	buf[1000];
 	// int fd = open("file1", O_RDONLY, 0666);
 	// read(fd, buf, 1000);
@@ -161,33 +162,17 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 
 	// print_env(&data, &data.group[3]);
 	// export(&data, &data.group[2]);
-	// while (69)
-	// {
-		// signal(SIGINT, ctrl_c);
-		// signal(SIGQUIT, ctrl_bslash);
-		// signal(SIGQUIT, SIG_IGN);
-		// str = readline("🦇Mishell: ");
-		// if (str == NULL)
-		// 	break ;
-		// add_history(str);
-		// if (ft_strncmp(str, "pwd", 3) == 0) // added these just for testing sake, dw they not stayin' xd 
-		// 	pwd(&data, data.group);
-		// if (ft_strncmp(str, "cd", 2) == 0)
-		// 	cd(&data, &data.group[1]);
-		// if (ft_strncmp(str, "ls", 2) == 0)
-		// 	execution(&data, envp);
-		// if (ft_strncmp(str, "echo", 4) == 0)
-		// 	echo(&data, &data.group[1]);
-		// if (ft_strncmp(str, "export", 6) == 0)
-		// 	export(&data, &data.group[2]);
-		// if (ft_strncmp(str, "export2", 7) == 0)
-		// 	export_add(&data, &data.group[3]);
-		// if (ft_strncmp(str, "env", 3) == 0)
-		// 	print_env(&data, &data.group[4]);
-		// if (ft_strncmp(str, "unset", 5) == 0)
-		// 	unset(&data, &data.group[5]);
-	// 	free(str);
-	// }
+	while (69)
+	{
+		signal(SIGINT, ctrl_c);
+		signal(SIGQUIT, ctrl_bslash);
+		signal(SIGQUIT, SIG_IGN);
+		str = readline("🦇Mishell: ");
+		if (str == NULL)
+			break ;
+		add_history(str);
+		free(str);
+	}
 	// free_data(&data);
 	return (0);
 }
