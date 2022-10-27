@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/26 17:35:22 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/26 21:22:48 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ static char	*find_path(t_data *data, size_t	group_i)
 bool	builtin_check(t_data *data, t_group *group)
 {
 	(void)data;
-
 	if (ft_strncmp(group->full_cmd[0], "cd", 2) == 0)
 		group->builtin = &unset;
 	else if (ft_strncmp(group->full_cmd[0], "echo", 4) == 0)
@@ -151,8 +150,6 @@ static void	exec_cmds(t_data *data)
 			ft_printf_fd(STDERR_FILENO, "closing tmp_fd\n");
 			close(data->tmp_fd);
 		}
-		if (i > 0) 
-			close(data->tmp_fd);
 		data->tmp_fd = fd[READ];
 		close(fd[WRITE]);
 		ft_printf_fd(STDERR_FILENO, "closing fd[1]\n");	

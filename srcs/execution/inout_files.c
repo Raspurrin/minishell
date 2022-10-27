@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 03:43:43 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/26 17:08:05 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/27 19:14:17 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ static int32_t	here_doc(t_data *data, t_infile *lst)
 
 	line = ft_calloc(2, 1);
 	printf("hi\n");
-	fd = open(lst->name, O_RDWR | O_CREAT, 0666);
+	fd = open(lst->name, O_RDWR | O_CREAT | O_TRUNC, 0666);
+	printf("fd in heredoc: %d\n", fd);
 	ft_printf_fd(STDERR_FILENO, "In heredoc\n");
 	if (fd == -1)
 		display_error(data, "Heredoc inout_files, Open infile failed", true);
@@ -36,6 +37,7 @@ static int32_t	here_doc(t_data *data, t_infile *lst)
 		write (fd, line, ft_strlen(line));
 	}
 	free(line);
+	fd = open(lst->name, O_RDONLY, 0666); // w h y
 	return (fd);
 }
 
@@ -59,7 +61,9 @@ bool	infiles(t_data *data, t_group *group)
 	{
 		printf("=========in infiles=======\n");
 		if (lst->here_doc == true)
+		{
 			fd = here_doc(data, lst);
+		}
 		else
 		{
 			fd = open(lst->name, O_RDONLY, 0666);
@@ -80,8 +84,11 @@ bool	infiles(t_data *data, t_group *group)
 			// ft_printf_fd(STDERR_FILENO, "This is dup return: %d\n", \
 			// 								(dup2(fd, STDIN_FILENO)));
 			// int fd2 = open("file1", O_RDONLY, 0666);
-			dup2(fd, STDIN_FILENO);
-			perror("perror: \n");
+			printf("fd in infiles: %d\n", fd);
+			printf("name: %s\n", lst->name);
+			if (dup2(fd, STDIN_FILENO) == -1)
+				printf("yooo dup2 failed\n");
+			// perror("perror: \n");
 			// close(fd);
 			return (true);
 		}
