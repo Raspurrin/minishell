@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 03:43:43 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/27 19:14:17 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/28 17:26:54 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,10 +34,12 @@ static int32_t	here_doc(t_data *data, t_infile *lst)
 	{
 		free(line);
 		line = get_next_line(STDIN_FILENO);
-		write (fd, line, ft_strlen(line));
+		if (line == NULL)
+			return (unlink(lst->name), 0); // instead of handling signals lol
+		write(fd, line, ft_strlen(line));
 	}
 	free(line);
-	fd = open(lst->name, O_RDONLY, 0666); // w h y
+	fd = open(lst->name, O_RDONLY, 0666);
 	return (fd);
 }
 
@@ -63,13 +65,15 @@ bool	infiles(t_data *data, t_group *group)
 		if (lst->here_doc == true)
 		{
 			fd = here_doc(data, lst);
+			if (!fd)
+				break; // weird behaviour 
 		}
 		else
 		{
 			fd = open(lst->name, O_RDONLY, 0666);
 			if (fd == -1)
 				display_error(data, "Opening infile failed", true);
-			// close (fd);
+			// close (fd); // yeah still need to add this somewhere
 		}
 		if (lst->next == NULL)
 		{
@@ -115,6 +119,7 @@ bool	outfiles(t_data *data, t_group *group)
 
 	lst = group->outfile;
 	ft_printf_fd(STDERR_FILENO, "==========outfiles=========\n");
+	// ft_printf_fd(STDERR_FILENO, "%s\n", group->outfile);
 	while (lst != NULL)
 	{
 		if (lst->append == true)

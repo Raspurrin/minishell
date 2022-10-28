@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 23:06:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/26 18:16:28 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/28 21:12:21 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,19 @@ void	free_data(t_data *data)
 	}
 }
 
+size_t	get_lstsize(t_env *lst)
+{
+	size_t	i;
+
+	i = 0;
+	while (lst != NULL)
+	{
+		i++;
+		lst = lst->next;
+	}
+	return (i);
+}
+
 t_env	*find_node(t_env *lst, char *key)
 {
 	while (lst != NULL)
@@ -67,12 +80,19 @@ char	**env_2darr(t_data *data, t_env *lst)
 	i = 0;
 	if (!lst)
 		return (display_error(data, "Env list failed to create", true), NULL);
-	env = malloc((data->envpc + 1) * sizeof(char *));
+	env = malloc((get_lstsize(data->envp_head) + 1) * sizeof(char *)); // count size each time
 	while (lst->next != NULL)
 	{
-		env[i++] = ft_strdup(lst->keyvalue);
+		env[i] = ft_strdup(lst->keyvalue);
+		// printf("env: %s\n", env[i]);
 		lst = lst->next;
+		i++;
 	}
+	// printf("env[i]: %s\n", env[i]);
+	// printf("env[i - 1]: %s\n", env[i - 1]);
 	env[i] = NULL;
+	// i = 0;
+	// while (env[i])
+	// 	ft_printf_fd(STDOUT_FILENO, "%s\n", env[i++]);
 	return (env);
 }

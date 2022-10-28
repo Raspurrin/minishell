@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/10/26 17:35:14 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/28 20:46:40 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <unistd.h>
 # include <stdbool.h>
 # include <sys/types.h>
+# include <sys/signal.h>
 # include <sys/wait.h>
 # include <signal.h>
 # include </Users/mialbert/goinfre/.brew/opt/readline/include/readline/readline.h>
@@ -47,26 +48,6 @@ typedef struct s_infile
 	struct s_infile	*next;
 }	t_infile;
 
-typedef struct t_parsing
-{
-	char				*infile;
-	char				*outfile;
-	char				*command;
-	struct t_parsing	*next;
-}	t_parsing;
-
-typedef struct token
-{
-	char			*command;
-	char			**command_ops;
-	t_infile		*infile;
-	t_outfile		*outfile;
-	size_t			counter_infile;
-	size_t			counter_outfile;
-	int				read_in;
-	int				read_out;
-	struct token	*next;
-}	t_token;
 
 /**
  * This encompasses everything between/before/after pipelines. 
@@ -95,7 +76,6 @@ typedef struct s_env
 
 typedef struct s_data
 {
-	// DIR		*dirp;
 	int32_t	status;
 	char	**paths;
 	t_env	*envp_head;	
@@ -105,6 +85,27 @@ typedef struct s_data
 	size_t	envpc;
 	int32_t	tmp_fd;
 }	t_data;
+
+typedef struct t_parsing
+{
+	char				*infile;
+	char				*outfile;
+	char				*command;
+	struct t_parsing	*next;
+}	t_parsing;
+
+typedef struct token
+{
+	char			*command;
+	char			**command_ops;
+	t_infile		*infile;
+	t_outfile		*outfile;
+	size_t			counter_infile;
+	size_t			counter_outfile;
+	int				read_in;
+	int				read_out;
+	struct token	*next;
+}	t_token;
 
 /*		initialize		*/
 char	**minishell_split(char const *s, char c, char q);
@@ -124,7 +125,6 @@ int		quoted_word_extract(t_group **info, char *s);
 int		normal_word_extract(t_group **info, char *s);
 
 /* general */
-void	init(t_data *data, char **envp);
 void	display_error(t_data *data, char *error_msg, bool yeet);
 void	free_at_exit(t_data *data);
 void	free_data(t_data *data);
@@ -136,10 +136,13 @@ void	print_group(void);
 t_env	*find_node(t_env *lst, char *key);
 
 /* execution */
+void	env_innit(t_data *data, char **envp);
 void	execution(t_data *data);
 bool	infiles(t_data *data, t_group *group);
 bool	outfiles(t_data *data, t_group *group);
 char	*get_path(t_data *data);
+char	*find_path(t_data *data, size_t	group_i);
+void	path_innit(t_data *data);
 
 /* builtins: */
 void	exit_check(t_data *data, t_group *group);

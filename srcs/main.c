@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/27 19:02:37 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/28 21:15:53 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,28 @@ static void	parser(t_data *data)
 	data->groupc = 1;
 	data->group = calloc(sizeof(t_group), 1);
 	data->group[0].full_cmd = ft_calloc(3, sizeof(char *));
-	data->group[0].full_cmd[0] = ft_strdup("grep");
-	data->group[0].full_cmd[1] = ft_strdup("yo");
+	data->group[0].full_cmd[0] = ft_strdup("export");
+	data->group[0].full_cmd[1] = ft_strdup("something=blue");
 	data->group[0].full_cmd[2] = NULL;
-	data->group[0].infile = malloc(sizeof(t_infile));
-	data->group[0].infile->name = ft_strdup("file1");
-	data->group[0].infile->here_doc = true;
-	data->group[0].infile->next = NULL;
+	data->group[0].infile = NULL;
+	data->group[0].outfile = NULL;
+	data->group[0].builtin = NULL;
+	// data->group[1].full_cmd = ft_calloc(2, sizeof(char *));
+	// data->group[1].full_cmd[0] = ft_strdup("env");
+	// data->group[1].full_cmd[1] = NULL;
+	// data->group[1].outfile = NULL;
+	// data->group[1].infile = NULL;
+	// data->group[1].builtin = NULL;
+	// data->group[2].full_cmd = ft_calloc(2, sizeof(char *));
+	// data->group[2].full_cmd[0] = ft_strdup("ls");
+	// data->group[2].full_cmd[1] = NULL;
+	// data->group[2].outfile = NULL;
+	// data->group[2].infile = NULL;
+	// data->group[2].builtin = NULL;
+
+	// data->group[0].infile->name = ft_strdup("file1");
+	// data->group[0].infile->here_doc = true;
+	// data->group[0].infile->next = NULL;
 	// data->group[0].infile->next->name = ft_strdup("file2");
 	// data->group[0].infile->next->here_doc = true;
 	// data->group[0].infile->next->next = NULL;
@@ -35,8 +50,7 @@ static void	parser(t_data *data)
 	// data->group[0].outfile = malloc(sizeof(t_outfile));
 	// data->group[0].outfile->name = "outfile3";
 	// data->group[0].outfile->append = false;
-	// data->group[0].outfile = NULL;
-
+	
 	// data->group[0].outfile = malloc(sizeof(t_outfile));
 	// data->group[0].outfile->name = "outfile1";
 	// data->group[0].outfile->append = false;
@@ -44,13 +58,7 @@ static void	parser(t_data *data)
 	// data->group[0].outfile->next->name = "outfile2";
 	// data->group[0].outfile->next->append = false;
 	// data->group[0].outfile->next->next = NULL;
-
-	// data->group[1].full_cmd = ft_calloc(3, sizeof(char *));
-	// data->group[1].full_cmd[0] = ft_strdup("grep");
-	// data->group[1].full_cmd[1] = ft_strdup("file");
-	// data->group[1].full_cmd[2] = NULL;
-	// data->group[1].outfile = NULL;
-	// data->group[1].infile = NULL;
+	
 	// data->group[1].infile = malloc(sizeof(t_infile));
 	// data->group[1].infile->name = "file2";
 	// data->group[1].infile->here_doc = false;
@@ -83,9 +91,7 @@ static void	parser(t_data *data)
 // 	data->group[1].full_cmd[1] = ft_strdup("../");
 // 	data->group[1].full_cmd[2] = NULL;
 
-// 	data->group[2].full_cmd = malloc(sizeof(char *) * 2);
-// 	data->group[2].full_cmd[0] = ft_strdup("echo");
-// 	data->group[2].full_cmd[1] = ft_strdup("-nnnnnn");
+
 // 	data->group[2].full_cmd[2] = ft_strdup("-n");
 // 	data->group[2].full_cmd[3] = ft_strdup("-nnnnnnn");
 // 	data->group[2].full_cmd[4] = ft_strdup("Winnie the Pooneh");
@@ -114,37 +120,53 @@ static void	parser(t_data *data)
 // 	data->group[6].full_cmd[2] = NULL;
 }
 
-static void	ctrl_c(int32_t sig)
+/**
+ * WIFSIGNALED indicates that the child process exited because it raised a 
+ * signal. 
+ * WTERMSIG returns the value of the signal raised by the child process.
+ * If SIGINT (interrupt/CTRL-C) was raised, it adds 128 to the exit code.
+ */
+void	set_exitcode(t_data *data)
 {
-	(void)sig;
-	rl_replace_line("\n", 1); // test if this works? 
-	rl_on_new_line();
-	rl_redisplay();
+	if (WIFSIGNALED(data->status))
+	{
+		if (WTERMSIG(data->status) == SIGINT)
+			data->status = 128 + WTERMSIG(data->status);
+	}
 }
 
-static void	ctrl_bslash(int32_t sig)
-{
-	(void)sig;
-	rl_redisplay();
-	signal(SIGQUIT, SIG_IGN);
+// static void	ctrl_c(int32_t sig)
+// {
+// 	(void)sig;
+// 	ft_printf_fd(STDOUT_FILENO, "\n");
+// 	rl_on_new_line();
+// 	rl_replace_line("", 1);
+// 	rl_redisplay(); // not sure if this is fine or not
+// }
 
-}
+// static void	ctrl_bslash(int32_t sig)
+// {
+// 	(void)sig;
+// 	rl_redisplay();
+// 	signal(SIGQUIT, SIG_IGN);
+// }
 
 // "hello $ENV how is it going"
 
 int32_t	main(int32_t argc, char **argv, char **envp)
 {
 	t_data	data;
-	// char	*str;
+	char	*str;
 
 	(void)argc;
 	(void)argv;
 	ft_bzero(&data, sizeof(data));
 	data.tmp_fd = 0;
-	init(&data, envp);
-	printf("after init: %p\n", data.envp_head);
+	env_innit(&data, envp);
 	parser(&data);
-	execution(&data);
+	path_innit(&data);
+	// env_2darr(&data, data.envp_head);
+	// print_2d_fd(env_2darr(&data, data.envp_head), STDOUT_FILENO);
 	// char	buf[1000];
 	// int fd = open("file1", O_RDONLY, 0666);
 	// read(fd, buf, 1000);
@@ -161,17 +183,28 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 
 	// print_env(&data, &data.group[3]);
 	// export(&data, &data.group[2]);
-	// while (69)
-	// {
-		signal(SIGINT, ctrl_c);
-		signal(SIGQUIT, ctrl_bslash);
-		signal(SIGQUIT, SIG_IGN);
-	// 	str = readline("🦇Mishell: ");
-	// 	if (str == NULL)
-	// 		break ;
-	// 	add_history(str);
-	// 	free(str);
-	// }
+	// printf("%s\n", data.group[0].full_cmd[0]);
+	// printf("%s\n", data.group[1].full_cmd[0]);
+	// printf("%s\n", data.group[2].full_cmd[0]);
+	while (69)
+	{
+		// signal(SIGINT, ctrl_c);
+		// signal(SIGQUIT, ctrl_bslash);
+		// signal(SIGQUIT, SIG_IGN);
+		str = readline("🦇Mishell: ");
+		if (str == NULL)
+			return (printf("exit\n"), 0);
+		if (ft_strncmp("$?", str, 2) == 0)
+			ft_printf_fd(STDOUT_FILENO, "exit: %s\n", ft_itoa(data.status));
+		if (ft_strncmp("exec", str, 4) == 0)
+			execution(&data);
+		if (ft_strncmp("env", str, 4) == 0)
+			print_env(&data, &data.group[0]);
+		if (ft_strncmp("export", str, 4) == 0)
+			export(&data, &data.group[1]);
+		add_history(str);
+		free(str);
+	}
 	// free_data(&data);
 	return (0);
 }

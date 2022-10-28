@@ -6,33 +6,22 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 22:46:32 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/26 18:17:20 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/28 20:46:40 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	init_path(t_data *data, char **envp)
+void	path_innit(t_data *data)
 {
-	char	*tmp;
+	t_env	*lst;
 
-	while (*envp != NULL)
-	{
-		if (ft_strncmp("PATH", *envp, 4) == 0)
-		{
-			data->paths = ft_split(*envp, ':');
-			tmp = ft_substr(data->paths[0], 5, \
-							ft_strlen(data->paths[0]) - 5);
-			free (data->paths[0]);
-			data->paths[0] = tmp;
-		}
-		envp++;
-		data->envpc++;
-	}
+	lst = find_node(data->envp_head, "PATH");
+	data->paths = ft_split(lst->value, ':');
 	return ;
 }
 
-void	init_env(t_data *data, char **envp)
+void	env_innit(t_data *data, char **envp)
 {
 	char	**tmp;
 	t_env	*lst;
@@ -57,13 +46,4 @@ void	init_env(t_data *data, char **envp)
 		}
 	}
 	lst->next = NULL;
-}
-
-void	init(t_data *data, char **envp)
-{
-	init_path(data, envp);
-	printf("before init_env: %p\n", data->envp_head);
-	init_env(data, envp);
-	printf("after init_env: %p\n", data->envp_head);
-	// init_pwd(data);
 }

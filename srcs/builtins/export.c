@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:10:18 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/09 21:11:14 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/28 00:33:25 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	export(t_data *data, t_group *group)
 			tmp = tmp->next;
 		}
 		smol->printed = true;
-		printf("declare -x \"%s\"\n", smol->keyvalue);
+		printf("declare -x %s=\"%s\"\n", smol->key, smol->value);
 		lst = lst->next;
 	}
 	set_printed_false(data);

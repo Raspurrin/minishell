@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 01:52:49 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/09 02:01:47 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/28 15:09:07 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,8 @@ void	print_env(t_data *data, t_group *group)
 	printf("%p\n", data->envp_head->next);
 	while (lst != NULL)
 	{
-		printf("%s\n", lst->keyvalue);
+		if (lst->value)
+			printf("%s\n", lst->keyvalue);
 		lst = lst->next;
 	}
 }

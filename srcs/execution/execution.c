@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/26 21:22:48 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/28 20:05:51 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * Cmd takes the first element and joins it with '/': "/ls"
  * Path combines the path with cmd: "usr/bin/ls" and checks its accessibility.
  */
-static char	*find_path(t_data *data, size_t	group_i)
+char	*find_path(t_data *data, size_t	group_i)
 {
 	size_t	i;
 	char	*cmd;
@@ -28,6 +28,9 @@ static char	*find_path(t_data *data, size_t	group_i)
 	// printf("hi\n");
 	// printf("group_i: %zu\n", group_i);
 	// ft_printf_fd(STDERR_FILENO, "data->group[group_i].full_cmd[0]: %s\n", data->group[group_i].full_cmd[0]);
+	path_innit(data);
+	if (!data->paths)
+		return (NULL);
 	cmd = ft_strjoin("/", data->group[group_i].full_cmd[0]);
 	while (data->paths[i++])
 	{
@@ -48,9 +51,8 @@ static char	*find_path(t_data *data, size_t	group_i)
 bool	builtin_check(t_data *data, t_group *group)
 {
 	(void)data;
-	if (ft_strncmp(group->full_cmd[0], "cd", 2) == 0)
-		group->builtin = &unset;
-	else if (ft_strncmp(group->full_cmd[0], "echo", 4) == 0)
+	// fprintf(stderr, "builtin check here i come shhhh\n");
+	if (ft_strncmp(group->full_cmd[0], "echo", 4) == 0)
 		group->builtin = &echo;
 	else if (ft_strncmp(group->full_cmd[0], "env", 3) == 0)
 		group->builtin = &print_env;
@@ -62,8 +64,8 @@ bool	builtin_check(t_data *data, t_group *group)
 		group->builtin = &pwd;
 	else if (ft_strncmp(group->full_cmd[0], "unset", 5) == 0)
 		group->builtin = &unset;
-	else
-		return (false);
+		return (fprintf(stderr, "cool %p\n", group->builtin), false);
+	// fprintf(stderr, "oh no this didnt work why didnt this work this should have worked\n");
 	return (true);
 }
 
@@ -86,8 +88,7 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2])
 	ft_printf_fd(STDERR_FILENO, "child_cmd - i: %d\n", i);
 	// int fd2 = open("file1", O_RDONLY, 0666);
 	// dup2(fd2, STDIN_FILENO);
-	path = find_path(data, i);
-	printf("%s\n", path);
+	// printf("%s\n", path);
 	if (!outfiles(data, &data->group[i]) && i != data->groupc - 1)
 	{
 		ft_printf_fd(STDERR_FILENO, "Dupping fd[1] to STDOUT\n");
@@ -99,11 +100,13 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2])
 	if (i > 0)
 		close(data->tmp_fd);
 	ft_printf_fd(STDERR_FILENO, "closing tmp_fd in the child\n");
-	// ft_printf_fd(STDERR_FILENO, "data->group[i].full_cmd: %s\n", 
-	// 								*(data->group[i].full_cmd));
+	ft_printf_fd(STDERR_FILENO, "data->group[i].full_cmd: ");
 	// printf("STDOUT is not closed\n");
+	print_2d_fd(data->group[i].full_cmd, STDERR_FILENO);
 	if (builtin_check(data, data->group) == true)
-		return (data->group[i].builtin(data, &data->group[i]), free(path));
+		return (data->group[i].builtin(data, &data->group[i]));
+	path = find_path(data, i);
+	printf("path: %s\n", path);
 	ft_printf_fd(STDERR_FILENO, "before execv\n");
 	if (execve(path, data->group[i].full_cmd, env_2darr(data, \
 										data->envp_head)) == -1)
@@ -132,6 +135,7 @@ static void	exec_cmds(t_data *data)
 		infiles(data, data->group);
 		data->group[i].builtin(data, &data->group[i]);
 		outfiles(data, data->group);
+		return ;
 	}
 	while (i < (size_t)data->groupc)
 	{
@@ -145,6 +149,7 @@ static void	exec_cmds(t_data *data)
 		if (pid == 0)
 			child_cmd(data, i, fd);
 		ft_printf_fd(STDERR_FILENO, "------------\nEnd in parent:\n");
+		waitpid(pid, NULL, 0);
 		if (i > 0)
 		{
 			ft_printf_fd(STDERR_FILENO, "closing tmp_fd\n");
@@ -160,15 +165,15 @@ static void	exec_cmds(t_data *data)
 void	execution(t_data *data)
 {
 	size_t	i;
-	int32_t	status;
+	// int32_t	status;
 
 	i = 0;
 	exec_cmds(data);
-	while (i < data->groupc)
-	{
-		wait(&status);
-		data->status = status;
-		i++;
-	}
+	// while (i < data->groupc)
+	// {
+	// 	wait(&status);
+	// 	data->status = status;
+	// 	i++;
+	// }
 	free_at_exit(data);
 }
