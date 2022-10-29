@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/29 03:06:36 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/29 23:12:23 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@
 /**
  * 1. export something=blue | env >outfile1
  * 2. << heredoc1 <<heredoc2 grep yo >outfile2 >outfile3
- * 3. <infile1 <<heredoc1 grep yo >outfile1 | <infile2 grep file >outfile4
- * 4. cat | cat | ls >outfile5
+ * 3. <infile1 <<heredoc1 grep yo >outfile4 | <infile2 grep file >outfile5
+ * 4. cat | cat | ls >outfile6
  * 5. export something=blue
 */
 static void	parser(t_data *data, char *test)
