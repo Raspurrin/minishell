@@ -1,9 +1,9 @@
 #!/bin/bash
 
-RED="\033[0;31m"
-GREEN="\033[0;32m"
-VIOLET="\033[0;36m"
-CYAN="\033[1;36m"
+RED="\033[1;31m"
+GREEN="\033[1;32m"
+VIOLET="\033[035m"
+CYAN="\033[0;36m"
 BLUE="\033[0;30m"
 NC="\033[0m"
 DESC1="test1:"
@@ -14,10 +14,10 @@ DESC4="test4:"
 while getopts "d1234" opt; do
 	case $opt in
 		d)
-			DESC1="${CYAN}test1: ${VIOLET}(${BLUE}export something=blue${VIOLET} | ${BLUE}env ${VIOLET}>outfile1):${NC}\\n"
-			DESC2="${CYAN}test2: ${VIOLET}(<heredoc1 <heredoc2 ${BLUE}grep yo ${VIOLET}>outfile2 >outfile3):${NC}\\n"
-			DESC3="${CYAN}test3: ${VIOLET}(<infile1 <heredoc1 ${BLUE}grep yo ${VIOLET}>outfile1 | <infile2 ${BLUE}grep file ${VIOLET}>outfile4):${NC}\\n"
-			DESC4="${CYAN}test4: ${VIOLET}(${BLUE}cat ${VIOLET}| ${BLUE}cat${VIOLET} | ${BLUE}ls ${VIOLET}>outfile5):${NC}\\n"
+			DESC1="test1: ${VIOLET}(${BLUE}export something=blue${VIOLET} | ${BLUE}env ${VIOLET}>outfile1):${NC}\\n"
+			DESC2="test2: ${VIOLET}(<heredoc1 <heredoc2 ${BLUE}grep yo ${VIOLET}>outfile2 >outfile3):${NC}\\n"
+			DESC3="test3: ${VIOLET}(<infile1 <heredoc1 ${BLUE}grep yo ${VIOLET}>outfile1 | <infile2 ${BLUE}grep file ${VIOLET}>outfile4):${NC}\\n"
+			DESC4="test4: ${VIOLET}(${BLUE}cat ${VIOLET}| ${BLUE}cat${VIOLET} | ${BLUE}ls ${VIOLET}>outfile5):${NC}\\n"
 			;;
 		1)
 			./minishell 1
