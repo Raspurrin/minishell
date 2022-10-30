@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/28 20:05:51 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/30 11:45:26 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ bool	builtin_check(t_data *data, t_group *group)
 		group->builtin = &pwd;
 	else if (ft_strncmp(group->full_cmd[0], "unset", 5) == 0)
 		group->builtin = &unset;
+	else
 		return (fprintf(stderr, "cool %p\n", group->builtin), false);
 	// fprintf(stderr, "oh no this didnt work why didnt this work this should have worked\n");
 	return (true);
@@ -164,10 +165,10 @@ static void	exec_cmds(t_data *data)
 
 void	execution(t_data *data)
 {
-	size_t	i;
+	// size_t	i;
 	// int32_t	status;
 
-	i = 0;
+	// i = 0;
 	exec_cmds(data);
 	// while (i < data->groupc)
 	// {

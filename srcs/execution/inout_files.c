@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 03:43:43 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/28 17:26:54 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/30 11:45:35 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ bool	infiles(t_data *data, t_group *group)
 			// ft_printf_fd(STDERR_FILENO, "dupping infile to STDIN\n");
 			// ft_printf_fd(STDERR_FILENO, "This is fd: %d\n", fd);
 			// ft_printf_fd(STDERR_FILENO, "STDIN: %d\n", STDIN_FILENO);
-			// ft_printf_fd(STDERR_FILENO, "This is dup return: %d\n", \
+			// ft_printf_fd(STDERR_FILENO, "This is dup return: %d\n", 
 			// 								(dup2(fd, STDIN_FILENO)));
 			// int fd2 = open("file1", O_RDONLY, 0666);
 			printf("fd in infiles: %d\n", fd);

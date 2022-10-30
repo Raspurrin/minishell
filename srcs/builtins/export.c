@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:10:18 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/28 00:33:25 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/30 11:41:22 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void	export(t_data *data, t_group *group)
 	}
 	set_printed_false(data);
 }
+
+// char **env_split(size_t	wcount, )
 
 void	export_add(t_data *data, t_group *group)
 {
