@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/01 03:11:10 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/01 19:24:19 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * Cmd takes the first element and joins it with '/': "/ls"
  * Path combines the path with cmd: "usr/bin/ls" and checks its accessibility.
  */
-char	*find_path(t_data *data, size_t	group_i)
+char	*find_path(t_data *data, char *cmd_name)
 {
 	size_t	i;
 	char	*cmd;
@@ -31,7 +31,7 @@ char	*find_path(t_data *data, size_t	group_i)
 	path_innit(data);
 	if (!data->paths)
 		return (NULL);
-	cmd = ft_strjoin("/", data->group[group_i].full_cmd[0]);
+	cmd = ft_strjoin("/", cmd_name);
 	while (data->paths[i++])
 	{
 		path = ft_strjoin(data->paths[i - 1], cmd);
@@ -70,7 +70,7 @@ bool	builtin_check(t_data *data, t_group *group)
 	else if (ft_strncmp(group->full_cmd[0], "unset", 5) == 0)
 		group->builtin = &unset;
 	else
-		return (fprintf(stderr, "cool %p\n", group->builtin), false);
+		return (fprintf(stderr, "no builtin found: %p\n", group->builtin), false);
 	// fprintf(stderr, "oh no this didnt work why didnt this work this should have worked\n");
 	return (true);
 }
@@ -100,15 +100,15 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2])
 		ft_printf_fd(STDERR_FILENO, "Dupping fd[1] to STDOUT\n");
 		dup2(fd[WRITE], STDOUT_FILENO);
 	}
-	ft_printf_fd(STDERR_FILENO, "storing fd[0] in tmp_fd\n");
+
 	close(fd[WRITE]);
-	ft_printf_fd(STDERR_FILENO, "closing fd[1] in the child\n");
+
 	if (i > 0)
 		close(data->tmp_fd);
-	ft_printf_fd(STDERR_FILENO, "closing tmp_fd in the child\n");
-	path = find_path(data, i);
-	ft_printf_fd(STDERR_FILENO, "path: %s\n", path);
-	ft_printf_fd(STDERR_FILENO, "data->group[i].full_cmd: ");
+
+	path = find_path(data, data->group[i].full_cmd[0]);
+
+
 	// printf("STDOUT is not closed\n");
 	print_2d_fd(data->group[i].full_cmd, STDERR_FILENO);
 	if (builtin_check(data, data->group) == true)

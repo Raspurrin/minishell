@@ -1,4 +1,4 @@
-0a1,33
+0a1,34
 > TERM_PROGRAM=vscode
 > TERM=xterm-256color
 > SHELL=/bin/zsh
@@ -9,10 +9,11 @@
 > MallocNanoZone=0
 > USER=mialbert
 > COMMAND_MODE=unix2003
-> SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.x3bwSomvSo/Listeners
+> SSH_AUTH_SOCK=/private/tmp/com.apple.launchd.yfjD14XRw4/Listeners
 > __CF_USER_TEXT_ENCODING=0x18CF2:0x0:0x0
+> something=red
 > PATH=/Users/mialbert/goinfre/.brew/bin:/Users/mialbert/goinfre/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Users/mialbert/goinfre/.brew/bin
-> LaunchInstanceID=F5B32E1D-6383-41AE-960E-84EB7FBDA88F
+> LaunchInstanceID=69139906-A9C3-4610-B19D-C4E125760AF9
 > USER_ZDOTDIR=/Users/mialbert
 > PWD=/Users/mialbert/Documents/my_projects/minishell
 > LANG=en_US.UTF-8
@@ -29,6 +30,6 @@
 > VSCODE_GIT_IPC_HANDLE=/var/folders/zz/zyxvpxvq6csfxvn_n000ccy800337k/T/vscode-git-aad963ecec.sock
 > VSCODE_GIT_ASKPASS_NODE=/Users/mialbert/Downloads/Visual Studio Code - Insiders.app/Contents/Frameworks/Code - Insiders Helper.app/Contents/MacOS/Code - Insiders Helper
 > GIT_ASKPASS=/Users/mialbert/Downloads/Visual Studio Code - Insiders.app/Contents/Resources/app/extensions/git/dist/askpass.sh
-> SECURITYSESSIONID=186a8
+> SECURITYSESSIONID=186bf
 > COLORTERM=truecolor
 > _=/usr/bin/env

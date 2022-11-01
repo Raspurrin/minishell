@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/10/31 22:39:45 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/01 19:06:10 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ void	execution(t_data *data);
 bool	infiles(t_data *data, t_group *group);
 bool	outfiles(t_data *data, t_group *group);
 char	*get_path(t_data *data);
-char	*find_path(t_data *data, size_t	group_i);
+char	*find_path(t_data *data, char *cmd_name);
 void	path_innit(t_data *data);
 
 /* builtins: */

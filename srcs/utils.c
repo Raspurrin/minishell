@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 23:06:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/01 03:02:09 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/01 19:10:32 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,11 @@ size_t	get_lstsize(t_env *lst)
 
 t_env	*find_node(t_env *lst, char *key)
 {
-	t_env *tmp; 
-
-	tmp = lst;
-	while (tmp != NULL)
+	while (lst != NULL)
 	{
-		if (ft_strncmp(tmp->key, key, ft_strlen(key)) == 0)
-			return (tmp);
-		tmp = tmp->next;
+		if (ft_strncmp(lst->key, key, ft_strlen(lst->key)) == 0)
+			return (lst);
+		lst = lst->next;
 	}
 	return (NULL);
 }

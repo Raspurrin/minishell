@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 22:46:32 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/31 17:18:27 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/01 19:07:40 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,10 @@ void	path_innit(t_data *data)
 	return ;
 }
 
-static char **env_split(char *str, char del)
+static char	**env_split(char *str, char del)
 {
 	size_t	i;
-	char **split;
+	char	**split;
 
 	i = 0;
 	split = ft_calloc(3, sizeof(char *));
@@ -33,6 +33,17 @@ static char **env_split(char *str, char del)
 	split[0] = ft_substr(str, 0, i);
 	split[1] = ft_substr(str, i + 1, ft_strlen(str) - 1);
 	return (split);
+}
+
+void	change_(t_data *data)
+{
+	t_env	*env;
+	char	*path;
+
+	env = find_node(data->envp_head, "_");
+	path = find_path(data, "env");
+	env->value = path;
+	env->keyvalue = ft_strjoin("_=", path);
 }
 
 void	env_innit(t_data *data, char **envp)
@@ -60,4 +71,5 @@ void	env_innit(t_data *data, char **envp)
 		}
 	}
 	lst->next = NULL;
+	change_(data);
 }
