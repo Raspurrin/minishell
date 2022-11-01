@@ -6,7 +6,7 @@
 /*   By: pooneh <pooneh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/03 20:00:04 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/01 11:53:08 by pooneh           ###   ########.fr       */
+/*   Updated: 2022/11/01 11:42:31 by pooneh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,6 @@ void	lstaddback_out(t_outfile **lst, t_outfile *new);
 void	lstaddback(t_infile **lst, t_infile *new);
 int		check_neighbouring_chars(char *s);
 void	check_input_before_handling(char *s);
-char	**ft_split_shell(const char *s, char c);
+
 
 #endif
