@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 22:46:32 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/30 11:46:14 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/10/31 17:18:27 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,12 @@ static char **env_split(char *str, char del)
 	size_t	i;
 	char **split;
 
-	split = malloc(3 * sizeof(char *));
+	i = 0;
+	split = ft_calloc(3, sizeof(char *));
 	while (str[i] != del)
 		i++;
-	split[0] = ft_substr(str, 0, i - 1);
-	split[1] = ft_substr(str, i, ft_strlen(str));
+	split[0] = ft_substr(str, 0, i);
+	split[1] = ft_substr(str, i + 1, ft_strlen(str) - 1);
 	return (split);
 }
 

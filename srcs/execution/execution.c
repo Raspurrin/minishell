@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/30 11:45:26 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/01 03:11:10 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,13 @@ bool	builtin_check(t_data *data, t_group *group)
 		group->builtin = &print_env;
 	else if (ft_strncmp(group->full_cmd[0], "exit", 4) == 0)
 		group->builtin = &exit_check;
-	else if (ft_strncmp(group->full_cmd[0], "export", 6) == 0)
-		group->builtin = &export;
+	else if (ft_strncmp(group->full_cmd[0], "export", 6) == 0) // check in func which export 
+	{
+		if (group->full_cmd[1] == NULL)
+			group->builtin = &export;
+		else
+			group->builtin = &export_add;
+	}
 	else if (ft_strncmp(group->full_cmd[0], "pwd", 3) == 0)
 		group->builtin = &pwd;
 	else if (ft_strncmp(group->full_cmd[0], "unset", 5) == 0)
@@ -101,13 +106,19 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2])
 	if (i > 0)
 		close(data->tmp_fd);
 	ft_printf_fd(STDERR_FILENO, "closing tmp_fd in the child\n");
+	path = find_path(data, i);
+	ft_printf_fd(STDERR_FILENO, "path: %s\n", path);
 	ft_printf_fd(STDERR_FILENO, "data->group[i].full_cmd: ");
 	// printf("STDOUT is not closed\n");
 	print_2d_fd(data->group[i].full_cmd, STDERR_FILENO);
 	if (builtin_check(data, data->group) == true)
-		return (data->group[i].builtin(data, &data->group[i]));
-	path = find_path(data, i);
-	printf("path: %s\n", path);
+	{
+		ft_printf_fd(STDERR_FILENO, "doing a builtin_check\n");
+		unsigned char *func = (unsigned char *)&data->group[i].builtin;
+		ft_printf_fd(STDERR_FILENO, "builtin: %p data->group: %p\n", func, &data->group[i]);
+		data->group[i].builtin(data, &data->group[i]);
+		return ;
+	}
 	ft_printf_fd(STDERR_FILENO, "before execv\n");
 	if (execve(path, data->group[i].full_cmd, env_2darr(data, \
 										data->envp_head)) == -1)
@@ -134,8 +145,8 @@ static void	exec_cmds(t_data *data)
 	if (data->groupc == 1 && builtin_check(data, data->group))
 	{
 		infiles(data, data->group);
-		data->group[i].builtin(data, &data->group[i]);
 		outfiles(data, data->group);
+		data->group[i].builtin(data, &data->group[i]);
 		return ;
 	}
 	while (i < (size_t)data->groupc)

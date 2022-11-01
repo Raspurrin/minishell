@@ -1,0 +1,24 @@
+13a14,36
+> something=blue
+> YOOOOOOOOO=yup
+> PATH=/Users/mialbert/goinfre/.brew/bin:/Users/mialbert/goinfre/.brew/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Users/mialbert/goinfre/.brew/bin
+> LaunchInstanceID=53FB1541-D2EE-4EDD-B386-558201B820ED
+> USER_ZDOTDIR=/Users/mialbert
+> PWD=/Users/mialbert/Documents/my_projects/minishell
+> LANG=en_US.UTF-8
+> XPC_FLAGS=0x0
+> SSH_ASKPASS_REQUIRE=force
+> VSCODE_GIT_ASKPASS_EXTRA_ARGS=--ms-enable-electron-run-as-node
+> XPC_SERVICE_NAME=0
+> SSH_ASKPASS=/Users/mialbert/Downloads/Visual Studio Code - Insiders.app/Contents/Resources/app/extensions/git/dist/ssh-askpass.sh
+> VSCODE_INJECTION=1
+> HOME=/Users/mialbert
+> SHLVL=3
+> VSCODE_GIT_ASKPASS_MAIN=/Users/mialbert/Downloads/Visual Studio Code - Insiders.app/Contents/Resources/app/extensions/git/dist/askpass-main.js
+> LOGNAME=mialbert
+> VSCODE_GIT_IPC_HANDLE=/var/folders/zz/zyxvpxvq6csfxvn_n000ccy800337k/T/vscode-git-aad963ecec.sock
+> GIT_ASKPASS=/Users/mialbert/Downloads/Visual Studio Code - Insiders.app/Contents/Resources/app/extensions/git/dist/askpass.sh
+> VSCODE_GIT_ASKPASS_NODE=/Users/mialbert/Downloads/Visual Studio Code - Insiders.app/Contents/Frameworks/Code - Insiders Helper.app/Contents/MacOS/Code - Insiders Helper
+> SECURITYSESSIONID=186a8
+> COLORTERM=truecolor
+> _=/usr/bin/env

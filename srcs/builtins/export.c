@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:10:18 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/30 11:41:22 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/01 02:35:26 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,14 +59,23 @@ void	export_add(t_data *data, t_group *group)
 {
 	size_t	i;
 	t_env	*lst;
+	t_env	*dup;
 	t_env	*new;
 	char	**tmp;
 
 	i = 1;
+	print_env(data, group);
+	printf("----------------\n");
 	while (group->full_cmd[i])
 	{
-		new = ft_calloc(sizeof(t_env), 1);
 		tmp = ft_split(group->full_cmd[1], '=');
+		dup = find_node(data->envp_head, tmp[0]);
+		if (dup)
+		{
+			dup->value = tmp[1];
+			return (free(dup), free_2d_guard(&tmp));
+		}
+		new = ft_calloc(sizeof(t_env), 1);
 		new->keyvalue = group->full_cmd[i];
 		new->key = tmp[0];
 		new->value = tmp[1];
