@@ -6,7 +6,7 @@
 /*   By: pooneh <pooneh@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:54:11 by pooneh            #+#    #+#             */
-/*   Updated: 2022/11/01 11:37:18 by pooneh           ###   ########.fr       */
+/*   Updated: 2022/11/01 12:37:44 by pooneh           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 // 		tmp = tmp->next;
 // 	}
 // }
-
+/*test comment /
 void	lstaddback(t_infile **lst, t_infile *new)
 {
 	t_infile	*tmp;
