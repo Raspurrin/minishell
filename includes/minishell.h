@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/01 19:06:10 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/02 02:01:20 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # include <sys/signal.h>
 # include <sys/wait.h>
 # include <signal.h>
-// # include <readline/readline.h>
-// # include <readline/history.h>
+// # include </Users/mialbert/goinfre/.brew/opt/readline/include/readline/readline.h>
+// # include </Users/mialbert/goinfre/.brew/opt/readline/include/readline/history.h>
 # include </Users/mialbert/goinfre/.brew/opt/readline/include/readline/readline.h>
 # include </Users/mialbert/goinfre/.brew/opt/readline/include/readline/history.h>
 # include "../libs/libft/includes/libft.h"
@@ -36,6 +36,13 @@
 # define FOLDER3 "minishell_tester/test3/"
 # define FOLDER4 "minishell_tester/test4/"
 # define FOLDER5 "minishell_tester/test5/"
+# define FOLDER6 "minishell_tester/test6/"
+# define FOLDER7 "minishell_tester/test7/"
+# define FOLDER8 "minishell_tester/test8/"
+# define FOLDER9 "minishell_tester/test9/"
+# define FOLDER10 "minishell_tester/test10/"
+# define FOLDER11 "minishell_tester/test11/"
+# define FOLDER12 "minishell_tester/test12/"
 
 typedef struct s_group	t_group;
 typedef struct s_data	t_data;
@@ -137,7 +144,7 @@ void	free_at_exit(t_data *data);
 void	free_data(t_data *data);
 
 /* environment variable linked list handlers */
-void	print_env(t_data *data, t_group *group);
+int32_t	print_env(t_data *data, t_group *group);
 char	**env_2darr(t_data *data, t_env *lst);
 void	print_group(void);
 t_env	*find_node(t_env *lst, char *key);
