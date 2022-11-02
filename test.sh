@@ -6,6 +6,8 @@ BLACK="\033[035m"
 CYAN="\033[0;36m"
 VIOLET="\033[0;30m"
 NC="\033[0m"
+NOPE="${RED}[nope]${NC}"
+OK="${GREEN}[OK]✨${NC}"
 DESC1="test1:"
 DESC2="test2:"
 DESC3="test3:"
@@ -52,9 +54,9 @@ while getopts "d123456789abc" opt; do
 			./minishell 1
 			export something=blue | env >${FOLDER1}test1
 			if diff -a ${FOLDER1}outfile1 ${FOLDER1}test1 > ${FOLDER1}diff ; then
-				TEST1="${DESC1} ${GREEN}[OK]${NC}\\n"
+				TEST1="${DESC1} ${GREEN}${OK}${NC}\\n"
 			else 
-				TEST1="${DESC1} ${RED}[nope]${NC}\\n"
+				TEST1="${DESC1} ${RED}${NOPE}${NC}\\n"
 			fi
 			;;
 		2)
@@ -62,9 +64,9 @@ while getopts "d123456789abc" opt; do
 			./minishell 2
 			< ${FOLDER2}infile1 < ${FOLDER2}infile2 grep yo >${FOLDER2}test1 >${FOLDER2}test2
 			if diff -a ${FOLDER2}outfile2 ${FOLDER2}test2 > ${FOLDER2}diff ; then
-				TEST2="${DESC2} ${GREEN}[OK]${NC}\\n"
+				TEST2="${DESC2} ${GREEN}${OK}${NC}\\n"
 			else 
-				TEST2="${DESC2} ${RED}[nope]${NC}\\n"
+				TEST2="${DESC2} ${RED}${NOPE}${NC}\\n"
 			fi
 			;;
 		3)
@@ -72,9 +74,9 @@ while getopts "d123456789abc" opt; do
 			./minishell 3
 			<${FOLDER3}infile1 <${FOLDER3}infile2 grep yo >${FOLDER3}test1 | <${FOLDER3}infile3 grep file >${FOLDER3}test2
 			if diff -a ${FOLDER3}outfile2 ${FOLDER3}test2 > ${FOLDER3}diff ; then
-				TEST3="${DESC3} ${GREEN}[OK]${NC}\\n"
+				TEST3="${DESC3} ${GREEN}${OK}${NC}\\n"
 			else 
-				TEST3="${DESC3} ${RED}[nope]${NC}\\n"
+				TEST3="${DESC3} ${RED}${NOPE}${NC}\\n"
 			fi
 			;;
 		4)
@@ -82,9 +84,9 @@ while getopts "d123456789abc" opt; do
 			./minishell 4
 			cat | cat | ls >${FOLDER4}/test1
 			if diff -a ${FOLDER4}outfile1 ${FOLDER4}test1 > ${FOLDER4}diff ; then
-				TEST4="${DESC4} ${GREEN}[OK]${NC}\\n"
+				TEST4="${DESC4} ${GREEN}${OK}${NC}\\n"
 			else 
-				TEST4="${DESC4} ${RED}[nope]${NC}\\n"
+				TEST4="${DESC4} ${RED}${NOPE}${NC}\\n"
 			fi
 			;;
 		5) 
@@ -92,9 +94,9 @@ while getopts "d123456789abc" opt; do
 			./minishell 5
 			export something=blue;env >${FOLDER5}/test1
 			if diff -a ${FOLDER5}outfile1 ${FOLDER5}test1 > ${FOLDER5}diff ; then
-				TEST5="${DESC5} ${GREEN}[OK]${NC}\\n"
+				TEST5="${DESC5} ${GREEN}${OK}${NC}\\n"
 			else 
-				TEST5="${DESC5} ${RED}[nope]${NC}\\n"
+				TEST5="${DESC5} ${RED}${NOPE}${NC}\\n"
 			fi
 			;;
 		6)
@@ -102,9 +104,9 @@ while getopts "d123456789abc" opt; do
 			./minishell 6
 			export something=;env >test1;export >test2;unset something; export >test3
 			if diff -a ${FOLDER6}outfile3 ${FOLDER6}test3 > ${FOLDER6}diff ; then
-				TEST6="${DESC6} ${GREEN}[OK]${NC}\\n"
+				TEST6="${DESC6} ${GREEN}${OK}${NC}\\n"
 			else 
-				TEST6="${DESC6} ${RED}[nope]${NC}\\n"
+				TEST6="${DESC6} ${RED}${NOPE}${NC}\\n"
 			fi
 			;;
 		7)
@@ -112,9 +114,9 @@ while getopts "d123456789abc" opt; do
 			./minishell 7
 			export something=====blue;env >test1;
 			if diff -a ${FOLDER7}outfile1 ${FOLDER7}test1 > ${FOLDER7}diff ; then
-				TEST7="${DESC7} ${GREEN}[OK]${NC}\\n"
+				TEST7="${DESC7} ${GREEN}${OK}${NC}\\n"
 			else 
-				TEST7="${DESC7} ${RED}[nope]${NC}\\n"
+				TEST7="${DESC7} ${RED}${NOPE}${NC}\\n"
 			fi
 			;;
 		8)
@@ -122,9 +124,9 @@ while getopts "d123456789abc" opt; do
 			./minishell 8
 			 echo -nnn -----nn --nnnnn > ${FOLDER8}test1
 			if diff -a ${FOLDER8}outfile1 ${FOLDER8}test1 > ${FOLDER8}diff ; then
-				TEST8="${DESC8} ${GREEN}[OK]${NC}\\n"
+				TEST8="${DESC8} ${GREEN}${OK}${NC}\\n"
 			else 
-				TEST8="${DESC8} ${RED}[nope]${NC}\\n"
+				TEST8="${DESC8} ${RED}${NOPE}${NC}\\n"
 			fi
 			;;
 		9)
@@ -132,9 +134,9 @@ while getopts "d123456789abc" opt; do
 			./minishell 9
 			env env env > ${FOLDER9}test1
 			if diff -a ${FOLDER9}outfile1 ${FOLDER9}test1 > ${FOLDER9}diff ; then
-				TEST9="${DESC9} ${GREEN}[OK]${NC}\\n"
+				TEST9="${DESC9} ${GREEN}${OK}${NC}\\n"
 			else 
-				TEST9="${DESC9} ${RED}[nope]${NC}\\n"
+				TEST9="${DESC9} ${RED}${NOPE}${NC}\\n"
 			fi
 			;;
 		a)
@@ -142,9 +144,9 @@ while getopts "d123456789abc" opt; do
 			./minishell 10
 			env env hoi > ${FOLDER10}test1
 			if diff -a ${FOLDER10}outfile1 ${FOLDER10}test1 > ${FOLDER10}diff ; then
-				TEST10="${DESC10} ${GREEN}[OK]${NC}\\n"
+				TEST10="${DESC10} ${GREEN}${OK}${NC}\\n"
 			else 
-				TEST10="${DESC10} ${RED}[nope]${NC}\\n"
+				TEST10="${DESC10} ${RED}${NOPE}${NC}\\n"
 			fi
 			;;
 		b)
@@ -152,9 +154,9 @@ while getopts "d123456789abc" opt; do
 			./minishell 11
 			unset PWD; env | grep PWD > ${FOLDER11}test1
 			if diff -a ${FOLDER11}outfile1 ${FOLDER11}test1 > ${FOLDER11}diff ; then
-				TEST11="${DESC11} ${GREEN}[OK]${NC}\\n"
+				TEST11="${DESC11} ${GREEN}${OK}${NC}\\n"
 			else 
-				TEST11="${DESC11} ${RED}[nope]${NC}\\n"
+				TEST11="${DESC11} ${RED}${NOPE}${NC}\\n"
 			fi
 			;;
 		c)
@@ -162,9 +164,9 @@ while getopts "d123456789abc" opt; do
 			./minishell 12
 			/bin/cd ../;pwd > ${FOLDER12}test1
 			if diff -a ${FOLDER12}outfile1 ${FOLDER12}test1 > ${FOLDER12}diff ; then
-				TEST12="${DESC12} ${GREEN}[OK]${NC}\\n"
+				TEST12="${DESC12} ${GREEN}${OK}${NC}\\n"
 			else 
-				TEST12="${DESC12} ${RED}[nope]${NC}\\n"
+				TEST12="${DESC12} ${RED}${NOPE}${NC}\\n"
 			fi
 			;;
 	esac
