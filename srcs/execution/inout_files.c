@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 03:43:43 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/30 11:45:35 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/02 19:14:38 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static int32_t	here_doc(t_data *data, t_infile *lst)
 		write(fd, line, ft_strlen(line));
 	}
 	free(line);
+	close(fd);
 	fd = open(lst->name, O_RDONLY, 0666);
 	return (fd);
 }
@@ -57,7 +58,7 @@ bool	infiles(t_data *data, t_group *group)
 	int32_t		fd;
 	t_infile	*lst;
 
-	fd = 0;
+	fd = -1;
 	lst = group->infile;
 	while (lst != NULL)
 	{
@@ -92,10 +93,12 @@ bool	infiles(t_data *data, t_group *group)
 			printf("name: %s\n", lst->name);
 			if (dup2(fd, STDIN_FILENO) == -1)
 				printf("yooo dup2 failed\n");
+			close(fd);
 			// perror("perror: \n");
 			// close(fd);
 			return (true);
 		}
+		close(fd);
 		lst = lst->next;
 	}
 	return (false);
@@ -118,8 +121,8 @@ bool	outfiles(t_data *data, t_group *group)
 	t_outfile	*lst;
 
 	lst = group->outfile;
-	ft_printf_fd(STDERR_FILENO, "==========outfiles=========\n");
-	// ft_printf_fd(STDERR_FILENO, "%s\n", group->outfile);
+	ft_printf_fd(STDERR_FILENO, "==========outfiles=========\n");	
+	ft_printf_fd(STDERR_FILENO, "%p\n", group->outfile);
 	while (lst != NULL)
 	{
 		if (lst->append == true)
@@ -131,9 +134,8 @@ bool	outfiles(t_data *data, t_group *group)
 			display_error(data, "Opening outfile failed", true);
 		if (lst->next == NULL)
 		{
-			printf("[OK] STDOUT can still be used\n");
 			ft_printf_fd(STDERR_FILENO, "Dupping %s to STDOUT\n", lst->name);
-			return (dup2(fd, STDOUT_FILENO), true);
+			return (dup2(fd, STDOUT_FILENO), close(fd), true);
 		}
 		close(fd);
 		lst = lst->next;

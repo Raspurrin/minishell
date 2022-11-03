@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/01 19:24:19 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/02 17:45:28 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,24 +92,15 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2])
 		dup2(data->tmp_fd, STDIN_FILENO);
 	}
 	ft_printf_fd(STDERR_FILENO, "child_cmd - i: %d\n", i);
-	// int fd2 = open("file1", O_RDONLY, 0666);
-	// dup2(fd2, STDIN_FILENO);
-	// printf("%s\n", path);
 	if (!outfiles(data, &data->group[i]) && i != data->groupc - 1)
 	{
 		ft_printf_fd(STDERR_FILENO, "Dupping fd[1] to STDOUT\n");
 		dup2(fd[WRITE], STDOUT_FILENO);
 	}
-
 	close(fd[WRITE]);
-
 	if (i > 0)
 		close(data->tmp_fd);
-
 	path = find_path(data, data->group[i].full_cmd[0]);
-
-
-	// printf("STDOUT is not closed\n");
 	print_2d_fd(data->group[i].full_cmd, STDERR_FILENO);
 	if (builtin_check(data, data->group) == true)
 	{

@@ -93,7 +93,7 @@ while getopts "d123456789abc" opt; do
 			rm -f ${FOLDER5}outfile1 ${FOLDER5}test1
 			./minishell 5
 			export something=blue;env >${FOLDER5}/test1
-			if diff -a ${FOLDER5}outfile1 ${FOLDER5}test1 > ${FOLDER5}diff ; then
+			if diff -a <(sort ${FOLDER5}outfile1) <(sort ${FOLDER5}test1) > ${FOLDER5}diff ; then
 				TEST5="${DESC5} ${GREEN}${OK}${NC}\\n"
 			else 
 				TEST5="${DESC5} ${RED}${NOPE}${NC}\\n"
@@ -102,7 +102,7 @@ while getopts "d123456789abc" opt; do
 		6)
 			rm -f ${FOLDER6}outfile1 ${FOLDER6}outfile2 ${FOLDER6}outfile3 ${FOLDER6}test1 ${FOLDER6}test2 ${FOLDER6}test3
 			./minishell 6
-			export something=;env >test1;export >test2;unset something; export >test3
+			export something=;env >${FOLDER6}test1;export >${FOLDER6}test2;unset something; export >${FOLDER6}test3
 			if diff -a ${FOLDER6}outfile3 ${FOLDER6}test3 > ${FOLDER6}diff ; then
 				TEST6="${DESC6} ${GREEN}${OK}${NC}\\n"
 			else 
@@ -112,8 +112,8 @@ while getopts "d123456789abc" opt; do
 		7)
 			rm -f ${FOLDER7}outfile1 ${FOLDER7}test1
 			./minishell 7
-			export something=====blue;env >test1;
-			if diff -a ${FOLDER7}outfile1 ${FOLDER7}test1 > ${FOLDER7}diff ; then
+			export something=====blue;env >${FOLDER7}test1;
+			if diff -a <(sort ${FOLDER7}outfile1) <(sort ${FOLDER7}test1) > ${FOLDER7}diff ; then
 				TEST7="${DESC7} ${GREEN}${OK}${NC}\\n"
 			else 
 				TEST7="${DESC7} ${RED}${NOPE}${NC}\\n"
@@ -123,7 +123,7 @@ while getopts "d123456789abc" opt; do
 			rm -f ${FOLDER8}outfile1 ${FOLDER8}test1
 			./minishell 8
 			 echo -nnn -----nn --nnnnn > ${FOLDER8}test1
-			if diff -a ${FOLDER8}outfile1 ${FOLDER8}test1 > ${FOLDER8}diff ; then
+			if diff -a <(sort ${FOLDER8}outfile1) <(sort ${FOLDER8}test1) > ${FOLDER8}diff ; then
 				TEST8="${DESC8} ${GREEN}${OK}${NC}\\n"
 			else 
 				TEST8="${DESC8} ${RED}${NOPE}${NC}\\n"
@@ -133,7 +133,7 @@ while getopts "d123456789abc" opt; do
 			rm -f ${FOLDER9}outfile1 ${FOLDER9}test1
 			./minishell 9
 			env env env > ${FOLDER9}test1
-			if diff -a ${FOLDER9}outfile1 ${FOLDER9}test1 > ${FOLDER9}diff ; then
+			if diff -a <(sort ${FOLDER9}outfile1) <(sort ${FOLDER9}test1) > ${FOLDER9}diff ; then
 				TEST9="${DESC9} ${GREEN}${OK}${NC}\\n"
 			else 
 				TEST9="${DESC9} ${RED}${NOPE}${NC}\\n"
@@ -162,7 +162,7 @@ while getopts "d123456789abc" opt; do
 		c)
 			rm -f ${FOLDER12}outfile1 ${FOLDER12}test1
 			./minishell 12
-			/bin/cd ../;pwd > ${FOLDER12}test1
+			usr/bin/cd ../;pwd > ${FOLDER12}test1
 			if diff -a ${FOLDER12}outfile1 ${FOLDER12}test1 > ${FOLDER12}diff ; then
 				TEST12="${DESC12} ${GREEN}${OK}${NC}\\n"
 			else 
@@ -173,4 +173,4 @@ while getopts "d123456789abc" opt; do
 done
 echo -e "${TEST1}${TEST2}${TEST3}${TEST4}${TEST5}${TEST6}${TEST7}${TEST8}${TEST9}${TEST10}${TEST11}${TEST12}" | awk '/./'
 
-# Hanging: 4 6 b c
+# Hanging: 4 6 c

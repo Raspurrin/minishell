@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:10:18 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/01 19:15:43 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/03 02:36:32 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,10 @@ void	export(t_data *data, t_group *group)
 			tmp = tmp->next;
 		}
 		smol->printed = true;
-		printf("declare -x %s=\"%s\"\n", smol->key, smol->value);
+		if (!smol->value)
+			printf("declare -x %s\n", smol->key);
+		else 
+			printf("declare -x %s=\"%s\"\n", smol->key, smol->value);
 		lst = lst->next;
 	}
 	set_printed_false(data);
@@ -55,10 +58,19 @@ void	export(t_data *data, t_group *group)
 
 // char **env_split(size_t	wcount, )
 
+void	lst_addback(t_data *data, t_env *new)
+{
+	t_env	*lst;
+
+	lst = data->envp_head;
+	while (lst->next != NULL)
+		lst = lst->next;
+	lst->next = new;
+}
+
 void	export_add(t_data *data, t_group *group)
 {
 	size_t	i;
-	t_env	*lst;
 	t_env	*dup;
 	t_env	*new;
 	char	**tmp;
@@ -81,10 +93,7 @@ void	export_add(t_data *data, t_group *group)
 		new->value = tmp[1];
 		new->printed = false;
 		new->next = NULL;
-		lst = data->envp_head;
-		while (lst->next != NULL)
-			lst = lst->next;
-		lst->next = new;
+		lst_addback(data, new);
 		i++;
 	}
 }

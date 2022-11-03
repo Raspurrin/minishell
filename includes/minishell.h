@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/02 02:01:20 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/03 03:00:48 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,10 +144,11 @@ void	free_at_exit(t_data *data);
 void	free_data(t_data *data);
 
 /* environment variable linked list handlers */
-int32_t	print_env(t_data *data, t_group *group);
+void	print_env(t_data *data, t_group *group);
 char	**env_2darr(t_data *data, t_env *lst);
 void	print_group(void);
 t_env	*find_node(t_env *lst, char *key);
+void	lst_addback(t_data *data, t_env *new);
 
 /* execution */
 void	env_innit(t_data *data, char **envp);
@@ -166,7 +167,7 @@ void	exit_check(t_data *data, t_group *group);
 void	export(t_data *data, t_group *group);
 void	export_add(t_data *data, t_group *group);
 void	pwd(t_data *data, t_group *group);
-char	*init_pwd(t_data *data);
+void	init_pwd(t_data *data);
 void	unset(t_data *data, t_group *group);
 
 #endif

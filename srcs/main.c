@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/02 02:01:07 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/03 03:13:22 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,7 @@ static void	parser(t_data *data, char *test)
 		data->group[0].infile = NULL;
 		data->group[0].outfile = NULL;
 		data->group[0].builtin = NULL;
+		export(data, &data->group[0]);
 		execution(data);
 		parser(data, "6.1");
 	}
@@ -177,6 +178,7 @@ static void	parser(t_data *data, char *test)
 		data->group[0].outfile->append = false;
 		data->group[0].outfile->next = NULL;
 		data->group[0].builtin = NULL;
+		export(data, &data->group[0]);
 		execution(data);
 		parser(data, "6.2");
 	}
@@ -193,6 +195,7 @@ static void	parser(t_data *data, char *test)
 		data->group[0].outfile->append = false;
 		data->group[0].outfile->next = NULL;
 		data->group[0].builtin = NULL;
+		export(data, &data->group[0]);
 		execution(data);
 		parser(data, "6.3");
 	}
@@ -207,6 +210,7 @@ static void	parser(t_data *data, char *test)
 		data->group[0].infile = NULL;
 		data->group[0].outfile = NULL;
 		data->group[0].builtin = NULL;
+		export(data, &data->group[0]);
 		execution(data);
 		parser(data, "6.4");
 	}
@@ -215,7 +219,7 @@ static void	parser(t_data *data, char *test)
 		data->groupc = 1;
 		data->group = ft_calloc(sizeof(t_group), 1);
 		data->group[0].full_cmd = ft_calloc(2, sizeof(char *));
-		data->group[0].full_cmd[0] = ft_strdup("env");
+		data->group[0].full_cmd[0] = ft_strdup("export");
 		data->group[0].full_cmd[1] = NULL;
 		data->group[0].infile = NULL;
 		data->group[0].outfile = malloc(sizeof(t_outfile));
@@ -223,6 +227,7 @@ static void	parser(t_data *data, char *test)
 		data->group[0].outfile->append = false;
 		data->group[0].outfile->next = NULL;
 		data->group[0].builtin = NULL;
+		export(data, &data->group[0]);
 		return (execution(data), exit(0));
 	}
 	if (ft_strncmp("7", test, 3) == 0)
@@ -343,7 +348,7 @@ static void	parser(t_data *data, char *test)
 		data->groupc = 1;
 		data->group = ft_calloc(sizeof(t_group), 1);
 		data->group[0].full_cmd = ft_calloc(3, sizeof(char *));
-		data->group[0].full_cmd[0] = ft_strdup("/bin/cd");
+		data->group[0].full_cmd[0] = ft_strdup("usr/bin/cd");
 		data->group[0].full_cmd[1] = ft_strdup("../");
 		data->group[0].full_cmd[2] = NULL;
 		data->group[0].infile = NULL;
@@ -357,9 +362,8 @@ static void	parser(t_data *data, char *test)
 		data->groupc = 1;
 		data->group = ft_calloc(sizeof(t_group), 1);
 		data->group[0].full_cmd = ft_calloc(3, sizeof(char *));
-		data->group[0].full_cmd[0] = ft_strdup("grep");
-		data->group[0].full_cmd[1] = ft_strdup("PWD");
-		data->group[0].full_cmd[2] = NULL;
+		data->group[0].full_cmd[0] = ft_strdup("pwd");
+		data->group[0].full_cmd[1] = NULL;
 		data->group[0].infile = NULL;
 		data->group[0].outfile = ft_calloc(sizeof(t_outfile), 1);
 		data->group[0].outfile->name = ft_strdup(FOLDER12"outfile1");

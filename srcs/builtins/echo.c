@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 03:04:01 by mialbert          #+#    #+#             */
-/*   Updated: 2022/10/15 17:59:51 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/02 16:47:24 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,15 @@
 
 static void	print_echo(bool	newline, char **str)
 {
-	while ((*str))
+	size_t	i;
+
+	i = 0;
+	while ((str[i]))
 	{
-		printf("%s", *str);
-		str++;
+		if (i != 0)
+			printf(" ");
+		printf("%s", str[i]);
+		i++;
 	}
 	if (newline)
 		printf("\n");
