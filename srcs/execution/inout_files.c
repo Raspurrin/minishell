@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 03:43:43 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/02 19:14:38 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/03 19:34:51 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,9 @@
  * I create a temporary file where I store everything until the delimiter
  * is used and then delete it 
  */
-static int32_t	here_doc(t_data *data, t_infile *lst)
+static void	here_doc(t_data *data)
 {
-	int32_t		fd;
-	char		*line;
+	char	*line;
 
 	line = ft_calloc(2, 1);
 	printf("hi\n");
@@ -30,7 +29,7 @@ static int32_t	here_doc(t_data *data, t_infile *lst)
 	ft_printf_fd(STDERR_FILENO, "In heredoc\n");
 	if (fd == -1)
 		display_error(data, "Heredoc inout_files, Open infile failed", true);
-	while (ft_strncmp(line, lst->name, ft_strlen(lst->name) + 1) != 10)
+	while (ft_strncmp(line, data->argv[2], ft_strlen(data->argv[2]) + 1) != 10)
 	{
 		free(line);
 		line = get_next_line(STDIN_FILENO);
@@ -44,16 +43,7 @@ static int32_t	here_doc(t_data *data, t_infile *lst)
 	return (fd);
 }
 
-/**
- * @brief I have a boolean to check whether or not the file is a heredoc 
- * and treat it accordingly. Otherwise, I keep opening files and checking 
- * if it exists or not, in which case I throw an error and then I only 
- * dup the last inputfile/heredoc, as that is the only input considered
- * for the command.
- * @param group contains all the infiles, outfiles and commans of the 
- * current pipegroup.
- */
-bool	infiles(t_data *data, t_group *group)
+int32_t	inout_files(t_data *data)
 {
 	int32_t		fd;
 	t_infile	*lst;

@@ -6,7 +6,7 @@
 #    By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/11 18:45:17 by pmoghadd          #+#    #+#              #
-#    Updated: 2022/10/26 15:45:55 by mialbert         ###   ########.fr        #
+#    Updated: 2022/11/03 19:35:39 by mialbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,27 +17,17 @@ NAME	=	minishell
 READLINE = 	-I $(HOME)/goinfre/.brew/opt/readline/include/ -L $(HOME)/goinfre/.brew/opt/readline/lib/ -lreadline
 DEBUG	=	-fsanitize=address
 LIBFT	=	./libs/libft/
-SRCS	=	./srcs/main.c \
-			./srcs/execution/execution.c \
-			./srcs/execution/inout_files.c \
-			./srcs/init.c \
-			./srcs/utils.c \
-			./srcs/error.c \
-			./srcs/builtins/cd.c \
-			./srcs/builtins/echo.c \
-			./srcs/builtins/env.c \
-			./srcs/builtins/exit.c \
-			./srcs/builtins/export.c \
-			./srcs/builtins/pwd.c \
-			./srcs/builtins/unset.c
+SRCS	=	./srcs/parsing/main.c ./srcs/parsing/initialize.c ./srcs/parsing/lexical_scan.c ./srcs/parsing/expand.c ./srcs/parsing/shell_split.c ./srcs/parsing/utils.c ./srcs/parsing/check_input.c
+# ./srcs/execution/execution.c 
+# ./srcs/execution/inout_files.c
 
 OBJS	= $(SRCS:.c=.o)
 
 NC		:= \033[0m
 B_RED	:= \033[1;31m
 RED 	:= \033[0;31m
-PINK	:= \033[0;35m
-VIOLET 	:= \033[1;34m
+PURPLE	:= \033[0;35m
+B_BLUE 	:= \033[1;34m
 BLUE 	:= \033[0;34m
 FLAGS_OS = -lreadline
 
@@ -56,11 +46,11 @@ submodule:
 	@git submodule update
 
 %.o : %.c
-	@echo "$(VIOLET)Compiling: $(BLUE)$(notdir $<) 🔨$(NC)"
+	@echo "$(B_BLUE)Compiling: $(BLUE)$(notdir $<) 🔨$(NC)"
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 banner:
-	@echo "\n${PINK}======== Minishell ========$(NC)"
+	@echo "\n${PURPLE}======== Minishell ========$(NC)"
 
 libft: 
 	@echo "\n${BLUE}======== Libft ========${NC}"
@@ -75,10 +65,10 @@ e: all
 	./$(NAME)
 
 test: 
-	gcc -Wall -Werror -Wextra -g srcs/parsing/llreal.c libs/libft/libft.a -fsanitize=address
+	gcc -Wall -Werror -Wextra -g srcs/lltest.c libs/libft/libft.a -fsanitize=address
 
 clean:
-	@rm -rf $(OBJ_DIR) $(OBJS)
+	@rm -f $(OBJS)
 	@echo "${B_RED}🧹 Cleaning: ${RED} object files $(NC)"
 
 fclean: clean

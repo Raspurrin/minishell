@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/03 03:00:48 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/03 19:49:36 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,6 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdint.h>
-# include <dirent.h>
-# include <unistd.h>
 # include <stdbool.h>
 # include <sys/types.h>
 # include <sys/signal.h>
@@ -50,15 +48,15 @@ typedef void			(*t_builtin)(t_data *, t_group *);
 
 typedef struct s_outfile
 {
-	char				*name;
-	bool				append;
+	char	*name;
+	bool	append;
 	struct s_outfile	*next;
 }	t_outfile;
 
 typedef struct s_infile
 {
-	char			*name;
-	bool			here_doc;
+	char	*name;
+	bool	here_doc;
 	struct s_infile	*next;
 }	t_infile;
 
@@ -125,14 +123,23 @@ typedef struct token
 char	**minishell_split(char const *s, char c, char q);
 void	lstaddback(t_infile **lst, t_infile *new);
 void	lstaddback_out(t_outfile **lst, t_outfile *new);
-void	initialize(t_group	**data);
+void	initialize(t_group	**data, int index, char **envp);
 void	words_init(t_group	**info, char *name);
 void	out_file_init(t_group	**info, char *s, char *name);
 void	in_file_init(t_group	**info, char *s, char *name);
 
+void	first_initialization(char **pipe_wise_splitted_array, t_group	**data);
+char	*expand(char *name, t_group **info);
+char	**ft_split_shell(const char *s, char c);
+int		skip_spaces(char *s);
+void	lstaddback_out(t_outfile **lst, t_outfile *new);
+void	lstaddback(t_infile **lst, t_infile *new);
+int		check_neighbouring_chars(char *s);
+void	check_input_before_handling(char *s);
+char	**ft_split_shell(const char *s, char c);
+
 /*		lexical_scan	*/
 int		skip_quotes(char *s);
-int		skip_spaces(char *s);
 int		special_chars(t_group **info, char *s);
 int		skip_chars(char *s);
 int		quoted_word_extract(t_group **info, char *s);

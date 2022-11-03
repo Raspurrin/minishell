@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/02 17:45:28 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/03 19:52:40 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,9 @@ char	*find_path(t_data *data, char *cmd_name)
 	cmd = ft_strjoin("/", cmd_name);
 	while (data->paths[i++])
 	{
-		path = ft_strjoin(data->paths[i - 1], cmd);
+		path = ft_strjoin(data->path[i - 1], cmd);
 		if (access(path, F_OK | X_OK) == 0)
-		{
-			// printf("path: %s\n", path);
 			return (free(cmd), path);
-		}
 		else
 			free(path);
 	}
@@ -117,7 +114,6 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2])
 		free(path);
 		display_error(data, "execve failed", true);
 	}
-	ft_printf_fd(STDERR_FILENO, "after execv\n");
 }
 
 /**
@@ -128,9 +124,9 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2])
  */
 static void	exec_cmds(t_data *data)
 {
-	size_t		i;
-	int32_t		pid;
-	int32_t		fd[2];
+	size_t	i;
+	int32_t	pid;
+	int32_t	fd[2];
 
 	i = 0;
 	if (data->groupc == 1 && builtin_check(data, data->group))
@@ -145,7 +141,6 @@ static void	exec_cmds(t_data *data)
 		ft_printf_fd(STDERR_FILENO, "------------\nBegin in parent:\n");
 		ft_printf_fd(STDERR_FILENO, "creating pipe\n");
 		pipe(fd);
-		// ft_printf_fd(STDERR_FILENO, "exec_cmds - i: %d\n", i);
 		pid = fork();
 		if (pid == -1)
 			display_error(data, "fork failed", true);
