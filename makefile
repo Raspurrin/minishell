@@ -6,7 +6,7 @@
 #    By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/11 18:45:17 by pmoghadd          #+#    #+#              #
-#    Updated: 2022/11/03 19:35:39 by mialbert         ###   ########.fr        #
+#    Updated: 2022/11/04 02:45:43 by mialbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,9 +17,26 @@ NAME	=	minishell
 READLINE = 	-I $(HOME)/goinfre/.brew/opt/readline/include/ -L $(HOME)/goinfre/.brew/opt/readline/lib/ -lreadline
 DEBUG	=	-fsanitize=address
 LIBFT	=	./libs/libft/
-SRCS	=	./srcs/parsing/main.c ./srcs/parsing/initialize.c ./srcs/parsing/lexical_scan.c ./srcs/parsing/expand.c ./srcs/parsing/shell_split.c ./srcs/parsing/utils.c ./srcs/parsing/check_input.c
-# ./srcs/execution/execution.c 
-# ./srcs/execution/inout_files.c
+SRCS	=	./srcs/parsing/parser.c \
+			./srcs/parsing/initialize.c \
+			./srcs/parsing/lexical_scan.c \
+			./srcs/parsing/expand.c \
+			./srcs/parsing/shell_split.c \
+			./srcs/parsing/utils.c \
+			./srcs/parsing/check_input.c \
+			./srcs/execution/execution.c \
+			./srcs/execution/inout_files.c \
+			./srcs/builtins/cd.c \
+			./srcs/builtins/echo.c \
+			./srcs/builtins/env.c \
+			./srcs/builtins/exit.c \
+			./srcs/builtins/export.c \
+			./srcs/builtins/pwd.c \
+			./srcs/builtins/unset.c \
+			./srcs/main.c \
+			./srcs/init.c \
+			./srcs/utils.c \
+			./srcs/error.c
 
 OBJS	= $(SRCS:.c=.o)
 

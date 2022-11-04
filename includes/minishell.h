@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/03 19:49:36 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/04 02:56:02 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,9 @@ typedef struct s_group
 	char		**full_cmd;
 	t_infile	*infile;
 	t_outfile	*outfile;
+	int32_t		read_in;
+	int32_t		read_out;
+	int32_t		commandc;
 	t_builtin	builtin;
 }	t_group;
 
@@ -123,13 +126,14 @@ typedef struct token
 char	**minishell_split(char const *s, char c, char q);
 void	lstaddback(t_infile **lst, t_infile *new);
 void	lstaddback_out(t_outfile **lst, t_outfile *new);
-void	initialize(t_group	**data, int index, char **envp);
-void	words_init(t_group	**info, char *name);
-void	out_file_init(t_group	**info, char *s, char *name);
-void	in_file_init(t_group	**info, char *s, char *name);
+void	initialize(t_group	**data, int index);
+void	words_init(t_data *data, t_group	**info, char *name);
+void	out_file_init(t_data *data, t_group	**info, char *s, char *name);
+void	in_file_init(t_data *data, t_group	**info, char *s, char *name);
+void	make_token(t_data *data, char *s, t_group *info, int index);
 
 void	first_initialization(char **pipe_wise_splitted_array, t_group	**data);
-char	*expand(char *name, t_group **info);
+char	*expand(t_data *data, char *name);
 char	**ft_split_shell(const char *s, char c);
 int		skip_spaces(char *s);
 void	lstaddback_out(t_outfile **lst, t_outfile *new);
@@ -140,15 +144,16 @@ char	**ft_split_shell(const char *s, char c);
 
 /*		lexical_scan	*/
 int		skip_quotes(char *s);
-int		special_chars(t_group **info, char *s);
+int		special_chars(t_data *data, t_group **info, char *s);
 int		skip_chars(char *s);
-int		quoted_word_extract(t_group **info, char *s);
-int		normal_word_extract(t_group **info, char *s);
+int		quoted_word_extract(t_data *data, t_group **info, char *s);
+int		normal_word_extract(t_data *data, t_group **info, char *s);
 
 /* general */
 void	display_error(t_data *data, char *error_msg, bool yeet);
 void	free_at_exit(t_data *data);
 void	free_data(t_data *data);
+void	parser(t_data *data, char *str);
 
 /* environment variable linked list handlers */
 void	print_env(t_data *data, t_group *group);

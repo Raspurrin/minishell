@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pooneh <pooneh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 18:01:38 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/01 11:36:52 by pooneh           ###   ########.fr       */
+/*   Updated: 2022/11/04 03:26:03 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,26 +34,24 @@ void	first_initialization(char **pipe_wise_splitted_array, t_group	**data)
 		return ;
 }
 
-void	initialize(t_group	**data, int index, char **envp)
+void	initialize(t_group	**data, int index)
 {
 	(void)index;
 	(*data)->infile = ft_calloc(sizeof(t_infile), 1);
-	(*data)->outfile = (t_outfile *)malloc(sizeof(t_outfile));
+	(*data)->outfile = ft_calloc(sizeof(t_outfile), 1);
 	(*data)->outfile->next = NULL;
 	(*data)->infile->next = NULL;
-	(*data)->infile->here_doc = (bool *)malloc(sizeof(bool));
-	(*data)->outfile->append = (bool *)malloc(sizeof(bool));
-	(*data)->infilec = 0;
-	(*data)->outfilec = 0;
+	(*data)->infile->here_doc = false;
+	(*data)->outfile->append = false;
 	(*data)->read_in = 0;
 	(*data)->read_out = 0;
-	(*data)->full_cmd = (char **)ft_calloc(sizeof(char *),3);
+	(*data)->full_cmd = ft_calloc(3, sizeof(char *));
 	(*data)->commandc = 0;
-	(*data)->envp = envp;
+	(*data)->builtin = NULL;
 	// printf("envp check%s\n", (*data)->envp[1]);
 }
 
-void	in_file_init(t_group	**info, char *s, char *name)
+void	in_file_init(t_data *data, t_group	**info, char *s, char *name)
 {
 	t_infile	*new;
 
@@ -62,7 +60,7 @@ void	in_file_init(t_group	**info, char *s, char *name)
 		return ;
 	new->name = name;
 	if (ft_strchr(name, '$'))
-		name = expand(name, info);
+		name = expand(data, name);
 	printf("substr in|%s|\n", name);
 	// free(name);
 	if (s[1] == '<')
@@ -74,7 +72,7 @@ void	in_file_init(t_group	**info, char *s, char *name)
 	// printf("ll test %s", (*info)->infile->name);
 }
 
-void	out_file_init(t_group	**info, char *s, char *name)
+void	out_file_init(t_data *data, t_group	**info, char *s, char *name)
 {
 	t_outfile	*new;
 
@@ -82,7 +80,7 @@ void	out_file_init(t_group	**info, char *s, char *name)
 	if (!new)
 		return ;
 	if (ft_strchr(name, '$'))
-		name = expand(name, info);
+		name = expand(data, name);
 	new->name = name;
 	// printf("substr out|%s|\n", new->name);
 	if (s[1] == '<')
@@ -94,12 +92,13 @@ void	out_file_init(t_group	**info, char *s, char *name)
 	// free(name);
 }
 
-void	words_init(t_group	**info, char *name)
+void	words_init(t_data *data, t_group	**info, char *name)
 {
 	char		**command_array;
 
+	printf("%d\n",   (*info)->commandc + 2);
 	if (ft_strchr(name, '$'))
-		name = expand(name, info);
+		name = expand(data, name);
 	(*info)->commandc = (*info)->commandc + 1;
 	command_array = (char **)ft_realloc((*info)->full_cmd,
 			sizeof(char *) * ((*info)->commandc) + 2);

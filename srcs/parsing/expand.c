@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pooneh <pooneh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 14:50:42 by pooneh            #+#    #+#             */
-/*   Updated: 2022/11/01 11:36:47 by pooneh           ###   ########.fr       */
+/*   Updated: 2022/11/03 20:29:50 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ char *find_variable_part(char *string)
 
 char	*add_the_tail_of_string(char *value, char *dol_ptr, char *variable)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 	char	*tail;
 	int		end;
 
@@ -70,31 +70,25 @@ char	*add_the_tail_of_string(char *value, char *dol_ptr, char *variable)
 	return (value);
 }
 
-char	*expand(char *name, t_group **info)
+char	*expand(t_data *data, char *name)
 {
 	char	*variable;
 	char	*dol_ptr;
-	char	**tmp;
 	char	*value;
-	int		i;
+	t_env	*lst;
 
-	i = 0;
+	lst = data->envp_head;
 	dol_ptr = ft_strchr(name, '$');
 	variable = dol_ptr + 1;
 	variable = find_variable_part(variable);
 	value = ft_substr(name, 0, ft_strlen(name) - ft_strlen(dol_ptr));
 	printf("variable %s  value %s\n", variable, value);
-	while ((*info)->envp[i])
+	while (lst != NULL)
 	{
-		if (!ft_strncmp(variable, (*info)->envp[i], ft_strlen(variable)))
-		{
-			tmp = ft_split((*info)->envp[i], '=');
-			value = ft_strjoin(value, tmp[1]);
-		}
-		i++;
+		if (ft_strncmp(variable, lst->key, ft_strlen(variable)) == 0)
+			value = ft_strjoin(value, lst->value);
+		lst = lst->next;
 	}
 	value = add_the_tail_of_string(value, dol_ptr, variable);
 	return (value);
 }
-
-

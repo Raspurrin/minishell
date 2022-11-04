@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/03 19:52:40 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/03 21:06:05 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*find_path(t_data *data, char *cmd_name)
 	cmd = ft_strjoin("/", cmd_name);
 	while (data->paths[i++])
 	{
-		path = ft_strjoin(data->path[i - 1], cmd);
+		path = ft_strjoin(data->paths[i - 1], cmd);
 		if (access(path, F_OK | X_OK) == 0)
 			return (free(cmd), path);
 		else

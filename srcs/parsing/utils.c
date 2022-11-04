@@ -3,29 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pooneh <pooneh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:54:11 by pooneh            #+#    #+#             */
-/*   Updated: 2022/11/01 12:37:44 by pooneh           ###   ########.fr       */
+/*   Updated: 2022/11/03 21:37:03 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"../../includes/minishell.h"
 
-// void	print_linkedlist(t_token *data)
-// {
-// 	t_token	*tmp;
-// 	size_t	i;
+void	print_linkedlist(t_token *data)
+{
+	t_token	*tmp;
+	size_t	i;
 
-// 	tmp = data;
-// 	i = 0;
-// 	while (tmp->next != NULL)
-// 	{
-// 		printf("i: %zu   element:%s\n", i, tmp->infile->name[0]);
-// 		tmp = tmp->next;
-// 	}
-// }
-/*test comment /
+	tmp = data;
+	i = 0;
+	while (tmp->next != NULL)
+	{
+		printf("i: %zu   element:%c\n", i, tmp->infile->name[0]);
+		tmp = tmp->next;
+	}
+}
+/*test comment */
 void	lstaddback(t_infile **lst, t_infile *new)
 {
 	t_infile	*tmp;

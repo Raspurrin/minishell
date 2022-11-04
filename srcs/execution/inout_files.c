@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 03:43:43 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/03 19:34:51 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/03 21:08:01 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@
  * I create a temporary file where I store everything until the delimiter
  * is used and then delete it 
  */
-static void	here_doc(t_data *data)
+static int32_t	here_doc(t_data *data, t_infile *lst)
 {
-	char	*line;
+	int32_t		fd;
+	char		*line;
 
 	line = ft_calloc(2, 1);
 	printf("hi\n");
@@ -29,7 +30,7 @@ static void	here_doc(t_data *data)
 	ft_printf_fd(STDERR_FILENO, "In heredoc\n");
 	if (fd == -1)
 		display_error(data, "Heredoc inout_files, Open infile failed", true);
-	while (ft_strncmp(line, data->argv[2], ft_strlen(data->argv[2]) + 1) != 10)
+	while (ft_strncmp(line, lst->name, ft_strlen(lst->name) + 1) != 10)
 	{
 		free(line);
 		line = get_next_line(STDIN_FILENO);
@@ -43,7 +44,7 @@ static void	here_doc(t_data *data)
 	return (fd);
 }
 
-int32_t	inout_files(t_data *data)
+bool	infiles(t_data *data, t_group *group)
 {
 	int32_t		fd;
 	t_infile	*lst;
