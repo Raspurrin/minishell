@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 18:01:38 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/04 03:26:03 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/06 02:12:28 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,10 @@ void	words_init(t_data *data, t_group	**info, char *name)
 	(*info)->commandc = (*info)->commandc + 1;
 	command_array = (char **)ft_realloc((*info)->full_cmd,
 			sizeof(char *) * ((*info)->commandc) + 2);
-	command_array[(*info)->commandc - 1] = name;
+	command_array[(*info)->commandc - 1] = name; // so command_array is initialized but not original info .-.
 	(*info)->full_cmd
 	[(*info)->commandc - 1] = command_array[(*info)->commandc - 1];
 	(*info)->full_cmd[(*info)->commandc] = NULL;
+	printf("%s", (*info)->fullcmd)
+	print_2d_fd(c)
 }

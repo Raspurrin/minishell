@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:24:43 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/03 22:40:40 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/06 20:25:25 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,3 +102,4 @@ int	normal_word_extract(t_data *data, t_group **info, char *s)
 	words_init(data, info, ft_substr(s, 0, end));
 	return (end);
 }
+
