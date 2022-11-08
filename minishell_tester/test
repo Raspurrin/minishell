@@ -8,16 +8,41 @@ VIOLET="\033[0;30m"
 NC="\033[0m"
 NOPE="${RED}[nope]${NC}"
 OK="${GREEN}[OK]✨${NC}"
+TEST_NBR=12
 
 DESC=()
-FOLDER[$i]=()
+FOLDER=()
 i=1
-while [ $i -le 14 ]
+while [ $i -le $TEST_NBR ]
 do
-	DESC[$i]="test$i:"
+	DESC[$i]="test$i"
 	FOLDER[$i]="test$i/"
 	(( i++ ))
 done
+
+remove_files()
+{
+	j=1
+	t_nbr=$1
+	f_nbr=$2
+	while [ $j -le $f_nbr ]
+	do
+		rm -f ${FOLDER[$t_nbr]}outfile$j ${FOLDER[$t_nbr]}test$j
+		(( j++ ))
+	done
+}
+
+save_result()
+{
+	t_nbr=$1
+	f_nbr=$2
+	../minishell $t_nbr
+	if diff -a ${FOLDER[$t_nbr]}outfile$f_nbr ${FOLDER[$t_nbr]}test$f_nbr > ${FOLDER[$t_nbr]}diff ; then
+		TEST[$t_nbr]="${DESC[$t_nbr]} ${GREEN}${OK}${NC}\\n"
+	else 
+		TEST[$t_nbr]="${DESC[$t_nbr]} ${RED}${NOPE}${NC}\\n"
+	fi
+}
 
 # 1. export something=blue | env >outfile1
 # 2. << heredoc1 <<heredoc2 grep yo >outfile2 >outfile3
@@ -39,156 +64,118 @@ cd minishell_tester
 while getopts "de123456789abc" opt; do
 	case $opt in
 		d)
-			DESC[1]="test1: ${VIOLET}(${BLACK}export something=blue${VIOLET} | ${BLACK}env ${VIOLET}>outfile1):${NC}\\n"
-			DESC[2]="test2: ${VIOLET}(<infile1 <infile2 ${BLACK}grep yo ${VIOLET}>outfile2 >outfile3):${NC}\\n"
-			DESC[3]="test3: ${VIOLET}(<infile1 <infile2 ${BLACK}grep yo ${VIOLET}>outfile1 | <infile3 ${BLACK}grep file ${VIOLET}>outfile2):${NC}\\n"
-			DESC[4]="test4: ${VIOLET}(${BLACK}cat ${VIOLET}| ${BLACK}cat${VIOLET} | ${BLACK}ls ${VIOLET}>outfile6):${NC}\\n"
-			DESC[5]="test5: ${VIOLET}(${BLACK}export something=blue; env ${VIOLET}>outfile1)${NC}\\n"
-			DESC[6]="test6: ${VIOLET}(${BLACK}export something=;env ${VIOLET}>outfile1 ${BLACK};export ${VIOLET}>outfile2;${BLACK}unset something; export ${VIOLET}>outfile3):${NC}\\n"
-			DESC[7]="test7: ${VIOLET}(${BLACK}export something=====blue;env ${VIOLET}>outfile1;):${NC}\\n"
-			DESC[8]="test8: ${VIOLET}(${BLACK}echo -nnn -----nn --nnnnn ${VIOLET}>outfile1):${NC}\\n"
-			DESC[9]="test9: ${VIOLET}(${BLACK}env env env ${VIOLET}>outfile1):${NC}\\n"
-			DESC[10]="test10: ${VIOLET}(${BLACK}env env hoi ${VIOLET}>outfile1):${NC}\\n"
-			DESC[11]="test11: ${VIOLET}(${BLACK}unset PWD; env | grep PWD ${VIOLET}>outfile1):${NC}\\n"
-			DESC[12]="test12: ${VIOLET}(${BLACK}/bin/cd ../;pwd ${VIOLET}>outfile1):${NC}\\n"
+			DESC[1]="${DESC[1]}: ${VIOLET}(${BLACK}export something=blue${VIOLET} | ${BLACK}env ${VIOLET}>outfile1):${NC}\\n"
+			DESC[2]="${DESC[2]}: ${VIOLET}(<infile1 <infile2 ${BLACK}grep yo ${VIOLET}>outfile2 >outfile3):${NC}\\n"
+			DESC[3]="${DESC[3]}: ${VIOLET}(<infile1 <infile2 ${BLACK}grep yo ${VIOLET}>outfile1 | <infile3 ${BLACK}grep file ${VIOLET}>outfile2):${NC}\\n"
+			DESC[4]="${DESC[4]}: ${VIOLET}(${BLACK}cat ${VIOLET}| ${BLACK}cat${VIOLET} | ${BLACK}ls ${VIOLET}>outfile6):${NC}\\n"
+			DESC[5]="${DESC[5]}: ${VIOLET}(${BLACK}export something=blue; env ${VIOLET}>outfile1)${NC}\\n"
+			DESC[6]="${DESC[6]}: ${VIOLET}(${BLACK}export something=;env ${VIOLET}>outfile1 ${BLACK};export ${VIOLET}>outfile2;${BLACK}unset something; export ${VIOLET}>outfile3):${NC}\\n"
+			DESC[7]="${DESC[7]}: ${VIOLET}(${BLACK}export something=====blue;env ${VIOLET}>outfile1;):${NC}\\n"
+			DESC[8]="${DESC[8]}: ${VIOLET}(${BLACK}echo -nnn -----nn --nnnnn ${VIOLET}>outfile1):${NC}\\n"
+			DESC[9]="${DESC[9]}: ${VIOLET}(${BLACK}env env env ${VIOLET}>outfile1):${NC}\\n"
+			DESC[10]="${DESC[10]}: ${VIOLET}(${BLACK}env env hoi ${VIOLET}>outfile1):${NC}\\n"
+			DESC[11]="${DESC[11]}: ${VIOLET}(${BLACK}unset PWD; env | grep PWD ${VIOLET}>outfile1):${NC}\\n"
+			DESC[12]="${DESC[12]}: ${VIOLET}(${BLACK}/bin/cd ../;pwd ${VIOLET}>outfile1):${NC}\\n"
 			;;
 		e)
-			echo -e "${DESC[1]}${DESC[2]}${DESC[3]}${DESC[4]}${DESC[5]}${DESC[6]}${DESC[7]}${DESC[8]}${DESC[9]}${DESC[10]}${DESC[11]}${DESC[12]}" | awk '/./'
+			i=1
+			while [ $i -le $TEST_NBR ]
+			do
+				echo -e "${DESC[$i]}" | awk '/./'
+				(( i++ ))
+			done
 			;;
 		1)
-			i=1
-			rm -f ${FOLDER[$i]}outfile1 ${FOLDER[$i]}test1
-			../minishell 1
-			export something=blue | env >${FOLDER[$i]}test1
-			if diff -a ${FOLDER[$i]}outfile1 ${FOLDER[$i]}test1 > ${FOLDER[$i]}diff ; then
-				TEST[1]="${DESC[1]} ${GREEN}${OK}${NC}\\n"
-			else 
-				TEST[1]="${DESC[1]} ${RED}${NOPE}${NC}\\n"
-			fi
+			t_nbr=1
+			f_nbr=1
+			remove_files $t_nbr $f_nbr
+			export something=blue | env >${FOLDER[$t_nbr]}test1
+			save_result $t_nbr $f_nbr
 			;;
 		2)
-			i=2
-			rm -f ${FOLDER[$i]}outfile1 ${FOLDER[$i]}outfile2 ${FOLDER[$i]}test1 ${FOLDER[$i]}test2
-			../minishell 2
-			< infile1 < infile2 grep yo >${FOLDER[$i]}test1 >${FOLDER[$i]}test2
-			if diff -a ${FOLDER[$i]}outfile2 ${FOLDER[$i]}test2 > ${FOLDER[$i]}diff ; then
-				TEST[2]="${DESC[2]} ${GREEN}${OK}${NC}\\n"
-			else 
-				TEST[2]="${DESC[2]} ${RED}${NOPE}${NC}\\n"
-			fi
+			t_nbr=2
+			f_nbr=2
+			remove_files $t_nbr $f_nbr
+			< infile1 < infile2 grep yo >${FOLDER[$t_nbr]}test1 >${FOLDER[$t_nbr]}test2
+			save_result $t_nbr $f_nbr
 			;;
 		3)
-			i=3
-			rm -f ${FOLDER[$i]}outfile1 ${FOLDER[$i]}outfile2 ${FOLDER[$i]}test1 ${FOLDER[$i]}test2
-			../minishell 3
-			< infile1 < infile2 grep yo >${FOLDER[$i]}test1 | < infile3 grep file >${FOLDER[$i]}test2
-			if diff -a ${FOLDER[$i]}outfile2 ${FOLDER[$i]}test2 > ${FOLDER[$i]}diff ; then
-				TEST[3]="${DESC[3]} ${GREEN}${OK}${NC}\\n"
-			else 
-				TEST[3]="${DESC[3]} ${RED}${NOPE}${NC}\\n"
-			fi
+			t_nbr=3
+			f_nbr=2
+			remove_files $t_nbr $f_nbr
+			< infile1 < infile2 grep yo >${FOLDER[$t_nbr]}test1 | < infile3 grep file >${FOLDER[$t_nbr]}test2
+			save_result $t_nbr $f_nbr
 			;;
 		4)
-			i=4
-			rm -f ${FOLDER[$i]}outfile1 ${FOLDER[$i]}test1
-			../minishell 4
-			cat | cat | ls >${FOLDER[$i]}/test1
-			if diff -a ${FOLDER[$i]}outfile1 ${FOLDER[$i]}test1 > ${FOLDER[$i]}diff ; then
-				TEST[4]="${DESC[4]} ${GREEN}${OK}${NC}\\n"
-			else 
-				TEST[4]="${DESC[4]} ${RED}${NOPE}${NC}\\n"
-			fi
+			t_nbr=4
+			f_nbr=1
+			remove_files $t_nbr $f_nbr
+			cat | cat | ls >${FOLDER[$t_nbr]}/test1
+			save_result $t_nbr $f_nbr
 			;;
 		5) 
-			i=5
-			rm -f ${FOLDER[$i]}outfile1 ${FOLDER[$i]}test1
-			../minishell 5
-			export something=blue;env >${FOLDER[$i]}/test1
-			if diff -a <(sort ${FOLDER[$i]}outfile1) <(sort ${FOLDER[$i]}test1) > ${FOLDER[$i]}diff ; then
-				TEST[5]="${DESC[5]} ${GREEN}${OK}${NC}\\n"
-			else 
-				TEST[5]="${DESC[5]} ${RED}${NOPE}${NC}\\n"
-			fi
+			t_nbr=5
+			f_nbr=1
+			remove_files $t_nbr $f_nbr
+			export something=blue;env >${FOLDER[$t_nbr]}/test1
+			save_result $t_nbr $f_nbr
 			;;
 		6)
-			i=6
-			rm -f ${FOLDER[$i]}outfile1 ${FOLDER[$i]}outfile2 ${FOLDER[$i]}outfile3 ${FOLDER[$i]}test1 ${FOLDER[$i]}test2 ${FOLDER[$i]}test3
-			../minishell $i
+			t_nbr=6
+			f_nbr=3
+			remove_files $t_nbr $f_nbr
 			export something=;env >${FOLDER[$i]}test1;export >${FOLDER[$i]}test2;unset something; export >${FOLDER[$i]}test3
-			if diff -a ${FOLDER[$i]}outfile3 ${FOLDER[$i]}test3 > ${FOLDER[$i]}diff ; then
-				TEST[$i]="${DESC[$i]} ${GREEN}${OK}${NC}\\n"
-			else 
-				TEST[$i]="${DESC[$i]} ${RED}${NOPE}${NC}\\n"
-			fi
+			save_result $t_nbr $f_nbr
 			;;
 		7)
-			i=7
-			rm -f ${FOLDER[$i]}outfile1 ${FOLDER[$i]}test1
-			../minishell $i
+			t_nbr=7
+			f_nbr=1
+			remove_files $t_nbr $f_nbr
 			export something=====blue;env >${FOLDER[$i]}test1;
-			if diff -a <(sort ${FOLDER[$i]}outfile1) <(sort ${FOLDER[$i]}test1) > ${FOLDER[$i]}diff ; then
-				TEST[$i]="${DESC[$i]} ${GREEN}${OK}${NC}\\n"
-			else 
-				TEST[$i]="${DESC[$i]} ${RED}${NOPE}${NC}\\n"
-			fi
+			save_result $t_nbr $f_nbr
 			;;
 		8)
-			i=8
-			rm -f ${FOLDER[$i]}outfile1 ${FOLDER[$i]}test1
-			../minishell $i
-			 echo -nnn -----nn --nnnnn > ${FOLDER[$i]}test1
-			if diff -a <(sort ${FOLDER[$i]}outfile1) <(sort ${FOLDER[$i]}test1) > ${FOLDER[$i]}diff ; then
-				TEST[$i]="${DESC[$i]} ${GREEN}${OK}${NC}\\n"
-			else 
-				TEST[$i]="${DESC[$i]} ${RED}${NOPE}${NC}\\n"
-			fi
+			t_nbr=8
+			f_nbr=1
+			remove_files $t_nbr $f_nbr
+			echo -nnn -----nn --nnnnn > ${FOLDER[$i]}test1
+			save_result $t_nbr $f_nbr
 			;;
 		9)
-			i=9
-			rm -f ${FOLDER[$i]}outfile1 ${FOLDER[$i]}test1
-			../minishell $i
+			t_nbr=9
+			f_nbr=1
+			remove_files $t_nbr $f_nbr
 			env env env > ${FOLDER[$i]}test1
-			if diff -a <(sort ${FOLDER[$i]}outfile1) <(sort ${FOLDER[$i]}test1) > ${FOLDER[$i]}diff ; then
-				TEST[$i]="${DESC[$i]} ${GREEN}${OK}${NC}\\n"
-			else 
-				TEST[$i]="${DESC[$i]} ${RED}${NOPE}${NC}\\n"
-			fi
+			save_result $t_nbr $f_nbr
 			;;
 		a)
-			i=10
-			rm -f ${FOLDER[$i]}outfile1 ${FOLDER[$i]}test1
-			../minishell $i
+			t_nbr=10
+			f_nbr=1
+			remove_files $t_nbr $f_nbr
 			env env hoi > ${FOLDER[$i]}test1
-			if diff -a ${FOLDER[$i]}outfile1 ${FOLDER[$i]}test1 > ${FOLDER[$i]}diff ; then
-				TEST[$i]="${DESC[$i]} ${GREEN}${OK}${NC}\\n"
-			else 
-				TEST[$i]="${DESC[$i]} ${RED}${NOPE}${NC}\\n"
-			fi
+			save_result $t_nbr $f_nbr
 			;;
 		b)
-			i=11
-			rm -f ${FOLDER[$i]}outfile1 ${FOLDER[$i]}test1
-			../minishell $i
+			t_nbr=11
+			f_nbr=1
+			remove_files $t_nbr $f_nbr
 			unset PWD; env | grep PWD > ${FOLDER[$i]}test1
-			if diff -a ${FOLDER[$i]}outfile1 ${FOLDER[$i]}test1 > ${FOLDER[$i]}diff ; then
-				TEST[$i]="${DESC[$i]} ${GREEN}${OK}${NC}\\n"
-			else 
-				TEST[$i]="${DESC[$i]} ${RED}${NOPE}${NC}\\n"
-			fi
+			save_result $t_nbr $f_nbr
 			;;
 		c)
-			i=12
-			rm -f ${FOLDER[$i]}outfile1 ${FOLDER[$i]}test1
-			../minishell $i
+			t_nbr=12
+			f_nbr=1
+			remove_files $t_nbr $f_nbr
 			usr/bin/cd ../;pwd > ${FOLDER[$i]}test1
-			if diff -a ${FOLDER[$i]}outfile1 ${FOLDER[$i]}test1 > ${FOLDER[$i]}diff ; then
-				TEST[$i]="${DESC[$i]} ${GREEN}${OK}${NC}\\n"
-			else 
-				TEST[$i]="${DESC[$i]} ${RED}${NOPE}${NC}\\n"
-			fi
+			save_result $t_nbr $f_nbr
 			;;
 	esac
 done
-echo -e "${TEST[1]}${TEST[2]}${TEST[3]}${TEST[4]}${TEST[5]}${TEST[6]}${TEST[7]}${TEST[8]}${TEST[9]}${TEST[10]}${TEST[11]}${TEST[12]}" | awk '/./'
+i=1
+while [ $i -le $TEST_NBR ]
+do
+	echo -e "${TEST[$i]}" | awk '/./'
+	(( i++ ))
+done
 
 # Hanging: 4 6 c
