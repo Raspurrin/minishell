@@ -1,0 +1,11 @@
+#! bin/bash
+
+DESC=()
+FOLDER=()
+i=0
+while [ $i -le 14 ]
+do
+	DESC[$i]="test$i"
+	FOLDER[$i]="test$i/"
+	(( i++ ))
+done

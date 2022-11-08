@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:10:18 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/08 03:26:30 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/08 04:58:59 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ static void	set_printed_false(t_data *data)
 	lst = data->envp_head;
 	while (lst != NULL)
 	{
-		lst->printed = false;
+		if (ft_strncmp(lst->key, "_", ft_strlen(lst->key)) != 0)
+			lst->printed = false;
 		lst = lst->next;
 	}
 }
@@ -36,7 +37,7 @@ void	export(t_data *data, t_group *group)
 	while (lst != NULL)
 	{
 		tmp = data->envp_head;
-		while (tmp->printed == true)
+		while (tmp->printed == true && tmp->next != NULL) // why does this happen if not everything is set to false
 			tmp = tmp->next;
 		smol = tmp;
 		while (tmp->next != NULL)
@@ -46,11 +47,11 @@ void	export(t_data *data, t_group *group)
 				smol = tmp;
 			tmp = tmp->next;
 		}
-		smol->printed = true;
 		if (!smol->value)
 			printf("declare -x %s\n", smol->key);
-		else 
+		else if (smol->printed == false) // because the while loop before goes to the end regardless if printed == true or not lmao kinda cursed
 			printf("declare -x %s=\"%s\"\n", smol->key, smol->value);
+		smol->printed = true;
 		lst = lst->next;
 	}
 	set_printed_false(data);

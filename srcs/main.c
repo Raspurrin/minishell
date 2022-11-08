@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/08 01:39:59 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/08 06:25:49 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
  * 10. env env hoi
  * 11. unset PWD; env | grep PWD >outfile1
  * 12. /bin/cd ../;pwd
+ * 13. cat
+ * 14. cat | cat
 */
 static void	fake_parser(t_data *data, char *test)
 {
@@ -117,10 +119,7 @@ static void	fake_parser(t_data *data, char *test)
 		data->group[2].full_cmd = ft_calloc(2, sizeof(char *));
 		data->group[2].full_cmd[0] = ft_strdup("ls");
 		data->group[2].full_cmd[1] = NULL;
-		data->group[2].outfile = malloc(sizeof(t_outfile));
-		data->group[2].outfile->name = ft_strdup(FOLDER4"outfile1");
-		data->group[2].outfile->append = false;
-		data->group[2].outfile->next = NULL;
+		data->group[2].outfile = NULL;
 	}
 	if (ft_strncmp("5", test, 2) == 0)
 	{
@@ -369,6 +368,42 @@ static void	fake_parser(t_data *data, char *test)
 		data->group[0].outfile->name = ft_strdup(FOLDER12"outfile1");
 		data->group[0].outfile->append = false;
 		data->group[0].outfile->next = NULL;
+		data->group[0].builtin = NULL;
+		return (execution(data), exit(0));
+	}
+	if (ft_strncmp("13", test, 2) == 0)
+	{
+		data->groupc = 1;
+		data->group = ft_calloc(sizeof(t_group), 1);
+		data->group[0].full_cmd = ft_calloc(2, sizeof(char *));
+		data->group[0].full_cmd[0] = ft_strdup("cat");
+		data->group[0].full_cmd[2] = NULL;
+		data->group[0].infile = NULL;
+		data->group[0].outfile = NULL;
+		data->group[0].builtin = NULL;
+	}
+	if (ft_strncmp("14", test, 4) == 0)
+	{
+		data->groupc = 1;
+		data->group = ft_calloc(sizeof(t_group), 1);
+		data->group[0].full_cmd = ft_calloc(2, sizeof(char *));
+		data->group[0].full_cmd[0] = ft_strdup("cat");
+		data->group[0].full_cmd[2] = NULL;
+		data->group[0].infile = NULL;
+		data->group[0].outfile = NULL;
+		data->group[0].builtin = NULL;
+		execution(data);
+		fake_parser(data, "14.2");
+	}
+	if (ft_strncmp("14.2", test, 4) == 0)
+	{
+		data->groupc = 1;
+		data->group = ft_calloc(sizeof(t_group), 1);
+		data->group[0].full_cmd = ft_calloc(2, sizeof(char *));
+		data->group[0].full_cmd[0] = ft_strdup("cat");
+		data->group[0].full_cmd[2] = NULL;
+		data->group[0].infile = NULL;
+		data->group[0].outfile = NULL;
 		data->group[0].builtin = NULL;
 		return (execution(data), exit(0));
 	}

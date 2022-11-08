@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/08 01:50:50 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/08 06:26:09 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
  * It is included in my data struct because it is later used in execve!
  * Cmd takes the first element and joins it with '/': "/ls"
  * Path combines the path with cmd: "usr/bin/ls" and checks its accessibility.
+ * If a '/' can be found in the string, treat cmd_name as a path already. 
  */
 char	*find_path(t_data *data, char *cmd_name)
 {
@@ -31,6 +32,8 @@ char	*find_path(t_data *data, char *cmd_name)
 	path_innit(data);
 	if (!data->paths)
 		return (NULL);
+	if (ft_strchr(cmd_name, '/'))
+		return (cmd_name);
 	cmd = ft_strjoin("/", cmd_name);
 	while (data->paths[i++])
 	{
