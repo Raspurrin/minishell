@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/06 20:24:34 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/07 14:00:41 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,3 @@ void	parser(t_data *data, char *str)
 		i++;
 	}
 }
-
-oxzEdm29JLw

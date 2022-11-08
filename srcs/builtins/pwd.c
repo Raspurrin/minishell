@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 03:16:49 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/02 18:21:30 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/08 02:15:42 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	init_pwd(t_data *data)
 	t_env	*lst;
 
 	lst = find_node(data->envp_head, "PWD");
-	data->pwd = lst->value;
+	data->pwd = ft_strdup(lst->value);
 }
 
 void	pwd(t_data *data, t_group *group)

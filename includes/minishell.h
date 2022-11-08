@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/04 02:56:02 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/07 23:36:59 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,18 @@
 
 # define READ 0
 # define WRITE 1
-# define FOLDER1 "minishell_tester/test1/"
-# define FOLDER2 "minishell_tester/test2/"
-# define FOLDER3 "minishell_tester/test3/"
-# define FOLDER4 "minishell_tester/test4/"
-# define FOLDER5 "minishell_tester/test5/"
-# define FOLDER6 "minishell_tester/test6/"
-# define FOLDER7 "minishell_tester/test7/"
-# define FOLDER8 "minishell_tester/test8/"
-# define FOLDER9 "minishell_tester/test9/"
-# define FOLDER10 "minishell_tester/test10/"
-# define FOLDER11 "minishell_tester/test11/"
-# define FOLDER12 "minishell_tester/test12/"
+# define FOLDER1 "test1/"
+# define FOLDER2 "test2/"
+# define FOLDER3 "test3/"
+# define FOLDER4 "test4/"
+# define FOLDER5 "test5/"
+# define FOLDER6 "test6/"
+# define FOLDER7 "test7/"
+# define FOLDER8 "test8/"
+# define FOLDER9 "test9/"
+# define FOLDER10 "test10/"
+# define FOLDER11 "test11/"
+# define FOLDER12 "test12/"
 
 typedef struct s_group	t_group;
 typedef struct s_data	t_data;
@@ -59,7 +59,6 @@ typedef struct s_infile
 	bool	here_doc;
 	struct s_infile	*next;
 }	t_infile;
-
 
 /**
  * This encompasses everything between/before/after pipelines. 
@@ -156,7 +155,8 @@ void	free_data(t_data *data);
 void	parser(t_data *data, char *str);
 
 /* environment variable linked list handlers */
-void	print_env(t_data *data, t_group *group);
+void	env(t_data *data, t_group *group);
+void	print_env(t_env *lst);
 char	**env_2darr(t_data *data, t_env *lst);
 void	print_group(void);
 t_env	*find_node(t_env *lst, char *key);

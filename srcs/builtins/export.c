@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:10:18 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/03 02:36:32 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/08 03:26:30 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	set_printed_false(t_data *data)
 	t_env	*lst;
 
 	lst = data->envp_head;
-	while (lst->next != NULL)
+	while (lst != NULL)
 	{
 		lst->printed = false;
 		lst = lst->next;
@@ -41,7 +41,7 @@ void	export(t_data *data, t_group *group)
 		smol = tmp;
 		while (tmp->next != NULL)
 		{
-			if ((ft_strncmp(tmp->key, smol->key, ft_strlen(tmp->key)) < 0) \
+			if ((ft_strncmp(tmp->key, smol->key, ft_strlen(smol->key)) < 0) \
 													&& tmp->printed == false)
 				smol = tmp;
 			tmp = tmp->next;

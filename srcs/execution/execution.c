@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/03 21:06:05 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/08 01:50:50 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ char	*find_path(t_data *data, char *cmd_name)
 bool	builtin_check(t_data *data, t_group *group)
 {
 	(void)data;
-	// fprintf(stderr, "builtin check here i come shhhh\n");
+	fprintf(stderr, "inside builtin_check\n");
 	if (ft_strncmp(group->full_cmd[0], "echo", 4) == 0)
 		group->builtin = &echo;
 	else if (ft_strncmp(group->full_cmd[0], "env", 3) == 0)
-		group->builtin = &print_env;
+		group->builtin = &env;
 	else if (ft_strncmp(group->full_cmd[0], "exit", 4) == 0)
 		group->builtin = &exit_check;
 	else if (ft_strncmp(group->full_cmd[0], "export", 6) == 0) // check in func which export 
@@ -131,8 +131,10 @@ static void	exec_cmds(t_data *data)
 	i = 0;
 	if (data->groupc == 1 && builtin_check(data, data->group))
 	{
+		// print_env(data->envp_head);
 		infiles(data, data->group);
 		outfiles(data, data->group);
+		ft_printf_fd(STDERR_FILENO, "before executing function\n");
 		data->group[i].builtin(data, &data->group[i]);
 		return ;
 	}

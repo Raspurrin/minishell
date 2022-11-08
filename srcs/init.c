@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 22:46:32 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/03 02:46:15 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/08 01:38:20 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,19 +51,32 @@ static char	**env_split(char *str, char del)
 void	change_(t_data *data)
 {
 	t_env	*env;
-	t_env	*new;
+	// t_env	*new;
 	char	*path;
 
 	env = find_node(data->envp_head, "_");
+	// printf("env: %s\n", env->keyvalue);
 	path = find_path(data, "env");
 	env->value = path;
 	env->keyvalue = ft_strjoin("_=", path);
-	if (!find_node(data->envp_head, "OLDPWD"))
+	// printf("path: %s\n", env->value);
+	// env->keyvalue = ft_strjoin("_=", path);
+	// if (!find_node(data->envp_head, "OLDPWD"))
+	// {
+	// 	new = ft_calloc(sizeof(t_env), 1);
+	// 	new->keyvalue = ft_strdup("OLDPWD");
+	// 	new->key = ft_strdup("OLDPWD");
+	// 	lst_addback(data, new);
+	// }
+}
+
+void	print_env(t_env *lst)
+{
+	while (lst != NULL)
 	{
-		new = ft_calloc(sizeof(t_env), 1);
-		new->keyvalue = ft_strdup("OLDPWD");
-		new->key = ft_strdup("OLDPWD");
-		lst_addback(data, new);
+		if (lst->value)
+			printf("%s\n", lst->keyvalue);
+		lst = lst->next;
 	}
 }
 
@@ -81,6 +94,7 @@ void	env_innit(t_data *data, char **envp)
 		lst->keyvalue = *envp;
 		tmp = env_split(*envp, '=');
 		lst->key = tmp[0];
+		// printf("lst->key: %s\n", lst->key);
 		lst->value = tmp[1];
 		envp++;
 		if (*envp != NULL)
@@ -92,5 +106,9 @@ void	env_innit(t_data *data, char **envp)
 		}
 	}
 	lst->next = NULL;
+	// print_env(data->envp_head);
+	// t_env *env = find_node(data->envp_head, "_");
+	// printf("env: %s\n", env->keyvalue);
 	change_(data);
+	// print_env(data->envp_head);
 }

@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 01:52:49 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/02 23:47:31 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/07 23:28:31 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  * Printing out the environmental variables that have a value, 
  * otherwise they are ignored. 
  */
-void	print_env(t_data *data, t_group *group)
+void	env(t_data *data, t_group *group)
 {
 	t_env	*lst;
 	size_t	i;

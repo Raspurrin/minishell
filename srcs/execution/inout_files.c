@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 03:43:43 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/03 21:08:01 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/07 15:25:22 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ bool	infiles(t_data *data, t_group *group)
 		else
 		{
 			fd = open(lst->name, O_RDONLY, 0666);
+			ft_printf_fd(STDERR_FILENO, "name file: %s\n", lst->name);
 			if (fd == -1)
 				display_error(data, "Opening infile failed", true);
 			// close (fd); // yeah still need to add this somewhere

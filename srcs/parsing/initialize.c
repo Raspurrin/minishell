@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 18:01:38 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/06 02:12:28 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/07 14:42:56 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,4 @@ void	words_init(t_data *data, t_group	**info, char *name)
 	(*info)->full_cmd
 	[(*info)->commandc - 1] = command_array[(*info)->commandc - 1];
 	(*info)->full_cmd[(*info)->commandc] = NULL;
-	printf("%s", (*info)->fullcmd)
-	print_2d_fd(c)
 }

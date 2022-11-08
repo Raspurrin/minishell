@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/06 22:07:49 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/08 01:39:59 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
  * 11. unset PWD; env | grep PWD >outfile1
  * 12. /bin/cd ../;pwd
 */
-static void	parser(t_data *data, char *test)
+static void	fake_parser(t_data *data, char *test)
 {
 	if (ft_strncmp("1", test, 1) == 0)
 	{
@@ -58,10 +58,10 @@ static void	parser(t_data *data, char *test)
 		data->group[0].full_cmd[1] = ft_strdup("yo");
 		data->group[0].full_cmd[2] = NULL;
 		data->group[0].infile = malloc(sizeof(t_infile));
-		data->group[0].infile->name = ft_strdup(FOLDER2"infile1");
+		data->group[0].infile->name = ft_strdup("infile1");
 		data->group[0].infile->here_doc = false;
 		data->group[0].infile->next = malloc(sizeof(t_infile));
-		data->group[0].infile->next->name = ft_strdup(FOLDER2"infile2");
+		data->group[0].infile->next->name = ft_strdup("infile2");
 		data->group[0].infile->next->here_doc = false;
 		data->group[0].infile->next->next = NULL;
 		data->group[0].outfile = malloc(sizeof(t_infile));
@@ -81,10 +81,10 @@ static void	parser(t_data *data, char *test)
 		data->group[0].full_cmd[1] = ft_strdup("yo");
 		data->group[0].full_cmd[2] = NULL;
 		data->group[0].infile = malloc(sizeof(t_infile));
-		data->group[0].infile->name = ft_strdup(FOLDER3"infile1");
+		data->group[0].infile->name = ft_strdup("infile1");
 		data->group[0].infile->here_doc = false;
 		data->group[0].infile->next = malloc(sizeof(t_infile));
-		data->group[0].infile->next->name = ft_strdup(FOLDER3"infile2");
+		data->group[0].infile->next->name = ft_strdup("infile2");
 		data->group[0].infile->next->here_doc = false;
 		data->group[0].infile->next->next = NULL;
 		data->group[0].outfile = malloc(sizeof(t_infile));
@@ -96,7 +96,7 @@ static void	parser(t_data *data, char *test)
 		data->group[1].full_cmd[1] = ft_strdup("file");
 		data->group[1].full_cmd[2] = NULL;
 		data->group[1].infile = malloc(sizeof(t_infile));
-		data->group[1].infile->name = ft_strdup(FOLDER3"infile3");
+		data->group[1].infile->name = ft_strdup("infile3");
 		data->group[1].infile->here_doc = false;
 		data->group[1].infile->next = NULL;
 		data->group[1].outfile = malloc(sizeof(t_infile));
@@ -134,7 +134,7 @@ static void	parser(t_data *data, char *test)
 		data->group[0].outfile = NULL;
 		data->group[0].builtin = NULL;
 		execution(data);
-		parser(data, "5.1");
+		fake_parser(data, "5.1");
 	}
 	if (ft_strncmp("5.1", test, 3) == 0)
 	{
@@ -163,7 +163,7 @@ static void	parser(t_data *data, char *test)
 		data->group[0].builtin = NULL;
 		export(data, &data->group[0]);
 		execution(data);
-		parser(data, "6.1");
+		fake_parser(data, "6.1");
 	}
 	if (ft_strncmp("6.1", test, 3) == 0)
 	{
@@ -180,7 +180,7 @@ static void	parser(t_data *data, char *test)
 		data->group[0].builtin = NULL;
 		export(data, &data->group[0]);
 		execution(data);
-		parser(data, "6.2");
+		fake_parser(data, "6.2");
 	}
 	if (ft_strncmp("6.2", test, 3) == 0)
 	{
@@ -197,7 +197,7 @@ static void	parser(t_data *data, char *test)
 		data->group[0].builtin = NULL;
 		export(data, &data->group[0]);
 		execution(data);
-		parser(data, "6.3");
+		fake_parser(data, "6.3");
 	}
 	if (ft_strncmp("6.3", test, 3) == 0)
 	{
@@ -212,7 +212,7 @@ static void	parser(t_data *data, char *test)
 		data->group[0].builtin = NULL;
 		export(data, &data->group[0]);
 		execution(data);
-		parser(data, "6.4");
+		fake_parser(data, "6.4");
 	}
 	if (ft_strncmp("6.4", test, 3) == 0)
 	{
@@ -242,7 +242,7 @@ static void	parser(t_data *data, char *test)
 		data->group[0].outfile = NULL;
 		data->group[0].builtin = NULL;
 		execution(data);
-		parser(data, "7.1");
+		fake_parser(data, "7.1");
 	}
 	if (ft_strncmp("7.1", test, 3) == 0)
 	{
@@ -320,7 +320,7 @@ static void	parser(t_data *data, char *test)
 		data->group[0].outfile = NULL;
 		data->group[0].builtin = NULL;
 		execution(data);
-		parser(data, "11.1");
+		fake_parser(data, "11.1");
 	}
 	if (ft_strncmp("11.1", test, 4) == 0)
 	{
@@ -355,7 +355,7 @@ static void	parser(t_data *data, char *test)
 		data->group[0].outfile = NULL;
 		data->group[0].builtin = NULL;
 		execution(data);
-		parser(data, "12.1");
+		fake_parser(data, "12.1");
 	}
 	if (ft_strncmp("12.1", test, 4) == 0)
 	{
@@ -379,7 +379,6 @@ static void	init(t_data *data, char **envp)
 	ft_bzero(data, sizeof(data));
 	env_innit(data, envp);
 	path_innit(data);
-	parser()
 }
 
 /**
@@ -415,26 +414,29 @@ static void	ctrl_bslash(int32_t sig)
 
 int32_t	main(int32_t argc, char **argv, char **envp)
 {
-	char	*str;
+	// char	*str;
 	t_data	data;
 
 	(void)argc;
 	(void)argv;
 	(void)envp;
 	init(&data, envp);
+	fake_parser(&data, argv[1]);
+	// print_env(data.envp_head);
+	execution(&data);
 	// while (69)
 	// {
 		signal(SIGINT, ctrl_c);
 		signal(SIGQUIT, ctrl_bslash);
 		signal(SIGQUIT, SIG_IGN);
-		// str = readline("🦇Mishell: ");
-		// if (str == NULL)
-		// 	return (printf("exit\n"), 0);
-		str = ft_strdup("export hi | env");
-		parser(&data, str);
-		execution(&data);
-		add_history(str);
-		free(str);
+		// // str = readline("🦇Mishell: ");
+		// // if (str == NULL)
+		// // 	return (printf("exit\n"), 0);
+		// str = ft_strdup("export hi | env");
+		// parser(&data, str);
+		// execution(&data);
+		// add_history(str);
+		// free(str);
 	// }
 	// free_data(&data);
 	return (0);
