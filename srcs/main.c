@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/08 08:16:20 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/08 08:42:42 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,10 @@ static void	fake_parser(t_data *data, char *test)
 		data->group[1].full_cmd[0] = ft_strdup("ls");
 		data->group[1].full_cmd[1] = NULL;
 		data->group[1].infile = NULL;
-		data->group[1].outfile = NULL;
+		data->group[1].outfile = malloc(sizeof(t_infile));
+		data->group[1].outfile->name = ft_strdup(FOLDER4"outfile1");
+		data->group[1].outfile->append = false;
+		data->group[1].outfile->next = NULL;
 		data->group[1].builtin = NULL;
 	}
 	if (ft_strncmp("5", test, 2) == 0)
@@ -474,22 +477,23 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 		fake_parser(&data, argv[1]);
 		execution(&data);
 	}
-	// print_env(data.envp_head);
-	
-	while (69)
+	else
 	{
-		signal(SIGINT, ctrl_c);
-		signal(SIGQUIT, ctrl_bslash);
-		signal(SIGQUIT, SIG_IGN);
-		str = readline("🦇Mishell: ");
-		if (str == NULL)
-			return (printf("exit\n"), 0);
-		if (ft_strncmp(str, "./minishell", 12))
-			execution(&data);
-		// str = ft_strdup("export hi | env");
-		// parser(&data, str);
-		add_history(str);
-		free(str);
+		while (69)
+		{
+			signal(SIGINT, ctrl_c);
+			signal(SIGQUIT, ctrl_bslash);
+			signal(SIGQUIT, SIG_IGN);
+			str = readline("🦇Mishell: ");
+			if (str == NULL)
+				return (printf("exit\n"), 0);
+			if (ft_strncmp(str, "./minishell", 12))
+				execution(&data);
+			// str = ft_strdup("export hi | env");
+			// parser(&data, str);
+			add_history(str);
+			free(str);
+		}
 	}
 	// free_data(&data);
 	return (0);
