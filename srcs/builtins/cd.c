@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 03:22:30 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/02 18:19:33 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/08 07:51:17 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	cd(t_data *data, t_group *group)
 	chdir(group->full_cmd[1]);
 	if (data->pwd)
 		update_oldpwd(data);
-	if (ft_strncmp(group->full_cmd[1], "../", 3) == 0) // what if ../owfaijfoewaifj
+	if (ft_strncmp(group->full_cmd[1], "../", ft_strlen(group->full_cmd[1])) == 0) // what if ../owfaijfoewaifj
 	{
 		if (group->full_cmd[2] == NULL)
 		{

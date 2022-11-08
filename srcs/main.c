@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/08 06:25:49 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/08 08:16:20 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,18 +108,20 @@ static void	fake_parser(t_data *data, char *test)
 	}
 	if (ft_strncmp("4", test, 1) == 0)
 	{
-		data->groupc = 3;
+		data->groupc = 2;
 		data->group = ft_calloc(sizeof(t_group), 3);
 		data->group[0].full_cmd = ft_calloc(2, sizeof(char *));
 		data->group[0].full_cmd[0] = ft_strdup("cat");
 		data->group[0].full_cmd[1] = NULL;
+		data->group[0].infile = NULL;
+		data->group[0].outfile = NULL;
+		data->group[0].builtin = NULL;
 		data->group[1].full_cmd = ft_calloc(2, sizeof(char *));
-		data->group[1].full_cmd[0] = ft_strdup("cat");
+		data->group[1].full_cmd[0] = ft_strdup("ls");
 		data->group[1].full_cmd[1] = NULL;
-		data->group[2].full_cmd = ft_calloc(2, sizeof(char *));
-		data->group[2].full_cmd[0] = ft_strdup("ls");
-		data->group[2].full_cmd[1] = NULL;
-		data->group[2].outfile = NULL;
+		data->group[1].infile = NULL;
+		data->group[1].outfile = NULL;
+		data->group[1].builtin = NULL;
 	}
 	if (ft_strncmp("5", test, 2) == 0)
 	{
@@ -377,7 +379,7 @@ static void	fake_parser(t_data *data, char *test)
 		data->group = ft_calloc(sizeof(t_group), 1);
 		data->group[0].full_cmd = ft_calloc(2, sizeof(char *));
 		data->group[0].full_cmd[0] = ft_strdup("cat");
-		data->group[0].full_cmd[2] = NULL;
+		data->group[0].full_cmd[1] = NULL;
 		data->group[0].infile = NULL;
 		data->group[0].outfile = NULL;
 		data->group[0].builtin = NULL;
@@ -388,7 +390,7 @@ static void	fake_parser(t_data *data, char *test)
 		data->group = ft_calloc(sizeof(t_group), 1);
 		data->group[0].full_cmd = ft_calloc(2, sizeof(char *));
 		data->group[0].full_cmd[0] = ft_strdup("cat");
-		data->group[0].full_cmd[2] = NULL;
+		data->group[0].full_cmd[1] = NULL;
 		data->group[0].infile = NULL;
 		data->group[0].outfile = NULL;
 		data->group[0].builtin = NULL;
@@ -401,11 +403,22 @@ static void	fake_parser(t_data *data, char *test)
 		data->group = ft_calloc(sizeof(t_group), 1);
 		data->group[0].full_cmd = ft_calloc(2, sizeof(char *));
 		data->group[0].full_cmd[0] = ft_strdup("cat");
-		data->group[0].full_cmd[2] = NULL;
+		data->group[0].full_cmd[1] = NULL;
 		data->group[0].infile = NULL;
 		data->group[0].outfile = NULL;
 		data->group[0].builtin = NULL;
 		return (execution(data), exit(0));
+	}
+	if (ft_strncmp("15", test, 2) == 0)
+	{
+		data->groupc = 1;
+		data->group = ft_calloc(sizeof(t_group), 1);
+		data->group[0].full_cmd = ft_calloc(2, sizeof(char *));
+		data->group[0].full_cmd[0] = ft_strdup("./minishell");
+		data->group[0].full_cmd[1] = NULL;
+		data->group[0].infile = NULL;
+		data->group[0].outfile = NULL;
+		data->group[0].builtin = NULL;
 	}
 }
 
@@ -449,30 +462,35 @@ static void	ctrl_bslash(int32_t sig)
 
 int32_t	main(int32_t argc, char **argv, char **envp)
 {
-	// char	*str;
+	char	*str;
 	t_data	data;
 
 	(void)argc;
 	(void)argv;
 	(void)envp;
 	init(&data, envp);
-	fake_parser(&data, argv[1]);
+	if (argv[1])
+	{
+		fake_parser(&data, argv[1]);
+		execution(&data);
+	}
 	// print_env(data.envp_head);
-	execution(&data);
-	// while (69)
-	// {
+	
+	while (69)
+	{
 		signal(SIGINT, ctrl_c);
 		signal(SIGQUIT, ctrl_bslash);
 		signal(SIGQUIT, SIG_IGN);
-		// // str = readline("🦇Mishell: ");
-		// // if (str == NULL)
-		// // 	return (printf("exit\n"), 0);
+		str = readline("🦇Mishell: ");
+		if (str == NULL)
+			return (printf("exit\n"), 0);
+		if (ft_strncmp(str, "./minishell", 12))
+			execution(&data);
 		// str = ft_strdup("export hi | env");
 		// parser(&data, str);
-		// execution(&data);
-		// add_history(str);
-		// free(str);
-	// }
+		add_history(str);
+		free(str);
+	}
 	// free_data(&data);
 	return (0);
 }

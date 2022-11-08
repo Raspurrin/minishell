@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 22:46:32 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/08 06:25:39 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/08 08:10:54 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,13 @@ void	change_(t_data *data)
 
 	env = find_node(data->envp_head, "_");
 	// printf("env: %s\n", env->keyvalue);
-	path = find_path(data, "env");
-	env->value = path;
-	env->keyvalue = ft_strjoin("_=", path);
-	env->printed = true;
+	if (env != NULL)
+	{
+		path = find_path(data, "env");
+		env->value = path;
+		env->keyvalue = ft_strjoin("_=", path);
+		env->printed = true;
+	}
 	// printf("path: %s\n", env->value);
 	// env->keyvalue = ft_strjoin("_=", path);
 	// if (!find_node(data->envp_head, "OLDPWD"))

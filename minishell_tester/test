@@ -22,7 +22,7 @@ done
 # 1. export something=blue | env >outfile1
 # 2. << heredoc1 <<heredoc2 grep yo >outfile2 >outfile3
 # 3. <infile1 <<heredoc1 grep yo >outfile4 | <infile2 grep file >outfile5
-# 4. cat | cat | ls >outfile6
+# 4. cat | cat | ls
 # 5. export something=blue;env >outfile1
 # 6. export something=;env >outfile1;export >outfile2;unset something; export >outfile3
 # 7. export something=====blue;env outfile1;

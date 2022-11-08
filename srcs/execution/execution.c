@@ -6,11 +6,34 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/08 06:26:09 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/08 07:58:01 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+char	*relative_path(char *path)
+{
+	size_t	sub;
+	size_t	len;
+	
+	sub = 0;
+	if (ft_strncmp(path, "./", 2) == 0)
+		return (ft_substr(path, 2, ft_strlen(path) - 2));
+	while (ft_strncmp(path, "../", 3) == 0)
+	{
+		path += 3;
+		sub++;
+	}
+	len = ft_strlen(path);
+	while (sub > 0)
+	{
+		while (path[len] != '/')
+			len--;
+		sub--;
+	}
+	return (ft_substr(path, 0, len));
+}
 
 /**
  * Full_cmd contains the cmd with all its flags in seperate elements: "ls -la"
@@ -33,7 +56,12 @@ char	*find_path(t_data *data, char *cmd_name)
 	if (!data->paths)
 		return (NULL);
 	if (ft_strchr(cmd_name, '/'))
-		return (cmd_name);
+	{
+		path = relative_path(cmd_name);
+		if (access(path, F_OK | X_OK) == 0)
+			return (cmd_name);
+		return (display_error(data, "path failed", true), NULL);
+	}
 	cmd = ft_strjoin("/", cmd_name);
 	while (data->paths[i++])
 	{
@@ -152,7 +180,7 @@ static void	exec_cmds(t_data *data)
 		if (pid == 0)
 			child_cmd(data, i, fd);
 		ft_printf_fd(STDERR_FILENO, "------------\nEnd in parent:\n");
-		waitpid(pid, NULL, 0);
+		// waitpid(pid, NULL, 0);
 		if (i > 0)
 		{
 			ft_printf_fd(STDERR_FILENO, "closing tmp_fd\n");
@@ -167,16 +195,16 @@ static void	exec_cmds(t_data *data)
 
 void	execution(t_data *data)
 {
-	// size_t	i;
-	// int32_t	status;
+	size_t	i;
+	int32_t	status;
 
-	// i = 0;
+	i = 0;
 	exec_cmds(data);
-	// while (i < data->groupc)
-	// {
-	// 	wait(&status);
-	// 	data->status = status;
-	// 	i++;
-	// }
+	while (i < data->groupc)
+	{
+		wait(&status);
+		data->status = status;
+		i++;
+	}
 	free_at_exit(data);
 }
