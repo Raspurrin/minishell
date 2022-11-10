@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/08 08:42:42 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/10 02:03:08 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 /**
  * 1. export something=blue | env >outfile1
- * 2. << heredoc1 <<heredoc2 grep yo >outfile2 >outfile3
+ * 2. < infile1 < infile2 grep yo >outfile2 >outfile3
  * 3. <infile1 <<heredoc1 grep yo >outfile4 | <infile2 grep file >outfile5
  * 4. cat | cat | ls >outfile6
  * 5. export something=blue;env >outfile1
@@ -428,8 +428,10 @@ static void	fake_parser(t_data *data, char *test)
 static void	init(t_data *data, char **envp)
 {
 	ft_bzero(data, sizeof(data));
+	data->paths = NULL;
 	env_innit(data, envp);
 	path_innit(data);
+	data->pwd = NULL;
 }
 
 /**
@@ -461,6 +463,15 @@ static void	ctrl_bslash(int32_t sig)
 	(void)sig;
 	rl_redisplay();
 	signal(SIGQUIT, SIG_IGN);
+}
+
+void	free_fds()
+{
+	int	i;
+
+	i = 3;
+	while (i <= 4096)
+		close(i++);
 }
 
 int32_t	main(int32_t argc, char **argv, char **envp)
@@ -495,6 +506,6 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 			free(str);
 		}
 	}
-	// free_data(&data);
+	free_data(&data);
 	return (0);
 }

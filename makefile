@@ -6,7 +6,7 @@
 #    By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/11 18:45:17 by pmoghadd          #+#    #+#              #
-#    Updated: 2022/11/04 02:45:43 by mialbert         ###   ########.fr        #
+#    Updated: 2022/11/10 04:41:27 by mialbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,7 +15,6 @@ OBJ_DIR =	object_files
 CFLAGS	=	-Wall -Wextra -Werror -g
 NAME	=	minishell
 READLINE = 	-I $(HOME)/goinfre/.brew/opt/readline/include/ -L $(HOME)/goinfre/.brew/opt/readline/lib/ -lreadline
-DEBUG	=	-fsanitize=address
 LIBFT	=	./libs/libft/
 SRCS	=	./srcs/parsing/parser.c \
 			./srcs/parsing/initialize.c \
@@ -46,9 +45,24 @@ RED 	:= \033[0;31m
 PURPLE	:= \033[0;35m
 B_BLUE 	:= \033[1;34m
 BLUE 	:= \033[0;34m
-FLAGS_OS = -lreadline
+FLAGS_OS := -lreadline
 
 SUBM_STATE := $(shell find libs/libft -type f)
+
+CDIR = $(shell $(info $(lastword $(subst /, ,$(OLDPWD)))))
+# https://stackoverflow.com/questions/51405369/make-split-string-get-last-element
+
+ifneq ($(C_DIR),minishell_tester)
+TESTER	:= minishell_tester/
+else
+TESTER	:= aaaaaaaaaaaaaaaa
+endif
+
+ifeq ($(DEBUG),1)	
+FSAN 	=	-fsanitize=address
+else 
+FSAN 	=
+endif
 
 ifeq ($(SUBM_STATE),)
 SUBM_FLAG	= submodule
@@ -74,7 +88,8 @@ libft:
 	@$(MAKE) -C $(LIBFT)
 
 $(NAME): banner $(OBJS)
-	@$(CC) $(FLAGS_OS) $(CFLAGS) $(OBJS) $(LIBFT)libft.a $(READLINE) $(DEBUG) -o $(NAME)
+	$(CDIR) $(TESTER)
+	@$(CC) $(FLAGS_OS) $(CFLAGS) $(OBJS) $(LIBFT)libft.a $(READLINE) $(FSAN) -o $(NAME)
 # @mkdir object_files
 # @mv $(OBJS) object_files
 

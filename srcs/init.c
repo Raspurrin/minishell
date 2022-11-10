@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 22:46:32 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/08 08:10:54 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/10 01:44:15 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,43 @@ void	path_innit(t_data *data)
 {
 	t_env	*lst;
 
+	if (data->paths)
+		free_2d(data->paths);
 	lst = find_node(data->envp_head, "PATH");
 	data->paths = ft_split(lst->value, ':');
 	return ;
+}
+
+/**
+ * With the false param free_env_node only frees 
+ * the content of the node and not the entire node,
+ * which are then changed to more accurately replicate Bash.
+ */
+void	change_(t_data *data)
+{
+	t_env	*env;
+	char	*path;
+
+	env = find_node(data->envp_head, "_");
+	if (env != NULL)
+	{
+		free_env_node(env, false);
+		path = find_path(data, "env");
+		env->key = ft_strdup("_=");
+		env->value = path;
+		env->keyvalue = ft_strjoin("_=", path);
+		env->printed = true;
+	}
+}
+
+void	print_env(t_env *lst)
+{
+	while (lst != NULL)
+	{
+		if (lst->value)
+			printf("%s\n", lst->keyvalue);
+		lst = lst->next;
+	}
 }
 
 /**
@@ -37,7 +71,7 @@ static char	**env_split(char *str, char del)
 	char	**split;
 
 	i = 0;
-	split = ft_calloc(3, sizeof(char *));
+	split = ft_calloc(2, sizeof(char *));
 	while (str[i] != del && str[i])
 		i++;
 	split[0] = ft_substr(str, 0, i);
@@ -46,42 +80,6 @@ static char	**env_split(char *str, char del)
 	else 
 		split[1] = NULL;
 	return (split);
-}
-
-void	change_(t_data *data)
-{
-	t_env	*env;
-	// t_env	*new;
-	char	*path;
-
-	env = find_node(data->envp_head, "_");
-	// printf("env: %s\n", env->keyvalue);
-	if (env != NULL)
-	{
-		path = find_path(data, "env");
-		env->value = path;
-		env->keyvalue = ft_strjoin("_=", path);
-		env->printed = true;
-	}
-	// printf("path: %s\n", env->value);
-	// env->keyvalue = ft_strjoin("_=", path);
-	// if (!find_node(data->envp_head, "OLDPWD"))
-	// {
-	// 	new = ft_calloc(sizeof(t_env), 1);
-	// 	new->keyvalue = ft_strdup("OLDPWD");
-	// 	new->key = ft_strdup("OLDPWD");
-	// 	lst_addback(data, new);
-	// }
-}
-
-void	print_env(t_env *lst)
-{
-	while (lst != NULL)
-	{
-		if (lst->value)
-			printf("%s\n", lst->keyvalue);
-		lst = lst->next;
-	}
 }
 
 void	env_innit(t_data *data, char **envp)
@@ -95,11 +93,13 @@ void	env_innit(t_data *data, char **envp)
 	lst = data->envp_head;
 	while (*envp != NULL)
 	{
-		lst->keyvalue = *envp;
+		lst->keyvalue = ft_strdup(*envp);
 		tmp = env_split(*envp, '=');
 		lst->key = tmp[0];
-		// printf("lst->key: %s\n", lst->key);
-		lst->value = tmp[1];
+		if (ft_strncmp(lst->key, "SHLVL", ft_strlen(lst->key) == 0))
+			lst->value = ft_itoa(ft_atoi(tmp[1]) + 1);
+		else
+			lst->value = tmp[1];
 		envp++;
 		if (*envp != NULL)
 		{

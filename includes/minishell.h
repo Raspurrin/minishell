@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/07 23:36:59 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/10 03:28:38 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,19 @@
 
 # define READ 0
 # define WRITE 1
-# define FOLDER1 "test1/"
-# define FOLDER2 "test2/"
-# define FOLDER3 "test3/"
-# define FOLDER4 "test4/"
-# define FOLDER5 "test5/"
-# define FOLDER6 "test6/"
-# define FOLDER7 "test7/"
-# define FOLDER8 "test8/"
-# define FOLDER9 "test9/"
-# define FOLDER10 "test10/"
-# define FOLDER11 "test11/"
-# define FOLDER12 "test12/"
+# define TESTER
+# define FOLDER1 TESTER"test1/"
+# define FOLDER2 TESTER"test2/"
+# define FOLDER3 TESTER"test3/"
+# define FOLDER4 TESTER"test4/"
+# define FOLDER5 TESTER"test5/"
+# define FOLDER6 TESTER"test6/"
+# define FOLDER7 TESTER"test7/"
+# define FOLDER8 TESTER"test8/"
+# define FOLDER9 TESTER"test9/"
+# define FOLDER10 TESTER"test10/"
+# define FOLDER11 TESTER"test11/"
+# define FOLDER12 TESTER"test12/"
 
 typedef struct s_group	t_group;
 typedef struct s_data	t_data;
@@ -121,6 +122,9 @@ typedef struct token
 	struct token	*next;
 }	t_token;
 
+/*		remove later	*/
+void	free_fds();
+
 /*		initialize		*/
 char	**minishell_split(char const *s, char c, char q);
 void	lstaddback(t_infile **lst, t_infile *new);
@@ -161,6 +165,7 @@ char	**env_2darr(t_data *data, t_env *lst);
 void	print_group(void);
 t_env	*find_node(t_env *lst, char *key);
 void	lst_addback(t_data *data, t_env *new);
+void	free_env_node(t_env *lst, bool free_all);
 
 /* execution */
 void	env_innit(t_data *data, char **envp);

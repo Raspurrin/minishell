@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/08 07:58:01 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/10 02:47:31 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,6 @@ char	*find_path(t_data *data, char *cmd_name)
 	char	*path;
 
 	i = 0;
-	// printf("hi\n");
-	// printf("group_i: %zu\n", group_i);
-	// ft_printf_fd(STDERR_FILENO, "data->group[group_i].full_cmd[0]: %s\n", data->group[group_i].full_cmd[0]);
 	path_innit(data);
 	if (!data->paths)
 		return (NULL);
@@ -79,14 +76,13 @@ char	*find_path(t_data *data, char *cmd_name)
 bool	builtin_check(t_data *data, t_group *group)
 {
 	(void)data;
-	fprintf(stderr, "inside builtin_check\n");
 	if (ft_strncmp(group->full_cmd[0], "echo", 4) == 0)
 		group->builtin = &echo;
 	else if (ft_strncmp(group->full_cmd[0], "env", 3) == 0)
 		group->builtin = &env;
 	else if (ft_strncmp(group->full_cmd[0], "exit", 4) == 0)
 		group->builtin = &exit_check;
-	else if (ft_strncmp(group->full_cmd[0], "export", 6) == 0) // check in func which export 
+	else if (ft_strncmp(group->full_cmd[0], "export", 6) == 0) 
 	{
 		if (group->full_cmd[1] == NULL)
 			group->builtin = &export;
@@ -99,8 +95,16 @@ bool	builtin_check(t_data *data, t_group *group)
 		group->builtin = &unset;
 	else
 		return (fprintf(stderr, "no builtin found: %p\n", group->builtin), false);
-	// fprintf(stderr, "oh no this didnt work why didnt this work this should have worked\n");
 	return (true);
+}
+
+static void	close_fds(t_data *data, size_t i, int32_t fd[2])
+{
+	close(fd[WRITE]);
+	if (i > 0)
+		close(data->tmp_fd);
+	if (i == data->groupc - 1)
+		close(fd[READ]);
 }
 
 /**
@@ -112,39 +116,22 @@ bool	builtin_check(t_data *data, t_group *group)
 static void	child_cmd(t_data *data, size_t i, int32_t fd[2])
 {
 	char	*path;
+	char	**env;
 
-	ft_printf_fd(STDERR_FILENO, "------------\nin child process:\n");
 	if (!infiles(data, &data->group[i]) && i > 0)
-	{
-		ft_printf_fd(STDERR_FILENO, "dupping tmp_fd(previous fd[0]) to STDIN\n");
 		dup2(data->tmp_fd, STDIN_FILENO);
-	}
-	ft_printf_fd(STDERR_FILENO, "child_cmd - i: %d\n", i);
 	if (!outfiles(data, &data->group[i]) && i != data->groupc - 1)
-	{
-		ft_printf_fd(STDERR_FILENO, "Dupping fd[1] to STDOUT\n");
 		dup2(fd[WRITE], STDOUT_FILENO);
-	}
-	close(fd[WRITE]);
-	if (i > 0)
-		close(data->tmp_fd);
-	path = find_path(data, data->group[i].full_cmd[0]);
-	print_2d_fd(data->group[i].full_cmd, STDERR_FILENO);
+	close_fds(data, i, fd);
 	if (builtin_check(data, data->group) == true)
 	{
-		ft_printf_fd(STDERR_FILENO, "doing a builtin_check\n");
-		unsigned char *func = (unsigned char *)&data->group[i].builtin;
-		ft_printf_fd(STDERR_FILENO, "builtin: %p data->group: %p\n", func, &data->group[i]);
 		data->group[i].builtin(data, &data->group[i]);
 		return ;
 	}
-	ft_printf_fd(STDERR_FILENO, "before execv\n");
-	if (execve(path, data->group[i].full_cmd, env_2darr(data, \
-										data->envp_head)) == -1)
-	{
-		free(path);
-		display_error(data, "execve failed", true);
-	}
+	env = env_2darr(data, data->envp_head);
+	path = find_path(data, data->group[i].full_cmd[0]);
+	if (execve(path, data->group[i].full_cmd, env) == -1)
+		return (free(path), free(env), display_error(data, "execve failed", true));
 }
 
 /**
@@ -162,35 +149,26 @@ static void	exec_cmds(t_data *data)
 	i = 0;
 	if (data->groupc == 1 && builtin_check(data, data->group))
 	{
-		// print_env(data->envp_head);
 		infiles(data, data->group);
 		outfiles(data, data->group);
-		ft_printf_fd(STDERR_FILENO, "before executing function\n");
 		data->group[i].builtin(data, &data->group[i]);
 		return ;
 	}
 	while (i < (size_t)data->groupc)
 	{
-		ft_printf_fd(STDERR_FILENO, "------------\nBegin in parent:\n");
-		ft_printf_fd(STDERR_FILENO, "creating pipe\n");
 		pipe(fd);
 		pid = fork();
 		if (pid == -1)
 			display_error(data, "fork failed", true);
 		if (pid == 0)
 			child_cmd(data, i, fd);
-		ft_printf_fd(STDERR_FILENO, "------------\nEnd in parent:\n");
-		// waitpid(pid, NULL, 0);
 		if (i > 0)
-		{
-			ft_printf_fd(STDERR_FILENO, "closing tmp_fd\n");
 			close(data->tmp_fd);
-		}
 		data->tmp_fd = fd[READ];
 		close(fd[WRITE]);
-		ft_printf_fd(STDERR_FILENO, "closing fd[1]\n");	
 		i++;
 	}
+	close(fd[READ]);
 }
 
 void	execution(t_data *data)

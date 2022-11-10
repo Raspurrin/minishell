@@ -6,12 +6,18 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:10:21 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/04 03:18:20 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/09 23:43:45 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+/**
+ * Unsetting env node. Whenever the right node has been found, 
+ * set the next pointer of the previous node to the following node: 
+ * [prev]->[cur]->[next]	->		[prev]->[next]
+ * Or if node is the head, just make the next node the start of the list.
+ */
 void	unset(t_data *data, t_group *group)
 {
 	size_t	i;
@@ -32,6 +38,7 @@ void	unset(t_data *data, t_group *group)
 					lst->next = data->envp_head;
 				else
 					prev->next = lst->next;
+				free_env_node(lst, true);
 				break ;
 			}
 			prev = lst;
