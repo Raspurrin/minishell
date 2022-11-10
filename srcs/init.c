@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 22:46:32 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/10 01:44:15 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/10 20:06:38 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ void	env_innit(t_data *data, char **envp)
 			lst->value = ft_itoa(ft_atoi(tmp[1]) + 1);
 		else
 			lst->value = tmp[1];
+		free(tmp);
 		envp++;
 		if (*envp != NULL)
 		{
