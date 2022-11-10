@@ -16,7 +16,7 @@ i=1
 while [ $i -le $TEST_NBR ]
 do
 	DESC[$i]="test$i"
-	FOLDER[$i]="test$i/"
+	FOLDER[$i]="minishell_tester/test$i/"
 	(( i++ ))
 done
 
@@ -36,7 +36,7 @@ save_result()
 {
 	t_nbr=$1
 	f_nbr=$2
-	../minishell $t_nbr
+	./minishell $t_nbr
 	if diff -a ${FOLDER[$t_nbr]}outfile$f_nbr ${FOLDER[$t_nbr]}test$f_nbr > ${FOLDER[$t_nbr]}diff ; then
 		TEST[$t_nbr]="${DESC[$t_nbr]} ${GREEN}${OK}${NC}\\n"
 	else 
@@ -58,8 +58,7 @@ save_result()
 # 12. /bin/cd ../;pwd
 
 cd .. 
-make 
-cd minishell_tester
+make
 
 while getopts "de123456789abc" opt; do
 	case $opt in
@@ -118,8 +117,9 @@ while getopts "de123456789abc" opt; do
 			t_nbr=5
 			f_nbr=1
 			remove_files $t_nbr $f_nbr
-			export something=blue;env >${FOLDER[$t_nbr]}/test1
+			export something=blue;env >${FOLDER[$t_nbr]}test1
 			save_result $t_nbr $f_nbr
+			echo ${PWD}
 			;;
 		6)
 			t_nbr=6

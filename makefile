@@ -6,7 +6,7 @@
 #    By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/11 18:45:17 by pmoghadd          #+#    #+#              #
-#    Updated: 2022/11/10 04:41:27 by mialbert         ###   ########.fr        #
+#    Updated: 2022/11/10 19:55:56 by mialbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,15 +49,6 @@ FLAGS_OS := -lreadline
 
 SUBM_STATE := $(shell find libs/libft -type f)
 
-CDIR = $(shell $(info $(lastword $(subst /, ,$(OLDPWD)))))
-# https://stackoverflow.com/questions/51405369/make-split-string-get-last-element
-
-ifneq ($(C_DIR),minishell_tester)
-TESTER	:= minishell_tester/
-else
-TESTER	:= aaaaaaaaaaaaaaaa
-endif
-
 ifeq ($(DEBUG),1)	
 FSAN 	=	-fsanitize=address
 else 
@@ -88,8 +79,8 @@ libft:
 	@$(MAKE) -C $(LIBFT)
 
 $(NAME): banner $(OBJS)
-	$(CDIR) $(TESTER)
 	@$(CC) $(FLAGS_OS) $(CFLAGS) $(OBJS) $(LIBFT)libft.a $(READLINE) $(FSAN) -o $(NAME)
+# $(CDIR) $(TESTER)
 # @mkdir object_files
 # @mv $(OBJS) object_files
 

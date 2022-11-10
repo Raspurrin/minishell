@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/10 03:28:38 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/10 19:56:25 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,27 +21,24 @@
 # include <sys/signal.h>
 # include <sys/wait.h>
 # include <signal.h>
-// # include </Users/mialbert/goinfre/.brew/opt/readline/include/readline/readline.h>
-// # include </Users/mialbert/goinfre/.brew/opt/readline/include/readline/history.h>
 # include </Users/mialbert/goinfre/.brew/opt/readline/include/readline/readline.h>
 # include </Users/mialbert/goinfre/.brew/opt/readline/include/readline/history.h>
 # include "../libs/libft/includes/libft.h"
 
 # define READ 0
 # define WRITE 1
-# define TESTER
-# define FOLDER1 TESTER"test1/"
-# define FOLDER2 TESTER"test2/"
-# define FOLDER3 TESTER"test3/"
-# define FOLDER4 TESTER"test4/"
-# define FOLDER5 TESTER"test5/"
-# define FOLDER6 TESTER"test6/"
-# define FOLDER7 TESTER"test7/"
-# define FOLDER8 TESTER"test8/"
-# define FOLDER9 TESTER"test9/"
-# define FOLDER10 TESTER"test10/"
-# define FOLDER11 TESTER"test11/"
-# define FOLDER12 TESTER"test12/"
+# define FOLDER1 "minishell_tester/test1/"
+# define FOLDER2 "minishell_tester/test2/"
+# define FOLDER3 "minishell_tester/test3/"
+# define FOLDER4 "minishell_tester/test4/"
+# define FOLDER5 "minishell_tester/test5/"
+# define FOLDER6 "minishell_tester/test6/"
+# define FOLDER7 "minishell_tester/test7/"
+# define FOLDER8 "minishell_tester/test8/"
+# define FOLDER9 "minishell_tester/test9/"
+# define FOLDER10 "minishell_tester/test10/"
+# define FOLDER11 "minishell_tester/test11/"
+# define FOLDER12 "minishell_tester/test12/"
 
 typedef struct s_group	t_group;
 typedef struct s_data	t_data;
