@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:10:21 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/09 23:43:45 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/12 01:01:21 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,16 @@ void	unset(t_data *data, t_group *group)
 	t_env	*lst;
 	t_env	*prev;
 
-	i = 0;
+	i = 1;
+	
 	while (group->full_cmd[i])
 	{
 		lst = data->envp_head;
 		prev = lst;
 		while (lst->next != NULL)
 		{
-			if (ft_strncmp(group->full_cmd[i], lst->key, \
-									ft_strlen(lst->key)) == 0)
+			if (ft_strncmp(group->full_cmd[i], lst->key, ft_strlen(lst->key)) == 0 \
+			&& !ft_strncmp(group->full_cmd[i], lst->key, ft_strlen(group->full_cmd[i])))
 			{
 				if (lst == data->envp_head)
 					lst->next = data->envp_head;
@@ -46,5 +47,4 @@ void	unset(t_data *data, t_group *group)
 		}
 		i++;
 	}
-	lst->next = NULL;
 }

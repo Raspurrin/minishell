@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 23:06:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/10 20:03:43 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/10 21:55:36 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,40 +58,54 @@ void	lst_clear(void *file_lst)
 	{
 		tmp = tmp->next;
 		if (lst->name)
+		{
 			free(lst->name);
+			lst->name = NULL;
+		}
 		if (lst)
+		{
 			free(lst);
+			lst = NULL;
+		}
 		lst = tmp;
 	}
 	tmp = NULL;
 }
 
-void	free_data(t_data *data)
+void	free_groups(t_data *data)
 {
 	size_t	i;
 
 	i = 0;
-	free_2d(data->paths);
-	free_env_lst((void *)data->envp_head);
-	if (data->pwd)
-	{
-		fprintf(stderr, "%s DESERVES FREEDOM AND I WILL FREE IT\n", data->pwd);
-		free(data->pwd);
-		data->pwd = NULL;
-	}
 	while (i < data->groupc)
 	{
-		free_2d_guard(&data->group[i].full_cmd);
+		if (data->group[i].full_cmd)
+			free_2d(data->group[i].full_cmd);
 		if (data->group[i].outfile)
 			lst_clear((void *)data->group[i].outfile);
 		if (data->group[i].infile)
 			lst_clear((void *)data->group[i].infile);
-		if (data->group[i].builtin)
-			free(data->group[i].builtin);
-		if (&data->group[i])
-			free(&data->group[i]);
+		// if (&data->group[i])
+		// {
+		// 	free(&data->group[i]);
+			
+		// }
 		i++;
 	}
+	free(data->group);
+	data->group = NULL;
+}
+
+void	free_data(t_data *data)
+{
+	free_2d(data->paths);
+	free_env_lst((void *)data->envp_head);
+	if (data->pwd)
+	{
+		free(data->pwd);
+		data->pwd = NULL;
+	}
+	free_groups(data);
 }
 
 size_t	get_lstsize(t_env *lst)
@@ -111,7 +125,7 @@ t_env	*find_node(t_env *lst, char *key)
 {
 	while (lst != NULL)
 	{
-		if (ft_strncmp(lst->key, key, ft_strlen(lst->key)) == 0)
+		if (ft_strncmp(lst->key, key, ft_strlen(lst->key)) == 0 && !ft_strncmp(key, lst->key, ft_strlen(key)))
 			return (lst);
 		lst = lst->next;
 	}

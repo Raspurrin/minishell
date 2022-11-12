@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 01:52:49 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/07 23:28:31 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/12 01:25:28 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	env(t_data *data, t_group *group)
 	size_t	i;
 
 	i = 0;
+	(void)group;
 	while (group->full_cmd[i] && ft_strncmp(group->full_cmd[i], \
 							"env", ft_strlen(group->full_cmd[i])) == 0)
 		i++;
@@ -36,8 +37,8 @@ void	env(t_data *data, t_group *group)
 	lst = data->envp_head;
 	while (lst != NULL)
 	{
-		if (lst->value)
-			printf("%s\n", lst->keyvalue);
+		if (lst->value && lst->keyvalue)
+			ft_printf_fd(STDOUT_FILENO, "%s\n", lst->keyvalue);
 		lst = lst->next;
 	}
 }

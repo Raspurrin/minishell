@@ -29,5 +29,10 @@ declare -x XPC_FLAGS="0x0"
 declare -x XPC_SERVICE_NAME="0"
 declare -x ZDOTDIR="/var/folders/zz/zyxvpxvq6csfxvn_n000ccy800337k/T/mialbert-vscode-zsh"
 declare -x __CF_USER_TEXT_ENCODING="0x18CF2:0x0:0x0"
+declare -x hallo
+declare -x hdsrtghsrdghs="ugood?"
+declare -x hoi
 declare -x sflasf="asdf?"
-declare -x something=""
+declare -x something="red"
+declare -x somethingggg="bbblue"
+declare -x yo=""

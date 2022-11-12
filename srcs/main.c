@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/10 02:03:08 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/12 06:20:37 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,11 @@
  * 8. echo -nnn -----nn --nnnnn >outfile1
  * 9. env env env
  * 10. env env hoi
- * 11. unset PWD; env | grep PWD >outfile1
+ * 11. unset USER; env | grep USER >outfile1
  * 12. /bin/cd ../;pwd
  * 13. cat
  * 14. cat | cat
+ * 15. export > outfile1
 */
 static void	fake_parser(t_data *data, char *test)
 {
@@ -37,7 +38,7 @@ static void	fake_parser(t_data *data, char *test)
 		data->group = ft_calloc(sizeof(t_group), 2);
 		data->group[0].full_cmd = ft_calloc(3, sizeof(char *));
 		data->group[0].full_cmd[0] = ft_strdup("export");
-		data->group[0].full_cmd[1] = ft_strdup("something=blue");
+		data->group[0].full_cmd[1] = ft_strdup("aaaaa=blue");
 		data->group[0].full_cmd[2] = NULL;
 		data->group[0].infile = NULL;
 		data->group[0].outfile = NULL;
@@ -60,10 +61,10 @@ static void	fake_parser(t_data *data, char *test)
 		data->group[0].full_cmd[1] = ft_strdup("yo");
 		data->group[0].full_cmd[2] = NULL;
 		data->group[0].infile = malloc(sizeof(t_infile));
-		data->group[0].infile->name = ft_strdup("infile1");
+		data->group[0].infile->name = ft_strdup(FOLDER"infile1");
 		data->group[0].infile->here_doc = false;
 		data->group[0].infile->next = malloc(sizeof(t_infile));
-		data->group[0].infile->next->name = ft_strdup("infile2");
+		data->group[0].infile->next->name = ft_strdup(FOLDER"infile2");
 		data->group[0].infile->next->here_doc = false;
 		data->group[0].infile->next->next = NULL;
 		data->group[0].outfile = malloc(sizeof(t_infile));
@@ -83,10 +84,10 @@ static void	fake_parser(t_data *data, char *test)
 		data->group[0].full_cmd[1] = ft_strdup("yo");
 		data->group[0].full_cmd[2] = NULL;
 		data->group[0].infile = malloc(sizeof(t_infile));
-		data->group[0].infile->name = ft_strdup("infile1");
+		data->group[0].infile->name = ft_strdup(FOLDER"infile1");
 		data->group[0].infile->here_doc = false;
 		data->group[0].infile->next = malloc(sizeof(t_infile));
-		data->group[0].infile->next->name = ft_strdup("infile2");
+		data->group[0].infile->next->name = ft_strdup(FOLDER"infile2");
 		data->group[0].infile->next->here_doc = false;
 		data->group[0].infile->next->next = NULL;
 		data->group[0].outfile = malloc(sizeof(t_infile));
@@ -109,7 +110,7 @@ static void	fake_parser(t_data *data, char *test)
 	if (ft_strncmp("4", test, 1) == 0)
 	{
 		data->groupc = 2;
-		data->group = ft_calloc(sizeof(t_group), 3);
+		data->group = ft_calloc(sizeof(t_group), 2);
 		data->group[0].full_cmd = ft_calloc(2, sizeof(char *));
 		data->group[0].full_cmd[0] = ft_strdup("cat");
 		data->group[0].full_cmd[1] = NULL;
@@ -130,14 +131,17 @@ static void	fake_parser(t_data *data, char *test)
 	{
 		data->groupc = 1;
 		data->group = ft_calloc(sizeof(t_group), 1);
-		data->group[0].full_cmd = ft_calloc(3, sizeof(char *));
+		data->group[0].full_cmd = ft_calloc(5, sizeof(char *));
 		data->group[0].full_cmd[0] = ft_strdup("export");
 		data->group[0].full_cmd[1] = ft_strdup("something=blue");
-		data->group[0].full_cmd[2] = NULL;
+		data->group[0].full_cmd[2] = ft_strdup("somethingggg=bbblue");
+		data->group[0].full_cmd[3] = ft_strdup("hdsrtghsrdghs=ugood?");
+		data->group[0].full_cmd[4] = NULL;
 		data->group[0].infile = NULL;
 		data->group[0].outfile = NULL;
 		data->group[0].builtin = NULL;
 		execution(data);
+		free_groups(data);
 		fake_parser(data, "5.1");
 	}
 	if (ft_strncmp("5.1", test, 3) == 0)
@@ -153,20 +157,21 @@ static void	fake_parser(t_data *data, char *test)
 		data->group[0].outfile->append = false;
 		data->group[0].outfile->next = NULL;
 		data->group[0].builtin = NULL;
-		return (execution(data), exit(0));
+		return (execution(data), free_data(data), exit(0));
 	}
 	if (ft_strncmp("6", test, 3) == 0)
 	{
 		data->groupc = 1;
 		data->group = ft_calloc(sizeof(t_group), 1);
-		data->group[0].full_cmd = ft_calloc(2, sizeof(char *));
-		data->group[0].full_cmd[0] = ft_strdup("something=");
-		data->group[0].full_cmd[1] = NULL;
+		data->group[0].full_cmd = ft_calloc(3, sizeof(char *));
+		data->group[0].full_cmd[0] = ft_strdup("export");
+		data->group[0].full_cmd[1] = ft_strdup("something=");
+		data->group[0].full_cmd[2] = NULL;
 		data->group[0].infile = NULL;
 		data->group[0].outfile = NULL;
 		data->group[0].builtin = NULL;
-		export(data, &data->group[0]);
 		execution(data);
+		free_groups(data);
 		fake_parser(data, "6.1");
 	}
 	if (ft_strncmp("6.1", test, 3) == 0)
@@ -182,8 +187,8 @@ static void	fake_parser(t_data *data, char *test)
 		data->group[0].outfile->append = false;
 		data->group[0].outfile->next = NULL;
 		data->group[0].builtin = NULL;
-		export(data, &data->group[0]);
 		execution(data);
+		free_groups(data);
 		fake_parser(data, "6.2");
 	}
 	if (ft_strncmp("6.2", test, 3) == 0)
@@ -199,8 +204,8 @@ static void	fake_parser(t_data *data, char *test)
 		data->group[0].outfile->append = false;
 		data->group[0].outfile->next = NULL;
 		data->group[0].builtin = NULL;
-		export(data, &data->group[0]);
 		execution(data);
+		free_groups(data);
 		fake_parser(data, "6.3");
 	}
 	if (ft_strncmp("6.3", test, 3) == 0)
@@ -216,6 +221,7 @@ static void	fake_parser(t_data *data, char *test)
 		data->group[0].builtin = NULL;
 		export(data, &data->group[0]);
 		execution(data);
+		free_groups(data);
 		fake_parser(data, "6.4");
 	}
 	if (ft_strncmp("6.4", test, 3) == 0)
@@ -246,6 +252,7 @@ static void	fake_parser(t_data *data, char *test)
 		data->group[0].outfile = NULL;
 		data->group[0].builtin = NULL;
 		execution(data);
+		free_groups(data);
 		fake_parser(data, "7.1");
 	}
 	if (ft_strncmp("7.1", test, 3) == 0)
@@ -318,12 +325,13 @@ static void	fake_parser(t_data *data, char *test)
 		data->group = ft_calloc(sizeof(t_group), 1);
 		data->group[0].full_cmd = ft_calloc(3, sizeof(char *));
 		data->group[0].full_cmd[0] = ft_strdup("unset");
-		data->group[0].full_cmd[1] = ft_strdup("PWD");
+		data->group[0].full_cmd[1] = ft_strdup("XPC_FLAGS");
 		data->group[0].full_cmd[2] = NULL;
 		data->group[0].infile = NULL;
 		data->group[0].outfile = NULL;
 		data->group[0].builtin = NULL;
 		execution(data);
+		free_groups(data);
 		fake_parser(data, "11.1");
 	}
 	if (ft_strncmp("11.1", test, 4) == 0)
@@ -338,11 +346,11 @@ static void	fake_parser(t_data *data, char *test)
 		data->group[0].builtin = NULL;
 		data->group[1].full_cmd = ft_calloc(3, sizeof(char *));
 		data->group[1].full_cmd[0] = ft_strdup("grep");
-		data->group[1].full_cmd[0] = ft_strdup("PWD");
-		data->group[1].full_cmd[1] = NULL;
+		data->group[1].full_cmd[1] = ft_strdup("XPC");
+		data->group[1].full_cmd[2] = NULL;
 		data->group[1].outfile = ft_calloc(sizeof(t_outfile), 1);
 		data->group[1].outfile->name = ft_strdup(FOLDER11"outfile1");
-		data->group[1].outfile->append = false;
+		data->group[1].outfile->append = !true;
 		data->group[1].outfile->next = NULL;
 		data->group[1].builtin = NULL;
 		return (execution(data), exit(0));
@@ -359,6 +367,7 @@ static void	fake_parser(t_data *data, char *test)
 		data->group[0].outfile = NULL;
 		data->group[0].builtin = NULL;
 		execution(data);
+		free_groups(data);
 		fake_parser(data, "12.1");
 	}
 	if (ft_strncmp("12.1", test, 4) == 0)
@@ -398,6 +407,7 @@ static void	fake_parser(t_data *data, char *test)
 		data->group[0].outfile = NULL;
 		data->group[0].builtin = NULL;
 		execution(data);
+		free_groups(data);
 		fake_parser(data, "14.2");
 	}
 	if (ft_strncmp("14.2", test, 4) == 0)
@@ -422,6 +432,88 @@ static void	fake_parser(t_data *data, char *test)
 		data->group[0].infile = NULL;
 		data->group[0].outfile = NULL;
 		data->group[0].builtin = NULL;
+	}
+	if (ft_strncmp("16", test, 2) == 0)
+	{
+		data->groupc = 1;
+		data->group = ft_calloc(sizeof(t_group), 1);
+		data->group[0].full_cmd = ft_calloc(2, sizeof(char *));
+		data->group[0].full_cmd[0] = ft_strdup("export");
+		data->group[0].full_cmd[1] = NULL;
+		data->group[0].infile = NULL;
+		data->group[0].outfile = ft_calloc(sizeof(t_outfile), 1);
+		data->group[0].outfile->name = ft_strdup("minishell_tester/test16/outfile1");
+		data->group[0].outfile->append = false;
+		data->group[0].outfile->next = NULL;
+		data->group[0].builtin = NULL;
+	}
+	if (ft_strncmp("17", test, 4) == 0)
+	{
+		data->groupc = 1;
+		data->group = ft_calloc(sizeof(t_group), 1);
+		data->group[0].full_cmd = ft_calloc(2, sizeof(char *));
+		data->group[0].full_cmd[0] = ft_strdup("export");
+		data->group[0].full_cmd[1] = NULL;
+		data->group[0].infile = NULL;
+		data->group[0].outfile = ft_calloc(sizeof(t_outfile), 1);
+		data->group[0].outfile->name = ft_strdup("minishell_tester/test17/outfile1");
+		data->group[0].outfile->append = false;
+		data->group[0].outfile->next = NULL;
+		data->group[0].builtin = NULL;
+		execution(data);
+		free_groups(data);
+		fake_parser(data, "17.1");
+	}
+	if (ft_strncmp("17.1", test, 4) == 0)
+	{
+		data->groupc = 1;
+		data->group = ft_calloc(sizeof(t_group), 1);
+		data->group[0].full_cmd = ft_calloc(2, sizeof(char *));
+		data->group[0].full_cmd[0] = ft_strdup("export");
+		data->group[0].full_cmd[1] = NULL;
+		data->group[0].infile = NULL;
+		data->group[0].outfile = ft_calloc(sizeof(t_outfile), 1);
+		data->group[0].outfile->name = ft_strdup("minishell_tester/test17/outfile2");
+		data->group[0].outfile->append = false;
+		data->group[0].outfile->next = NULL;
+		data->group[0].builtin = NULL;
+		return (execution(data), exit(0));
+	}
+		if (ft_strncmp("18", test, 4) == 0)
+	{
+		data->groupc = 1;
+		data->group = ft_calloc(sizeof(t_group), 1);
+		data->group[0].full_cmd = ft_calloc(9, sizeof(char *));
+		data->group[0].full_cmd[0] = ft_strdup("export");
+		data->group[0].full_cmd[1] = ft_strdup("something=blue");
+		data->group[0].full_cmd[2] = ft_strdup("hallo");
+		data->group[0].full_cmd[3] = ft_strdup("yo=");
+		data->group[0].full_cmd[4] = ft_strdup("somethingggg=bbblue");
+		data->group[0].full_cmd[5] = ft_strdup("hdsrtghsrdghs=ugood?");
+		data->group[0].full_cmd[6] = ft_strdup("something=red");
+		data->group[0].full_cmd[7] = ft_strdup("hoi");
+		data->group[0].full_cmd[8] = NULL;
+		data->group[0].infile = NULL;
+		data->group[0].outfile = NULL;
+		data->group[0].builtin = NULL;
+		execution(data);
+		free_groups(data);
+		fake_parser(data, "18.1");
+	}
+	if (ft_strncmp("18.1", test, 4) == 0)
+	{
+		data->groupc = 1;
+		data->group = ft_calloc(sizeof(t_group), 1);
+		data->group[0].full_cmd = ft_calloc(2, sizeof(char *));
+		data->group[0].full_cmd[0] = ft_strdup("export");
+		data->group[0].full_cmd[1] = NULL;
+		data->group[0].infile = NULL;
+		data->group[0].outfile = malloc(sizeof(t_outfile));
+		data->group[0].outfile->name = ft_strdup("minishell_tester/test18/outfile1");
+		data->group[0].outfile->append = false;
+		data->group[0].outfile->next = NULL;
+		data->group[0].builtin = NULL;
+		return (execution(data), free_data(data), exit(0));
 	}
 }
 
@@ -449,21 +541,21 @@ void	set_exitcode(t_data *data)
 	}
 }
 
-static void	ctrl_c(int32_t sig)
-{
-	(void)sig;
-	ft_printf_fd(STDOUT_FILENO, "\n");
-	rl_on_new_line();
-	rl_replace_line("", 1);
-	rl_redisplay(); // not sure if this is fine or not
-}
+// static void	ctrl_c(int32_t sig)
+// {
+// 	(void)sig;
+// 	ft_printf_fd(STDOUT_FILENO, "\n");
+// 	rl_on_new_line();
+// 	rl_replace_line("", 1);
+// 	rl_redisplay(); // not sure if this is fine or not
+// }
 
-static void	ctrl_bslash(int32_t sig)
-{
-	(void)sig;
-	rl_redisplay();
-	signal(SIGQUIT, SIG_IGN);
-}
+// static void	ctrl_bslash(int32_t sig)
+// {
+// 	(void)sig;
+// 	rl_redisplay();
+// 	signal(SIGQUIT, SIG_IGN);
+// }
 
 void	free_fds()
 {
@@ -476,7 +568,7 @@ void	free_fds()
 
 int32_t	main(int32_t argc, char **argv, char **envp)
 {
-	char	*str;
+	// char	*str;
 	t_data	data;
 
 	(void)argc;
@@ -488,24 +580,24 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 		fake_parser(&data, argv[1]);
 		execution(&data);
 	}
-	else
-	{
-		while (69)
-		{
-			signal(SIGINT, ctrl_c);
-			signal(SIGQUIT, ctrl_bslash);
-			signal(SIGQUIT, SIG_IGN);
-			str = readline("🦇Mishell: ");
-			if (str == NULL)
-				return (printf("exit\n"), 0);
-			if (ft_strncmp(str, "./minishell", 12))
-				execution(&data);
-			// str = ft_strdup("export hi | env");
-			// parser(&data, str);
-			add_history(str);
-			free(str);
-		}
-	}
+	// else
+	// {
+	// 	while (69)
+	// 	{
+	// 		// signal(SIGINT, ctrl_c);
+	// 		// signal(SIGQUIT, ctrl_bslash);
+	// 		signal(SIGQUIT, SIG_IGN);
+	// 		str = readline("🦇Mishell: ");
+	// 		if (str == NULL)
+	// 			return (printf("exit\n"), 0);
+	// 		if (ft_strncmp(str, "./minishell", 12))
+	// 			execution(&data);
+	// 		// str = ft_strdup("export hi | env");
+	// 		// parser(&data, str);
+	// 		add_history(str);
+	// 		free(str);
+	// 	}
+	// }
 	free_data(&data);
 	return (0);
 }

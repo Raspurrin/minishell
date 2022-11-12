@@ -8,15 +8,16 @@ VIOLET="\033[0;30m"
 NC="\033[0m"
 NOPE="${RED}[nope]${NC}"
 OK="${GREEN}[OK]✨${NC}"
-TEST_NBR=12
+TEST_NBR=18
 
+FOLDER="minishell_tester/"
 DESC=()
-FOLDER=()
+T_FOLDER=()
 i=1
 while [ $i -le $TEST_NBR ]
 do
 	DESC[$i]="test$i"
-	FOLDER[$i]="minishell_tester/test$i/"
+	T_FOLDER[$i]="${FOLDER}test$i/"
 	(( i++ ))
 done
 
@@ -27,7 +28,7 @@ remove_files()
 	f_nbr=$2
 	while [ $j -le $f_nbr ]
 	do
-		rm -f ${FOLDER[$t_nbr]}outfile$j ${FOLDER[$t_nbr]}test$j ${FOLDER[$t_nbr]}diff
+		rm -f ${T_FOLDER[$t_nbr]}outfile$j ${T_FOLDER[$t_nbr]}test$j ${T_FOLDER[$t_nbr]}diff
 		(( j++ ))
 	done
 }
@@ -37,7 +38,7 @@ save_result()
 	t_nbr=$1
 	f_nbr=$2
 	./minishell $t_nbr
-	if diff -a ${FOLDER[$t_nbr]}outfile$f_nbr ${FOLDER[$t_nbr]}test$f_nbr > ${FOLDER[$t_nbr]}diff ; then
+	if diff -a ${T_FOLDER[$t_nbr]}outfile$f_nbr ${T_FOLDER[$t_nbr]}test$f_nbr > ${T_FOLDER[$t_nbr]}diff ; then
 		TEST[$t_nbr]="${DESC[$t_nbr]} ${GREEN}${OK}${NC}\\n"
 	else 
 		TEST[$t_nbr]="${DESC[$t_nbr]} ${RED}${NOPE}${NC}\\n"
@@ -56,11 +57,12 @@ save_result()
 # 10. env env hoi
 # 11. unset PWD; env | grep PWD >outfile1
 # 12. /bin/cd ../;pwd
+# 16. export > outfile1
 
 cd .. 
 make
 
-while getopts "de123456789abc" opt; do
+while getopts "de123456789abcfgh" opt; do
 	case $opt in
 		d)
 			DESC[1]="${DESC[1]}: ${VIOLET}(${BLACK}export something=blue${VIOLET} | ${BLACK}env ${VIOLET}>outfile1):${NC}\\n"
@@ -75,6 +77,9 @@ while getopts "de123456789abc" opt; do
 			DESC[10]="${DESC[10]}: ${VIOLET}(${BLACK}env env hoi ${VIOLET}>outfile1):${NC}\\n"
 			DESC[11]="${DESC[11]}: ${VIOLET}(${BLACK}unset PWD; env | grep PWD ${VIOLET}>outfile1):${NC}\\n"
 			DESC[12]="${DESC[12]}: ${VIOLET}(${BLACK}/bin/cd ../;pwd ${VIOLET}>outfile1):${NC}\\n"
+			DESC[16]="${DESC[16]}: ${VIOLET}(${BLACK}export${VIOLET}>outfile1):${NC}\\n"
+			DESC[17]="${DESC[17]}: ${VIOLET}(${BLACK}export${VIOLET}>outfile1; ${BLACK}export${VIOLET}>outfile1):${NC}\\n"
+			DESC[18]="${DESC[18]}: ${VIOLET}(${BLACK}export something=blue hallo yo= somethingggg=bbblue hdsrtghsrdghs=ugood? something=red hoi; export ${VIOLET}>outfile1)${NC}\\n"
 			;;
 		e)
 			i=1
@@ -88,36 +93,37 @@ while getopts "de123456789abc" opt; do
 			t_nbr=1
 			f_nbr=1
 			remove_files $t_nbr $f_nbr
-			echo "folder: ${FOLDER[$t_nbr]}"
-			export something=blue | env >${FOLDER[$t_nbr]}test1
+			export something=blue | env >${T_FOLDER[$t_nbr]}test1
 			save_result $t_nbr $f_nbr
 			;;
 		2)
 			t_nbr=2
 			f_nbr=2
 			remove_files $t_nbr $f_nbr
-			< infile1 < infile2 grep yo >${FOLDER[$t_nbr]}test1 >${FOLDER[$t_nbr]}test2
+			echo "yooo: ${FOLDER}infile1 pwd: ${PWD}"
+			< ${FOLDER}infile1 < ${FOLDER}infile2 grep yo >${T_FOLDER[$t_nbr]}test1 >${T_FOLDER[$t_nbr]}test2
 			save_result $t_nbr $f_nbr
 			;;
 		3)
 			t_nbr=3
 			f_nbr=2
 			remove_files $t_nbr $f_nbr
-			< infile1 < infile2 grep yo >${FOLDER[$t_nbr]}test1 | < infile3 grep file >${FOLDER[$t_nbr]}test2
+			< ${FOLDER}infile1 < ${FOLDER}infile2 grep yo >${T_FOLDER[$t_nbr]}test1 | < infile3 grep file >${T_FOLDER[$t_nbr]}test2
 			save_result $t_nbr $f_nbr
 			;;
 		4)
 			t_nbr=4
 			f_nbr=1
 			remove_files $t_nbr $f_nbr
-			cat | cat | ls >${FOLDER[$t_nbr]}/test1
+			cat | cat | ls >${T_FOLDER[$t_nbr]}test1
 			save_result $t_nbr $f_nbr
 			;;
 		5) 
 			t_nbr=5
 			f_nbr=1
 			remove_files $t_nbr $f_nbr
-			export something=blue;env >${FOLDER[$t_nbr]}test1
+			unset something
+			export something=blue ;env >${T_FOLDER[$t_nbr]}test1
 			save_result $t_nbr $f_nbr
 			echo ${PWD}
 			;;
@@ -125,49 +131,71 @@ while getopts "de123456789abc" opt; do
 			t_nbr=6
 			f_nbr=3
 			remove_files $t_nbr $f_nbr
-			export something=;env >${FOLDER[$t_nbr]}test1;export >${FOLDER[$t_nbr]}test2;unset something; export >${FOLDER[$t_nbr]}test3
+			export something=;env >${T_FOLDER[$t_nbr]}test1;export >${T_FOLDER[$t_nbr]}test2;unset something; export >${T_FOLDER[$t_nbr]}test3
 			save_result $t_nbr $f_nbr
 			;;
 		7)
 			t_nbr=7
 			f_nbr=1
 			remove_files $t_nbr $f_nbr
-			export something=====blue;env >${FOLDER[$t_nbr]}test1;
+			export something=====blue;env >${T_FOLDER[$t_nbr]}test1;
 			save_result $t_nbr $f_nbr
 			;;
 		8)
 			t_nbr=8
 			f_nbr=1
 			remove_files $t_nbr $f_nbr
-			echo -nnn -----nn --nnnnn > ${FOLDER[$t_nbr]}test1
+			echo -nnn -----nn --nnnnn > ${T_FOLDER[$t_nbr]}test1
 			save_result $t_nbr $f_nbr
 			;;
 		9)
 			t_nbr=9
 			f_nbr=1
 			remove_files $t_nbr $f_nbr
-			env env env > ${FOLDER[$t_nbr]}test1
+			 env env env > ${T_FOLDER[$t_nbr]}test1
 			save_result $t_nbr $f_nbr
 			;;
 		a)
 			t_nbr=10
 			f_nbr=1
 			remove_files $t_nbr $f_nbr
-			env env hoi > ${FOLDER[$t_nbr]}test1
+			env env hoi > ${T_FOLDER[$t_nbr]}test1
 			save_result $t_nbr $f_nbr
 			;;
 		b)
 			t_nbr=11
 			f_nbr=1
-			remove_files $t_nbr $f_nbr
-			unset PWD; env | grep PWD > ${FOLDER[$t_nbr]}test1
+			# remove_files $t_nbr $f_nbr
+			# $(bash unset XPC_FLAGS; (env | grep XPC > ${T_FOLDER[$t_nbr]}test1))
+			rm -f ${T_FOLDER[$t_nbr]}outfile1 ${T_FOLDER[$t_nbr]}diff
 			save_result $t_nbr $f_nbr
 			;;
 		c)
 			t_nbr=12
 			f_nbr=1
 			remove_files $t_nbr $f_nbr
-			usr/bin/cd ../;pwd > ${FOLDER[$t_nbr]}test1
+			usr/bin/cd ../;pwd > ${T_FOLDER[$t_nbr]}test1
+			save_result $t_nbr $f_nbr
+			;;
+		f) 
+			t_nbr=16
+			f_nbr=1
+			remove_files $t_nbr $f_nbr
+			export > ${T_FOLDER[$t_nbr]}test1
+			save_result $t_nbr $f_nbr
+			;;
+		g)
+			t_nbr=17
+			f_nbr=2
+			remove_files $t_nbr $f_nbr
+			export > ${T_FOLDER[$t_nbr]}test1; export > ${T_FOLDER[$t_nbr]}test2
+			save_result $t_nbr $f_nbr
+			;;
+		h)
+			t_nbr=18
+			f_nbr=1
+			remove_files $t_nbr $f_nbr
+			export something=blue hallo yo= somethingggg=bbblue hdsrtghsrdghs=ugood? something=red hoi;export >${T_FOLDER[$t_nbr]}test1
 			save_result $t_nbr $f_nbr
 			;;
 	esac

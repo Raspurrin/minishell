@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 22:46:32 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/10 20:06:38 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/12 04:50:02 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	change_(t_data *data)
 	{
 		free_env_node(env, false);
 		path = find_path(data, "env");
-		env->key = ft_strdup("_=");
+		env->key = ft_strdup("_");
 		env->value = path;
 		env->keyvalue = ft_strjoin("_=", path);
 		env->printed = true;
@@ -65,13 +65,14 @@ void	print_env(t_env *lst)
  * split[1] = NULL;
  * split[2] = NULL;
  */
-static char	**env_split(char *str, char del)
+char	**env_split(char *str, char del)
 {
 	size_t	i;
 	char	**split;
 
 	i = 0;
-	split = ft_calloc(2, sizeof(char *));
+	// check for valid input >:(
+	split = ft_calloc(3, sizeof(char *));
 	while (str[i] != del && str[i])
 		i++;
 	split[0] = ft_substr(str, 0, i);

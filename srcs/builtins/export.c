@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:10:18 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/08 04:58:59 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/12 06:17:45 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	export(t_data *data, t_group *group)
 	t_env	*lst;
 	t_env	*smol;
 	t_env	*tmp;
-
+	ft_printf_fd(STDERR_FILENO, "EXPORT IS A BEER TYPE\n");
 	(void)group;
 	lst = data->envp_head;
 	smol = lst;
@@ -42,19 +42,22 @@ void	export(t_data *data, t_group *group)
 		smol = tmp;
 		while (tmp->next != NULL)
 		{
+			// ft_printf_fd(STDERR_FILENO, "tmp->key: %s smol->key: %s\n", tmp->key, smol->key);
 			if ((ft_strncmp(tmp->key, smol->key, ft_strlen(smol->key)) < 0) \
 													&& tmp->printed == false)
 				smol = tmp;
 			tmp = tmp->next;
 		}
 		if (!smol->value)
-			printf("declare -x %s\n", smol->key);
+			ft_printf_fd(STDOUT_FILENO, "declare -x %s\n", smol->key);
 		else if (smol->printed == false) // because the while loop before goes to the end regardless if printed == true or not lmao kinda cursed
-			printf("declare -x %s=\"%s\"\n", smol->key, smol->value);
+			ft_printf_fd(STDOUT_FILENO, "declare -x %s=\"%s\"\n", smol->key, smol->value);
 		smol->printed = true;
+		ft_printf_fd(STDERR_FILENO, "smol: %s \t\tnext: %p\n", lst->key, lst->next);
 		lst = lst->next;
 	}
 	set_printed_false(data);
+	ft_printf_fd(STDERR_FILENO, "LIKE MY SOUL\n");
 }
 
 // char **env_split(size_t	wcount, )
@@ -69,6 +72,25 @@ void	lst_addback(t_data *data, t_env *new)
 	lst->next = new;
 }
 
+static bool check_export(char *export)
+{
+	ft_printf_fd(STDERR_FILENO, "check_export: %s\n", export);
+	while (*export)
+	{
+		if ((!(ft_isalpha(*export)) && *export != '_' && *export != '='))
+		{
+			ft_printf_fd(STDERR_FILENO, "Cause export fails: %c", *export);
+			return (false);
+		}
+		export++;
+	}
+	return (true);
+}
+
+/**
+ * example:
+ * export something=====blue something= USER=mialbert
+ */
 void	export_add(t_data *data, t_group *group)
 {
 	size_t	i;
@@ -77,21 +99,37 @@ void	export_add(t_data *data, t_group *group)
 	char	**tmp;
 
 	i = 1;
+	ft_printf_fd(STDERR_FILENO, "export add\n");
 	while (group->full_cmd[i])
 	{
-		tmp = ft_split(group->full_cmd[1], '=');
+		ft_printf_fd(STDERR_FILENO, "group->full_cmd[i]: %s\n", group->full_cmd[i]);
+		while (!check_export(group->full_cmd[i])) // this is retarded, pls be more smart
+		{
+			ft_printf_fd(STDERR_FILENO, "check_export failed\n");
+			if (!group->full_cmd[i + 1])
+				return ;
+			i++;
+		}
+		tmp = env_split(group->full_cmd[i], '=');
+		ft_printf_fd(STDERR_FILENO, "tmp[0]: %s\n", tmp[0]);
 		dup = find_node(data->envp_head, tmp[0]);
 		// t_env *env = find_node(data->envp_head, tmp[0]);
 		if (dup)
 		{
+			free(dup->value);
+			free(dup->keyvalue);
 			dup->value = tmp[1];
-			dup->keyvalue = group->full_cmd[1];
+			dup->keyvalue = ft_strdup(group->full_cmd[i]);
+			// free(group->full_cmd[i]);
+			free(tmp[0]);
+			free(tmp);
 			return ;
 		}
 		new = ft_calloc(sizeof(t_env), 1);
-		new->keyvalue = group->full_cmd[i];
+		new->keyvalue = ft_strdup(group->full_cmd[i]);
 		new->key = tmp[0];
 		new->value = tmp[1];
+		free(tmp);
 		new->printed = false;
 		new->next = NULL;
 		lst_addback(data, new);

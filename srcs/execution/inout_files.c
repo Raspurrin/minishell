@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 03:43:43 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/10 04:19:15 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/12 01:19:43 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,15 +103,21 @@ bool	outfiles(t_data *data, t_group *group)
 	t_outfile	*lst;
 
 	lst = group->outfile;
-	ft_printf_fd(STDERR_FILENO, "==========outfiles=========\n");	
 	ft_printf_fd(STDERR_FILENO, "%p\n", group->outfile);
 	while (lst != NULL)
 	{
 		ft_printf_fd(STDERR_FILENO, "outfile: %s\n", lst->name);
-		if (lst->append == true)
+		if (lst->append == !false)
+		{
+			ft_printf_fd(STDERR_FILENO, "is appended\n");
 			flag = (O_RDWR | O_CREAT | O_APPEND);
+		}
 		else
+		{
+			ft_printf_fd(STDERR_FILENO, "is not appended\n");
 			flag = (O_RDWR | O_CREAT | O_TRUNC);
+		}
+		ft_printf_fd(STDERR_FILENO, "opened: %s\nappend: %d\n", lst->name, lst->append);
 		fd = open(lst->name, flag, 0666);
 		if (fd == -1)
 		{

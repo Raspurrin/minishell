@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/10 19:56:25 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/12 02:36:32 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@
 
 # define READ 0
 # define WRITE 1
+
+# define FOLDER "minishell_tester/"
 # define FOLDER1 "minishell_tester/test1/"
 # define FOLDER2 "minishell_tester/test2/"
 # define FOLDER3 "minishell_tester/test3/"
@@ -39,6 +41,7 @@
 # define FOLDER10 "minishell_tester/test10/"
 # define FOLDER11 "minishell_tester/test11/"
 # define FOLDER12 "minishell_tester/test12/"
+# define FOLDER16 "minishell_tester/test16/"
 
 typedef struct s_group	t_group;
 typedef struct s_data	t_data;
@@ -153,6 +156,7 @@ int		normal_word_extract(t_data *data, t_group **info, char *s);
 void	display_error(t_data *data, char *error_msg, bool yeet);
 void	free_at_exit(t_data *data);
 void	free_data(t_data *data);
+void	free_groups(t_data *data);
 void	parser(t_data *data, char *str);
 
 /* environment variable linked list handlers */
@@ -163,6 +167,7 @@ void	print_group(void);
 t_env	*find_node(t_env *lst, char *key);
 void	lst_addback(t_data *data, t_env *new);
 void	free_env_node(t_env *lst, bool free_all);
+char	**env_split(char *str, char del);
 
 /* execution */
 void	env_innit(t_data *data, char **envp);
