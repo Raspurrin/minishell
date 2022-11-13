@@ -6,34 +6,11 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/12 03:30:23 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/13 07:00:43 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-char	*relative_path(char *path)
-{
-	size_t	sub;
-	size_t	len;
-	
-	sub = 0;
-	if (ft_strncmp(path, "./", 2) == 0)
-		return (ft_substr(path, 2, ft_strlen(path) - 2));
-	while (ft_strncmp(path, "../", 3) == 0)
-	{
-		path += 3;
-		sub++;
-	}
-	len = ft_strlen(path);
-	while (sub > 0)
-	{
-		while (path[len] != '/')
-			len--;
-		sub--;
-	}
-	return (ft_substr(path, 0, len));
-}
 
 /**
  * Full_cmd contains the cmd with all its flags in seperate elements: "ls -la"
@@ -53,12 +30,7 @@ char	*find_path(t_data *data, char *cmd_name)
 	if (!data->paths)
 		return (NULL);
 	if (ft_strchr(cmd_name, '/'))
-	{
-		path = relative_path(cmd_name);
-		if (access(path, F_OK | X_OK) == 0)
-			return (cmd_name);
-		return (display_error(data, "path failed", true), NULL);
-	}
+		return (absolute_or_relative(cmd_name, data->pwd));
 	cmd = ft_strjoin("/", cmd_name);
 	while (data->paths[i++])
 	{
@@ -134,6 +106,9 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2])
 		ft_printf_fd(STDERR_FILENO, "Dupping tmp_fd (%d) to STDIN\n", data->tmp_fd);
 		dup2(data->tmp_fd, STDIN_FILENO);
 	}
+	ft_printf_fd(STDERR_FILENO, "data->group[i]: %p\n", data->group[i]);
+	ft_printf_fd(STDERR_FILENO, "data->group[0]: %p\n", data->group[0]);
+	ft_printf_fd(STDERR_FILENO, "data->group[1]: %p\n", data->group[1]);
 	if (!outfiles(data, &data->group[i]) && i != data->groupc - 1)
 	{
 		ft_printf_fd(STDERR_FILENO, "Dupping fd[WRITE] to STDOUT\n");
@@ -152,6 +127,8 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2])
 	// for(int randomcountingvariable = 0; data->group[i].full_cmd[randomcountingvariable]; randomcountingvariable++)
 	// 	ft_printf_fd(STDERR_FILENO, "%s\n", data->group[i].full_cmd[randomcountingvariable]);
 	path = find_path(data, data->group[i].full_cmd[0]);
+	if (!path)
+		return (display_error(data, NULL, true));
 	// for(int randomcountingvariable = 0; data->group[i].full_cmd[randomcountingvariable]; randomcountingvariable++)
 	// 	ft_printf_fd(STDERR_FILENO, "%s\n", data->group[i].full_cmd[randomcountingvariable]);
 	ft_printf_fd(STDERR_FILENO, "before execv\n");
@@ -185,7 +162,7 @@ static void	exec_cmds(t_data *data)
 	{
 		ft_printf_fd(STDERR_FILENO, "==================\nbuiltin not in child process\n");
 		infiles(data, data->group);
-		outfiles(data, data->group);
+		// outfiles(data, data->group);
 		ft_printf_fd(STDERR_FILENO, "before function pointer\n");
 		data->group[0].builtin(data, &data->group[0]);
 		ft_printf_fd(STDERR_FILENO, "after function pointer\n");
@@ -219,6 +196,7 @@ void	execution(t_data *data)
 	// int32_t	status;
 
 	i = 0;
+	//ft_printf_fd(STDERR_FILENO, "my leg hurts\n");
 	exec_cmds(data);
 	ft_printf_fd(STDERR_FILENO, "after exec_cmds\n");
 	// while (i < data->groupc)
