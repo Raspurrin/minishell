@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 22:46:32 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/12 04:50:02 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/13 06:35:12 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,11 @@ void	path_innit(t_data *data)
 {
 	t_env	*lst;
 
-	if (data->paths)
-		free_2d(data->paths);
+	ft_printf_fd(STDERR_FILENO, "start env_innit\n");
 	lst = find_node(data->envp_head, "PATH");
-	data->paths = ft_split(lst->value, ':');
-	return ;
+	if (lst)
+		data->paths = ft_split(lst->value, ':');
+	ft_printf_fd(STDERR_FILENO, "end path_innit\n");
 }
 
 /**
@@ -42,16 +42,6 @@ void	change_(t_data *data)
 		env->value = path;
 		env->keyvalue = ft_strjoin("_=", path);
 		env->printed = true;
-	}
-}
-
-void	print_env(t_env *lst)
-{
-	while (lst != NULL)
-	{
-		if (lst->value)
-			printf("%s\n", lst->keyvalue);
-		lst = lst->next;
 	}
 }
 
