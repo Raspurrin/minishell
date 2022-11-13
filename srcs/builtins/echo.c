@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 03:04:01 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/02 16:47:24 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/13 06:42:33 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,22 +39,24 @@ static void	print_echo(bool	newline, char **str)
 void	echo(t_data *data, t_group *group)
 {
 	bool	newline;
+	char	**echo;
 	size_t	i;
 
 	i = 1;
 	(void)data;
-	newline = !false;
-	group->full_cmd++;
-	while ((ft_strncmp("-n", (*group->full_cmd), 2) == 0) && *group->full_cmd)
+	newline = true;
+	echo = group->full_cmd;
+	echo++;
+	while ((ft_strncmp("-n", (*echo), 2) == 0) && *echo)
 	{
-		while ((*group->full_cmd)[i])
+		while ((*echo)[i])
 		{
-			if ((*group->full_cmd)[i++] != 'n')
-				return (print_echo(newline, group->full_cmd));
+			if ((*echo)[i++] != 'n')
+				return (print_echo(newline, echo));
 		}
-		group->full_cmd++;
+		echo++;
 		newline = !true;
 		i = 1;
 	}
-	return (print_echo(newline, group->full_cmd));
+	return (print_echo(newline, echo));
 }
