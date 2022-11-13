@@ -1,8 +1,4 @@
-31a32
-> declare -x hallo
-32a34
-> declare -x hoi
-34c36
+34c34
 < declare -x something="blue"
 ---
-> declare -x something="red"
+> declare -x something="====blue"

@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 03:43:43 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/12 01:19:43 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/13 01:04:42 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,9 +101,12 @@ bool	outfiles(t_data *data, t_group *group)
 	int32_t		fd;
 	int16_t		flag;
 	t_outfile	*lst;
-
+	
 	lst = group->outfile;
-	ft_printf_fd(STDERR_FILENO, "%p\n", group->outfile);
+	// ft_printf_fd(STDERR_FILENO, "%s\n", group->outfile);
+	// ft_printf_fd(STDERR_FILENO, "%s\n", group->full_cmd[0]);
+	// ft_printf_fd(STDERR_FILENO, "%p\n", group->outfile);
+	// ft_printf_fd(STDERR_FILENO, "%s\n", group->outfile->name);
 	while (lst != NULL)
 	{
 		ft_printf_fd(STDERR_FILENO, "outfile: %s\n", lst->name);

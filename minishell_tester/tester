@@ -8,7 +8,7 @@ VIOLET="\033[0;30m"
 NC="\033[0m"
 NOPE="${RED}[nope]${NC}"
 OK="${GREEN}[OK]✨${NC}"
-TEST_NBR=18
+TEST_NBR=28
 
 FOLDER="minishell_tester/"
 DESC=()
@@ -54,34 +54,58 @@ save_result()
 # 7. export something=====blue;env outfile1;
 # 8. echo -nnn -----nn --nnnnn >outfile1
 # 9. env env env
-# 10. env env hoi
-# 11. unset PWD; env | grep PWD >outfile1
-# 12. /bin/cd ../;pwd
-# 16. export > outfile1
+# a - 10. env env hoi
+# b - 11. unset PWD; env | grep PWD >outfile1
+# c - 12. /bin/cd ../;pwd
+# d - 16. export > outfile1
+# e - 17. export > outfile1; export > outfile2
+# f - 18. export something=blue hallo yo= somethingggg=bbblue hdsrtghsrdghs=ugood? something=red hoi; export > outfile1
+# g - 19. unset USER; export > outfile1;
+# h - 20. unset PWD; cd ../; pwd >outfile1; bin/ls >outfile2
+# i - 21. cd ../minishell/libs; pwd > outfile1; env | grep PWD > outfile2
+# j - 22. ./minishell; ./minishell; env | grep SHLVL > outfile1; exit; pwd >outfile2
+# k - 23. echo "yo what is up\n yo yo yo" | grep "yo" > outfile1
+# l - 24. echo hola | cat | cat | grep hola >outfile1
+# m - 25. cd /Users/mialbert/Documents; /bin/pwd > outfile1
+# n - 26. bin/ls; echo $? > outfile1
+# o - 27. << heredoc1 << heredoc2 grep yo >outfile1
+# p - 28. << heredoc1 << heredoc2 env >outfile1
+
+# 29. touch outfile1
+#
 
 cd .. 
-make
+make re DEBUG=1
 
-while getopts "de123456789abcfgh" opt; do
+DESC[1]="${DESC[1]}: ${VIOLET}(${BLACK}export something=blue${VIOLET} | ${BLACK}env ${VIOLET}>outfile1):${NC}\\n"
+DESC[2]="${DESC[2]}: ${VIOLET}(<infile1 <infile2 ${BLACK}grep yo ${VIOLET}>outfile1 >outfile2):${NC}\\n"
+DESC[3]="${DESC[3]}: ${VIOLET}(<infile1 <infile2 ${BLACK}grep yo ${VIOLET}>outfile1 | <infile2 ${BLACK}grep file ${VIOLET}>outfile2):${NC}\\n"
+DESC[4]="${DESC[4]}: ${VIOLET}(${BLACK}cat ${VIOLET}| ${BLACK}cat${VIOLET} | ${BLACK}ls ${VIOLET}>outfile6):${NC}\\n"
+DESC[5]="${DESC[5]}: ${VIOLET}(${BLACK}export something=blue; env ${VIOLET}>outfile1)${NC}\\n"
+DESC[6]="${DESC[6]}: ${VIOLET}(${BLACK}export something=;env ${VIOLET}>outfile1 ${BLACK};export ${VIOLET}>outfile2;${BLACK}unset something; export ${VIOLET}>outfile3):${NC}\\n"
+DESC[7]="${DESC[7]}: ${VIOLET}(${BLACK}export something=====blue;env ${VIOLET}>outfile1;):${NC}\\n"
+DESC[8]="${DESC[8]}: ${VIOLET}(${BLACK}echo -nnn -----nn --nnnnn ${VIOLET}>outfile1):${NC}\\n"
+DESC[9]="${DESC[9]}: ${VIOLET}(${BLACK}env env env ${VIOLET}>outfile1):${NC}\\n"
+DESC[10]="${DESC[10]}: ${VIOLET}(${BLACK}env env hoi ${VIOLET}>outfile1):${NC}\\n"
+DESC[11]="${DESC[11]}: ${VIOLET}(${BLACK}unset PWD; env | grep PWD ${VIOLET}>outfile1):${NC}\\n"
+DESC[12]="${DESC[12]}: ${VIOLET}(${BLACK}/bin/cd ../;pwd ${VIOLET}>outfile1):${NC}\\n"
+DESC[16]="${DESC[16]}: ${VIOLET}(${BLACK}export${VIOLET}>outfile1):${NC}\\n"
+DESC[17]="${DESC[17]}: ${VIOLET}(${BLACK}export${VIOLET}>outfile1; ${BLACK}export${VIOLET}>outfile1):${NC}\\n"
+DESC[18]="${DESC[18]}: ${VIOLET}(${BLACK}export something=blue hallo yo= somethingggg=bbblue hdsrtghsrdghs=ugood? something=red hoi; export ${VIOLET}>outfile1)${NC}\\n"
+DESC[19]="${DESC[19]}: ${VIOLET}(${BLACK}unset USER; export${VIOLET} > outfile1${NC}\\n"
+DESC[20]="${DESC[20]}: ${VIOLET}(${BLACK}unset PWD; cd ../; pwd ${VIOLET}>outfile1):${NC}\\n"
+DESC[21]="${DESC[21]}: ${VIOLET}(${BLACK}cd ../minishell/libs; pwd${VIOLET} >outfile1 ${BLACK}; env | grep PWD ${VIOLET}>outfile2)${NC}\\n"
+DESC[22]="${DESC[22]}: ${VIOLET}(${BLACK}./minishell; ./minishell; env | grep SHLVL${VIOLET} <outfile1 ${BLACK}; exit; pwd${VIOLET} >outfile2${NC}\\n"
+DESC[23]="${DESC[23]}: ${VIOLET}(${BLACK}echo yo what is up\\n yo yo yo | grep yo${VIOLET}>outfile1)${NC}\\n"
+DESC[24]="${DESC[24]}: ${VIOLET}(${BLACK}echo hola | cat | cat | grep hola ${VIOLET}>outfile1 ${NC}\\n"
+DESC[25]="${DESC[25]}: ${VIOLET}(${BLACK}cd /Users/mialbert/Documents; /bin/pwd ${VIOLET}>outfile1;):${NC}\\n"
+DESC[26]="${DESC[26]}: ${VIOLET}(${BLACK} bin/ls; echo exitstatus ${VIOLET}>outfile1):${NC}\\n"
+DESC[27]="${DESC[27]}: ${VIOLET}(<<heredoc1 <<heredoc2 ${BLACK}grep yo ${VIOLET}>outfile1${NC}\\n"
+DESC[28]="${DESC[28]}: ${VIOLET}(<<heredoc1 <<heredoc2 ${BLACK}env ${VIOLET}>outfile1${NC}\\n"
+
+while getopts "z123456789abcdefghijklmnopqrstuvwxyz" opt; do
 	case $opt in
-		d)
-			DESC[1]="${DESC[1]}: ${VIOLET}(${BLACK}export something=blue${VIOLET} | ${BLACK}env ${VIOLET}>outfile1):${NC}\\n"
-			DESC[2]="${DESC[2]}: ${VIOLET}(<infile1 <infile2 ${BLACK}grep yo ${VIOLET}>outfile2 >outfile3):${NC}\\n"
-			DESC[3]="${DESC[3]}: ${VIOLET}(<infile1 <infile2 ${BLACK}grep yo ${VIOLET}>outfile1 | <infile3 ${BLACK}grep file ${VIOLET}>outfile2):${NC}\\n"
-			DESC[4]="${DESC[4]}: ${VIOLET}(${BLACK}cat ${VIOLET}| ${BLACK}cat${VIOLET} | ${BLACK}ls ${VIOLET}>outfile6):${NC}\\n"
-			DESC[5]="${DESC[5]}: ${VIOLET}(${BLACK}export something=blue; env ${VIOLET}>outfile1)${NC}\\n"
-			DESC[6]="${DESC[6]}: ${VIOLET}(${BLACK}export something=;env ${VIOLET}>outfile1 ${BLACK};export ${VIOLET}>outfile2;${BLACK}unset something; export ${VIOLET}>outfile3):${NC}\\n"
-			DESC[7]="${DESC[7]}: ${VIOLET}(${BLACK}export something=====blue;env ${VIOLET}>outfile1;):${NC}\\n"
-			DESC[8]="${DESC[8]}: ${VIOLET}(${BLACK}echo -nnn -----nn --nnnnn ${VIOLET}>outfile1):${NC}\\n"
-			DESC[9]="${DESC[9]}: ${VIOLET}(${BLACK}env env env ${VIOLET}>outfile1):${NC}\\n"
-			DESC[10]="${DESC[10]}: ${VIOLET}(${BLACK}env env hoi ${VIOLET}>outfile1):${NC}\\n"
-			DESC[11]="${DESC[11]}: ${VIOLET}(${BLACK}unset PWD; env | grep PWD ${VIOLET}>outfile1):${NC}\\n"
-			DESC[12]="${DESC[12]}: ${VIOLET}(${BLACK}/bin/cd ../;pwd ${VIOLET}>outfile1):${NC}\\n"
-			DESC[16]="${DESC[16]}: ${VIOLET}(${BLACK}export${VIOLET}>outfile1):${NC}\\n"
-			DESC[17]="${DESC[17]}: ${VIOLET}(${BLACK}export${VIOLET}>outfile1; ${BLACK}export${VIOLET}>outfile1):${NC}\\n"
-			DESC[18]="${DESC[18]}: ${VIOLET}(${BLACK}export something=blue hallo yo= somethingggg=bbblue hdsrtghsrdghs=ugood? something=red hoi; export ${VIOLET}>outfile1)${NC}\\n"
-			;;
-		e)
+		z)
 			i=1
 			while [ $i -le $TEST_NBR ]
 			do
@@ -121,9 +145,8 @@ while getopts "de123456789abcfgh" opt; do
 		5) 
 			t_nbr=5
 			f_nbr=1
-			remove_files $t_nbr $f_nbr
-			unset something
-			export something=blue ;env >${T_FOLDER[$t_nbr]}test1
+			rm -f ${T_FOLDER[$t_nbr]}outfile$j ${T_FOLDER[$t_nbr]}diff
+			# $(bash export something=blue ;env >${T_FOLDER[$t_nbr]}test1)
 			save_result $t_nbr $f_nbr
 			echo ${PWD}
 			;;
@@ -131,14 +154,14 @@ while getopts "de123456789abcfgh" opt; do
 			t_nbr=6
 			f_nbr=3
 			remove_files $t_nbr $f_nbr
-			export something=;env >${T_FOLDER[$t_nbr]}test1;export >${T_FOLDER[$t_nbr]}test2;unset something; export >${T_FOLDER[$t_nbr]}test3
+			$(bash export something=;env >${T_FOLDER[$t_nbr]}test1;export >${T_FOLDER[$t_nbr]}test2;unset something; export >${T_FOLDER[$t_nbr]}test3)
 			save_result $t_nbr $f_nbr
 			;;
 		7)
 			t_nbr=7
 			f_nbr=1
-			remove_files $t_nbr $f_nbr
-			export something=====blue;env >${T_FOLDER[$t_nbr]}test1;
+			rm -f ${T_FOLDER[$t_nbr]}outfile$j ${T_FOLDER[$t_nbr]}diff
+			# $(bash export something=====blue;env >${T_FOLDER[$t_nbr]}test1)
 			save_result $t_nbr $f_nbr
 			;;
 		8)
@@ -177,25 +200,81 @@ while getopts "de123456789abcfgh" opt; do
 			usr/bin/cd ../;pwd > ${T_FOLDER[$t_nbr]}test1
 			save_result $t_nbr $f_nbr
 			;;
-		f) 
+		d) 
 			t_nbr=16
 			f_nbr=1
 			remove_files $t_nbr $f_nbr
 			export > ${T_FOLDER[$t_nbr]}test1
 			save_result $t_nbr $f_nbr
 			;;
-		g)
+		e)
 			t_nbr=17
 			f_nbr=2
 			remove_files $t_nbr $f_nbr
-			export > ${T_FOLDER[$t_nbr]}test1; export > ${T_FOLDER[$t_nbr]}test2
+			$(bash export > ${T_FOLDER[$t_nbr]}test1; export > ${T_FOLDER[$t_nbr]}test2)
 			save_result $t_nbr $f_nbr
 			;;
-		h)
+		f)
 			t_nbr=18
 			f_nbr=1
 			remove_files $t_nbr $f_nbr
-			export something=blue hallo yo= somethingggg=bbblue hdsrtghsrdghs=ugood? something=red hoi;export >${T_FOLDER[$t_nbr]}test1
+			$(bash export something=blue hallo yo= somethingggg=bbblue hdsrtghsrdghs=ugood? something=red hoi;export >${T_FOLDER[$t_nbr]}test1)
+			save_result $t_nbr $f_nbr
+			;;
+		g) 
+			t_nbr=19
+			f_nbr=1
+			remove_files $t_nbr $f_nbr
+			$(bash unset USER; export > ${T_FOLDER[$t_nbr]}test1)
+			save_result $t_nbr $f_nbr
+			;;
+		h)
+			t_nbr=20
+			f_nbr=2
+			remove_files $t_nbr $f_nbr
+			$(bash unset PWD; pwd > ${T_FOLDER[$t_nbr]}test1; /bin/ls > ${T_FOLDER[$t_nbr]}test2)
+			save_result $t_nbr $f_nbr
+			;;
+		i)
+			t_nbr=21
+			f_nbr=2
+			remove_files $t_nbr $f_nbr
+			cd ../minishell/libs; pwd > ${T_FOLDER[$t_nbr]}test1; env | grep PWD > ${T_FOLDER[$t_nbr]}test2
+			save_result $t_nbr $f_nbr
+			;;
+		j)
+			t_nbr=22
+			f_nbr=2
+			remove_files $t_nbr $f_nbr
+			./bash; ./bash; env | grep SHLVL > ${T_FOLDER[$t_nbr]}test1; exit; pwd > ${T_FOLDER[$t_nbr]}test2
+			save_result $t_nbr $f_nbr
+			;;
+		k)
+			t_nbr=23
+			f_nbr=1
+			remove_files $t_nbr $f_nbr
+			echo "yo what is up\n yo yo yo" | grep "yo" > ${T_FOLDER[$t_nbr]}test1
+			save_result $t_nbr $f_nbr
+			;;
+		l)
+			t_nbr=24
+			f_nbr=1
+			remove_files $t_nbr $f_nbr
+			echo "hola" | cat | cat | grep "hola" > ${T_FOLDER[$t_nbr]}test1
+			save_result $t_nbr $f_nbr
+			;;
+		m)
+			t_nbr=25
+			f_nbr=1
+			remove_files $t_nbr $f_nbr
+			cd /Users/mialbert/Documents; /bin/pwd > ${T_FOLDER[$t_nbr]}test1
+			save_result $t_nbr $f_nbr
+			;;
+		n)
+			t_nbr=26
+			f_nbr=1
+			remove_files $t_nbr $f_nbr
+			bin/ls; echo $? > ${T_FOLDER[$t_nbr]}test1
 			save_result $t_nbr $f_nbr
 			;;
 	esac

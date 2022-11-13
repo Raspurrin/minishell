@@ -6,7 +6,7 @@
 #    By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/11 18:45:17 by pmoghadd          #+#    #+#              #
-#    Updated: 2022/11/12 03:30:07 by mialbert         ###   ########.fr        #
+#    Updated: 2022/11/13 06:38:41 by mialbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,7 +35,8 @@ SRCS	=	./srcs/parsing/parser.c \
 			./srcs/main.c \
 			./srcs/init.c \
 			./srcs/utils.c \
-			./srcs/error.c
+			./srcs/error.c \
+			./srcs/free.c
 
 OBJS	= $(SRCS:.c=.o)
 

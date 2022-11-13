@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/12 02:36:32 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/13 05:44:10 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,13 +161,13 @@ void	parser(t_data *data, char *str);
 
 /* environment variable linked list handlers */
 void	env(t_data *data, t_group *group);
-void	print_env(t_env *lst);
 char	**env_2darr(t_data *data, t_env *lst);
 void	print_group(void);
 t_env	*find_node(t_env *lst, char *key);
 void	lst_addback(t_data *data, t_env *new);
 void	free_env_node(t_env *lst, bool free_all);
 char	**env_split(char *str, char del);
+void	print_env(t_env *lst);
 
 /* execution */
 void	env_innit(t_data *data, char **envp);
@@ -177,6 +177,8 @@ bool	outfiles(t_data *data, t_group *group);
 char	*get_path(t_data *data);
 char	*find_path(t_data *data, char *cmd_name);
 void	path_innit(t_data *data);
+char	*find_new_path(char *str, char *path);
+char	*absolute_or_relative(char *path, char *old_path);
 
 /* builtins: */
 void	exit_check(t_data *data, t_group *group);
