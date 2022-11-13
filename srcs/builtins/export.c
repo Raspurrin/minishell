@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:10:18 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/12 06:17:45 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/13 07:26:34 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ void	export_add(t_data *data, t_group *group)
 
 	i = 1;
 	ft_printf_fd(STDERR_FILENO, "export add\n");
+	print_2d_fd(group->full_cmd, STDERR_FILENO);
 	while (group->full_cmd[i])
 	{
 		ft_printf_fd(STDERR_FILENO, "group->full_cmd[i]: %s\n", group->full_cmd[i]);
@@ -123,16 +124,18 @@ void	export_add(t_data *data, t_group *group)
 			// free(group->full_cmd[i]);
 			free(tmp[0]);
 			free(tmp);
-			return ;
 		}
-		new = ft_calloc(sizeof(t_env), 1);
-		new->keyvalue = ft_strdup(group->full_cmd[i]);
-		new->key = tmp[0];
-		new->value = tmp[1];
-		free(tmp);
-		new->printed = false;
-		new->next = NULL;
-		lst_addback(data, new);
+		else 
+		{
+			new = ft_calloc(sizeof(t_env), 1);
+			new->keyvalue = ft_strdup(group->full_cmd[i]);
+			new->key = tmp[0];
+			new->value = tmp[1];
+			free(tmp);
+			new->printed = false;
+			new->next = NULL;
+			lst_addback(data, new);
+		}
 		i++;
 	}
 }
