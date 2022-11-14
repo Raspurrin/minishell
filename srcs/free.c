@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 06:36:38 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/13 06:43:17 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/13 23:22:05 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	free_env_node(t_env *lst, bool free_all)
 	ft_bzero(lst, sizeof(lst));
 	if (lst && free_all == true)
 		free(lst);
+	lst = NULL;
 }
 
 void	free_env_lst(t_env *lst)
