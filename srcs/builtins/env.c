@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 01:52:49 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/13 04:49:55 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/13 23:02:18 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	print_env(t_env *lst)
 {
 	while (lst != NULL)
 	{
-		if (lst->value && lst->keyvalue)
+		if (lst->value && lst->keyvalue && *lst->value)
 			ft_printf_fd(STDOUT_FILENO, "%s\n", lst->keyvalue);
 		lst = lst->next;
 	}
