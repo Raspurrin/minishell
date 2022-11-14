@@ -33,15 +33,42 @@ remove_files()
 	done
 }
 
-save_result()
+sorted_diff()
 {
 	t_nbr=$1
 	f_nbr=$2
-	./minishell $t_nbr
+
+	echo "in sorted diff\n"
+	if $(bash <(sort ${T_FOLDER[$t_nbr]}outfile$f_nbr) <(sort ${T_FOLDER[$t_nbr]}test$f_nbr) > ${T_FOLDER[$t_nbr]}diff) ; then
+		TEST[$t_nbr]="${DESC[$t_nbr]} ${GREEN}${OK}${NC}\\n"
+	else 
+		TEST[$t_nbr]="${DESC[$t_nbr]} ${RED}${NOPE}${NC}\\n"
+	fi
+}
+
+unsorted_diff()
+{
+	t_nbr=$1
+	f_nbr=$2
+
+	echo "in unsorted diff\n"
 	if diff -a ${T_FOLDER[$t_nbr]}outfile$f_nbr ${T_FOLDER[$t_nbr]}test$f_nbr > ${T_FOLDER[$t_nbr]}diff ; then
 		TEST[$t_nbr]="${DESC[$t_nbr]} ${GREEN}${OK}${NC}\\n"
 	else 
 		TEST[$t_nbr]="${DESC[$t_nbr]} ${RED}${NOPE}${NC}\\n"
+	fi
+}
+
+save_result()
+{
+	t_nbr=$1
+	f_nbr=$2
+
+	./minishell $t_nbr
+	if [ -z "$3" ] ; then
+		unsorted_diff $1 $2
+	else
+		sorted_diff $1 $2
 	fi
 }
 
@@ -59,7 +86,7 @@ save_result()
 # c - 12. /bin/cd ../;pwd
 # d - 16. export > outfile1
 # e - 17. export > outfile1; export > outfile2
-# f - 18. export something=blue hallo yo= somethingggg=bbblue hdsrtghsrdghs=ugood? something=red hoi; export > outfile1
+# f - 18. export something=blue hallo yo= somethingggg=bbblue something=red yo hallo= hoi; export > outfile1
 # g - 19. unset USER; export > outfile1;
 # h - 20. unset PWD; cd ../; pwd >outfile1; bin/ls >outfile2
 # i - 21. cd ../minishell/libs; pwd > outfile1; env | grep PWD > outfile2
@@ -71,11 +98,12 @@ save_result()
 # o - 27. << heredoc1 << heredoc2 grep yo >outfile1
 # p - 28. << heredoc1 << heredoc2 env >outfile1
 
-# 29. touch outfile1
-#
+# q - 29. touch outfile1
+# r - 30. echo "-nnn " hello > outfile1
+# s - 31. export something; export > outfile1; env > outfile2; export something=; export >outfile3; env >outfile4;
 
 cd .. 
-make re DEBUG=1
+make DEBUG=1
 
 DESC[1]="${DESC[1]}: ${VIOLET}(${BLACK}export something=blue${VIOLET} | ${BLACK}env ${VIOLET}>outfile1):${NC}\\n"
 DESC[2]="${DESC[2]}: ${VIOLET}(<infile1 <infile2 ${BLACK}grep yo ${VIOLET}>outfile1 >outfile2):${NC}\\n"
@@ -116,8 +144,8 @@ while getopts "z123456789abcdefghijklmnopqrstuvwxyz" opt; do
 		1)
 			t_nbr=1
 			f_nbr=1
-			remove_files $t_nbr $f_nbr
-			export something=blue | env >${T_FOLDER[$t_nbr]}test1
+			rm -f ${T_FOLDER[$t_nbr]}outfile$j ${T_FOLDER[$t_nbr]}diff
+			env >${T_FOLDER[$t_nbr]}test1
 			save_result $t_nbr $f_nbr
 			;;
 		2)
@@ -142,12 +170,12 @@ while getopts "z123456789abcdefghijklmnopqrstuvwxyz" opt; do
 			cat | cat | ls >${T_FOLDER[$t_nbr]}test1
 			save_result $t_nbr $f_nbr
 			;;
-		5) 
+		5)
 			t_nbr=5
 			f_nbr=1
 			rm -f ${T_FOLDER[$t_nbr]}outfile$j ${T_FOLDER[$t_nbr]}diff
-			# $(bash export something=blue ;env >${T_FOLDER[$t_nbr]}test1)
-			save_result $t_nbr $f_nbr
+			env > ${T_FOLDER[$t_nbr]}test1 export something=blue >> ${T_FOLDER[$t_nbr]}test1
+			save_result $t_nbr $f_nbr 1
 			echo ${PWD}
 			;;
 		6)
@@ -161,8 +189,8 @@ while getopts "z123456789abcdefghijklmnopqrstuvwxyz" opt; do
 			t_nbr=7
 			f_nbr=1
 			rm -f ${T_FOLDER[$t_nbr]}outfile$j ${T_FOLDER[$t_nbr]}diff
-			# $(bash export something=====blue;env >${T_FOLDER[$t_nbr]}test1)
-			save_result $t_nbr $f_nbr
+			#export something=====blue;env >${T_FOLDER[$t_nbr]}test1
+			save_result $t_nbr $f_nbr 1
 			;;
 		8)
 			t_nbr=8
@@ -175,7 +203,7 @@ while getopts "z123456789abcdefghijklmnopqrstuvwxyz" opt; do
 			t_nbr=9
 			f_nbr=1
 			remove_files $t_nbr $f_nbr
-			 env env env > ${T_FOLDER[$t_nbr]}test1
+			env env env > ${T_FOLDER[$t_nbr]}test1
 			save_result $t_nbr $f_nbr
 			;;
 		a)
@@ -217,15 +245,19 @@ while getopts "z123456789abcdefghijklmnopqrstuvwxyz" opt; do
 		f)
 			t_nbr=18
 			f_nbr=1
-			remove_files $t_nbr $f_nbr
-			$(bash export something=blue hallo yo= somethingggg=bbblue hdsrtghsrdghs=ugood? something=red hoi;export >${T_FOLDER[$t_nbr]}test1)
+			rm -f ${T_FOLDER[$t_nbr]}outfile$j ${T_FOLDER[$t_nbr]}diff
+			export >${T_FOLDER[$t_nbr]}test1; echo "declare -x hallo=\"\"
+declare -x hoi
+declare -x something=\"red\"
+declare -x somethingggg=\"bbblue\"
+declare -x yo=\"\"" >> ${T_FOLDER[$t_nbr]}test1
 			save_result $t_nbr $f_nbr
 			;;
 		g) 
 			t_nbr=19
 			f_nbr=1
-			remove_files $t_nbr $f_nbr
-			$(bash unset USER; export > ${T_FOLDER[$t_nbr]}test1)
+			rm -f ${T_FOLDER[$t_nbr]}outfile$j ${T_FOLDER[$t_nbr]}diff
+			# $(bash unset USER; export > ${T_FOLDER[$t_nbr]}test1)
 			save_result $t_nbr $f_nbr
 			;;
 		h)
@@ -239,7 +271,7 @@ while getopts "z123456789abcdefghijklmnopqrstuvwxyz" opt; do
 			t_nbr=21
 			f_nbr=2
 			remove_files $t_nbr $f_nbr
-			cd ../minishell/libs; pwd > ${T_FOLDER[$t_nbr]}test1; env | grep PWD > ${T_FOLDER[$t_nbr]}test2
+			cd ../libs; pwd > ${T_FOLDER[$t_nbr]}test1; env | grep PWD > ${T_FOLDER[$t_nbr]}test2
 			save_result $t_nbr $f_nbr
 			;;
 		j)
