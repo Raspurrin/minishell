@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/13 07:00:43 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/13 23:13:02 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,7 +162,7 @@ static void	exec_cmds(t_data *data)
 	{
 		ft_printf_fd(STDERR_FILENO, "==================\nbuiltin not in child process\n");
 		infiles(data, data->group);
-		// outfiles(data, data->group);
+		outfiles(data, data->group);
 		ft_printf_fd(STDERR_FILENO, "before function pointer\n");
 		data->group[0].builtin(data, &data->group[0]);
 		ft_printf_fd(STDERR_FILENO, "after function pointer\n");
