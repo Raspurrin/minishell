@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:10:18 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/13 07:26:34 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/14 01:45:13 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,17 +34,17 @@ void	export(t_data *data, t_group *group)
 	(void)group;
 	lst = data->envp_head;
 	smol = lst;
-	while (lst != NULL)
+	while (lst->next != NULL)
 	{
 		tmp = data->envp_head;
 		while (tmp->printed == true && tmp->next != NULL) // why does this happen if not everything is set to false
 			tmp = tmp->next;
 		smol = tmp;
-		while (tmp->next != NULL)
+		while (tmp != NULL)
 		{
 			// ft_printf_fd(STDERR_FILENO, "tmp->key: %s smol->key: %s\n", tmp->key, smol->key);
-			if ((ft_strncmp(tmp->key, smol->key, ft_strlen(smol->key)) < 0) \
-													&& tmp->printed == false)
+			if ((ft_strncmp(tmp->key, smol->key, ft_strlen(smol->key)) < 0 && \
+													tmp->printed == false))
 				smol = tmp;
 			tmp = tmp->next;
 		}
@@ -53,7 +53,7 @@ void	export(t_data *data, t_group *group)
 		else if (smol->printed == false) // because the while loop before goes to the end regardless if printed == true or not lmao kinda cursed
 			ft_printf_fd(STDOUT_FILENO, "declare -x %s=\"%s\"\n", smol->key, smol->value);
 		smol->printed = true;
-		ft_printf_fd(STDERR_FILENO, "smol: %s \t\tnext: %p\n", lst->key, lst->next);
+		ft_printf_fd(STDERR_FILENO, "smol: %s \t\tnext: %p\n", smol->key, smol->next);
 		lst = lst->next;
 	}
 	set_printed_false(data);
@@ -117,9 +117,12 @@ void	export_add(t_data *data, t_group *group)
 		// t_env *env = find_node(data->envp_head, tmp[0]);
 		if (dup)
 		{
-			free(dup->value);
 			free(dup->keyvalue);
-			dup->value = tmp[1];
+			if (tmp[1])
+			{
+				free(dup->value);
+				dup->value = tmp[1];
+			}
 			dup->keyvalue = ft_strdup(group->full_cmd[i]);
 			// free(group->full_cmd[i]);
 			free(tmp[0]);
