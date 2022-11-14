@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/13 06:50:54 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/14 01:59:13 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static void	fake_parser(t_data *data, char *test)
 		data->group = ft_calloc(sizeof(t_group), 2);
 		data->group[0].full_cmd = ft_calloc(3, sizeof(char *));
 		data->group[0].full_cmd[0] = ft_strdup("export");
-		data->group[0].full_cmd[1] = ft_strdup("aaaaa=blue");
+		data->group[0].full_cmd[1] = ft_strdup("something=blue");
 		data->group[0].full_cmd[2] = NULL;
 		data->group[0].infile = NULL;
 		data->group[0].outfile = NULL;
@@ -237,24 +237,25 @@ static void	fake_parser(t_data *data, char *test)
 		data->group[0].infile = NULL;
 		data->group[0].outfile = NULL;
 		data->group[0].builtin = NULL;
+		execution(data);
+		free_groups(data);
+		fake_parser(data, "6.4");
+	}
+	if (ft_strncmp("6.4", test, 3) == 0)
+	{
+		data->groupc = 1;
+		data->group = ft_calloc(sizeof(t_group), 1);
+		data->group[0].full_cmd = ft_calloc(2, sizeof(char *));
+		data->group[0].full_cmd[0] = ft_strdup("export");
+		data->group[0].full_cmd[1] = NULL;
+		data->group[0].infile = NULL;
+		data->group[0].outfile = malloc(sizeof(t_outfile));
+		data->group[0].outfile->name = ft_strdup(FOLDER6"outfile3");
+		data->group[0].outfile->append = false;
+		data->group[0].outfile->next = NULL;
+		data->group[0].builtin = NULL;
 		return (execution(data), free_data(data), exit(0));
 	}
-	// if (ft_strncmp("6.4", test, 3) == 0)
-	// {
-	// 	data->groupc = 1;
-	// 	data->group = ft_calloc(sizeof(t_group), 1);
-	// 	data->group[0].full_cmd = ft_calloc(2, sizeof(char *));
-	// 	data->group[0].full_cmd[0] = ft_strdup("export");
-	// 	data->group[0].full_cmd[1] = NULL;
-	// 	data->group[0].infile = NULL;
-	// 	data->group[0].outfile = malloc(sizeof(t_outfile));
-	// 	data->group[0].outfile->name = ft_strdup(FOLDER6"outfile3");
-	// 	data->group[0].outfile->append = false;
-	// 	data->group[0].outfile->next = NULL;
-	// 	data->group[0].builtin = NULL;
-	// 	export(data, &data->group[0]);
-	// 	return (execution(data), free_data(data), exit(0));
-	// }
 	else if (ft_strncmp("7", test, 3) == 0)
 	{
 		data->groupc = 1;
@@ -506,8 +507,10 @@ static void	fake_parser(t_data *data, char *test)
 		data->group[0].full_cmd[4] = ft_strdup("somethingggg=bbblue");
 		data->group[0].full_cmd[5] = ft_strdup("hdsrtghsrdghs=ugood?");
 		data->group[0].full_cmd[6] = ft_strdup("something=red");
-		data->group[0].full_cmd[7] = ft_strdup("hoi");
-		data->group[0].full_cmd[8] = NULL;
+		data->group[0].full_cmd[7] = ft_strdup("yo");
+		data->group[0].full_cmd[8] = ft_strdup("hallo=");
+		data->group[0].full_cmd[9] = ft_strdup("hoi");
+		data->group[0].full_cmd[10] = NULL;
 		data->group[0].infile = NULL;
 		data->group[0].outfile = NULL;
 		data->group[0].builtin = NULL;
