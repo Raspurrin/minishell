@@ -257,7 +257,7 @@ declare -x yo=\"\"" >> ${T_FOLDER[$t_nbr]}test1
 			t_nbr=19
 			f_nbr=1
 			rm -f ${T_FOLDER[$t_nbr]}outfile$j ${T_FOLDER[$t_nbr]}diff
-			# $(bash unset USER; export > ${T_FOLDER[$t_nbr]}test1)
+			export > ${T_FOLDER[$t_nbr]}test1; sed "USER=" ${T_FOLDER[$t_nbr]}test1
 			save_result $t_nbr $f_nbr
 			;;
 		h)
