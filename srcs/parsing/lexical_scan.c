@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexical_scan.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:24:43 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/15 13:42:18 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/15 17:02:16 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	skip_quotes(char *s)
 	return (i + 1);
 }
 
-int	special_chars(t_group **info, char *s)
+int	special_chars(t_group **info, char *s, t_env *envp)
 {
 	int i;
 	int	space;
@@ -69,11 +69,11 @@ int	special_chars(t_group **info, char *s)
 	else
 			end = skip_chars(s + i);
 	if (s[0] == '<')
-		in_file_init(info, s, ft_substr(s, space + 1 + indicator, end));
+		in_file_init(info, s, ft_substr(s, space + 1 + indicator, end), envp);
 	else if (s[0] == '>')
-		out_file_init(info, s, ft_substr(s, space + 1 + indicator, end));
+		out_file_init(info, s, ft_substr(s, space + 1 + indicator, end), envp);
 	else
-		words_init(info, ft_substr(s, space + 1 + indicator, end));
+		words_init(info, ft_substr(s, space + 1 + indicator, end), envp);
 	// while ((*info)->outfile->next != NULL)
 	// {
 	// 	printf("the good the abd the ugly%s\n", (*info)->outfile->name);
@@ -82,18 +82,18 @@ int	special_chars(t_group **info, char *s)
 	return (end + space + indicator);
 }
 
-int	quoted_word_extract(t_group **info, char *s)
+int	quoted_word_extract(t_group **info, char *s, t_env *envp)
 {
 	int	end;
 
 	end = skip_quotes(s);
 	if (*(s + end) && ((*(s + end) != ' ' && *(s + end) != '<' && *(s + end) != '>')))
 		end = end + skip_chars(s + end);
-	words_init(info, ft_substr(s, 0, end));
+	words_init(info, ft_substr(s, 0, end), envp);
 	return (end - 1);
 }
 
-int	normal_word_extract(t_group **info, char *s)
+int	normal_word_extract(t_group **info, char *s, t_env *envp)
 {
 	int	end;
 	int	i;
@@ -113,7 +113,7 @@ int	normal_word_extract(t_group **info, char *s)
 	// }
 	// end = i;
 	// printf("gelaris\n");
-	words_init(info, ft_substr(s, 0, end));
+	words_init(info, ft_substr(s, 0, end), envp);
 	return (end);
 }
 

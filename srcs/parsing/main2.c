@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/15 13:27:21 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/15 18:51:34 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void executing(t_group *info) //just for test purposes
 	}
 }
 
-void	make_token(char *s, t_group *info, int index, char **envp, t_data *data)
+void	make_token(char *s, t_group *info, int index, t_env *envp, t_data *data)
 {
 	int		i;
 
@@ -51,28 +51,27 @@ void	make_token(char *s, t_group *info, int index, char **envp, t_data *data)
 	{
 		if (s[i] && (s[i] == '>' || s[i] == '<'))
 		{
-			info->read_in = special_chars(&info, s + i);
+			info->read_in = special_chars(&info, s + i, envp);
 			i = i + info->read_in + 1;
 		}
 		else if (s[i] && (s[i] == '"' || s[i] == '\''))
 		{
-			info->read_in = quoted_word_extract(&info, s + i);
+			info->read_in = quoted_word_extract(&info, s + i, envp);
 			i = i + info->read_in;
 		}
 		else if (s[i] && s[i] != ' ')
 		{
-			info->read_in = normal_word_extract(&info, s + i);
+			info->read_in = normal_word_extract(&info, s + i, envp);
 			i = i + info->read_in;
 		}
 		i++;
 	}
 	info->full_cmd[info->commandc] = NULL;
-	// (void)data;
 	data->group= info;
-	//executing(info); //parsed data is passed to execution.
+	//executing(info); //parsed data is printed
 }
 
-void	parser(char *str, char **envp, t_data *data)
+void	parser(char *str, t_env *envp, t_data *data)
 {
 	int		i;
 	char	**pipe_wise_splitted;
@@ -89,8 +88,8 @@ void	parser(char *str, char **envp, t_data *data)
 			i++;
 		}
 	}
-	// else
-}
+	data->groupc = i;
+ }
 
 // int32_t	main(int argc, char **argv, char **envp)
 // {

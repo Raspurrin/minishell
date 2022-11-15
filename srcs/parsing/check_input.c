@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:58:33 by pooneh            #+#    #+#             */
-/*   Updated: 2022/11/14 18:49:38 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/15 19:17:44 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ int		check_input_before_handling(char *s)
 	{
 		return (1);
 	}
-	printf("currently namjoo%s\n",s);
 	while (s[i])
 	{
 		if (s[i] == '"' || s[i] == '\'')

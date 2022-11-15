@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/15 15:35:28 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/15 17:03:30 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # include <sys/signal.h>
 # include <sys/wait.h>
 # include <signal.h>
-# include </Users/mialbert/goinfre/.brew/opt/readline/include/readline/readline.h>
-# include </Users/mialbert/goinfre/.brew/opt/readline/include/readline/history.h>
+# include </Users/pmoghadd/goinfre/.brew/opt/readline/include/readline/readline.h>
+# include </Users/pmoghadd/goinfre/.brew/opt/readline/include/readline/history.h>
 # include "../libs/libft/includes/libft.h"
 
 # define READ 0
@@ -78,7 +78,6 @@ typedef struct s_group
 	int32_t		read_out;
 	int32_t		commandc;
 	t_builtin	builtin;
-	char		**envp;
 }	t_group;
 
 typedef struct s_env
@@ -130,20 +129,20 @@ void	free_fds();
 
 void	lstaddback(t_infile **lst, t_infile *new);
 void	lstaddback_out(t_outfile **lst, t_outfile *new);
-void	initialize(t_group	**data, int index, char **envp);
-void	words_init(t_group	**info, char *name);
-void	out_file_init(t_group	**info, char *s, char *name);
-void	in_file_init(t_group	**info, char *s, char *name);
+void	initialize(t_group	**data, int index, t_env *envp);
+void	words_init(t_group	**info, char *name, t_env *envp);
+void	out_file_init(t_group	**info, char *s, char *name, t_env *envp);
+void	in_file_init(t_group	**info, char *s, char *name, t_env *envp);
 
 /*		lexical_scan	*/
 int		skip_quotes(char *s);
-int		special_chars(t_group **info, char *s);
+int		special_chars(t_group **info, char *s, t_env *envp);
 int		skip_chars(char *s);
-int		quoted_word_extract(t_group **info, char *s);
-int		normal_word_extract(t_group **info, char *s);
+int		quoted_word_extract(t_group **info, char *s, t_env *envp);
+int		normal_word_extract(t_group **info, char *s, t_env *envp);
 
 void	first_initialization(char **pipe_wise_splitted_array, t_group	**data);
-char	*expand(char *name, t_group **info);
+char	*expand(char *name, t_group **info, t_env *envp);
 char	**ft_split_shell(const char *s, char c);
 int		skip_spaces(char *s);
 void	lstaddback_out(t_outfile **lst, t_outfile *new);
@@ -153,6 +152,7 @@ int		check_input_before_handling(char *s);
 char	**ft_split_shell(const char *s, char c);
 bool	ft_isalnum_ms(int32_t c);
 int		first_char_check(char c);
+void	make_token(char *s, t_group *info, int index, t_env *envp, t_data *data);
 
 /* general */
 void	display_error(t_data *data, char *error_msg, bool yeet);
