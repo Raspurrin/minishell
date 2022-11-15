@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/15 14:57:58 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/15 15:35:28 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,7 +158,7 @@ int		first_char_check(char c);
 void	display_error(t_data *data, char *error_msg, bool yeet);
 void	free_at_exit(t_data *data);
 void	free_data(t_data *data);
-void	parser(char *str, char **envp, t_data *data);
+void	parser(char *str, t_env *envp, t_data *data);
 
 /* environment variable linked list handlers */
 void	env(t_data *data, t_group *group);

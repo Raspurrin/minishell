@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 22:46:32 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/13 06:35:12 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/15 15:37:21 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,11 +16,9 @@ void	path_innit(t_data *data)
 {
 	t_env	*lst;
 
-	ft_printf_fd(STDERR_FILENO, "start env_innit\n");
 	lst = find_node(data->envp_head, "PATH");
 	if (lst)
 		data->paths = ft_split(lst->value, ':');
-	ft_printf_fd(STDERR_FILENO, "end path_innit\n");
 }
 
 /**
@@ -61,7 +59,6 @@ char	**env_split(char *str, char del)
 	char	**split;
 
 	i = 0;
-	// check for valid input >:(
 	split = ft_calloc(3, sizeof(char *));
 	while (str[i] != del && str[i])
 		i++;

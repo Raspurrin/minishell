@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/15 14:57:43 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/15 15:39:20 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,10 @@
 
 static void	init(t_data *data, char **envp)
 {
-	ft_printf_fd(STDERR_FILENO, "in init\n");
 	ft_bzero(data, sizeof(data));
 	data->paths = NULL;
 	env_innit(data, envp);
-	ft_printf_fd(STDERR_FILENO, "after env_innit\n");
 	path_innit(data);
-	ft_printf_fd(STDERR_FILENO, "after path_innit\n");
 	init_pwd(data);
 }
 
@@ -40,29 +37,20 @@ void	set_exitcode(t_data *data)
 	}
 }
 
-// static void	ctrl_c(int32_t sig)
-// {
-// 	(void)sig;
-// 	ft_printf_fd(STDOUT_FILENO, "\n");
-// 	rl_on_new_line();
-// 	rl_replace_line("", 1);
-// 	rl_redisplay(); // not sure if this is fine or not
-// }
-
-// static void	ctrl_bslash(int32_t sig)
-// {
-// 	(void)sig;
-// 	rl_redisplay();
-// 	signal(SIGQUIT, SIG_IGN);
-// }
-
-void	free_fds()
+static void	ctrl_c(int32_t sig)
 {
-	int	i;
+	(void)sig;
+	ft_printf_fd(STDOUT_FILENO, "\n");
+	rl_on_new_line();
+	rl_replace_line("", 1);
+	rl_redisplay(); // not sure if this is fine or not
+}
 
-	i = 3;
-	while (i <= 4096)
-		close(i++);
+static void	ctrl_bslash(int32_t sig)
+{
+	(void)sig;
+	rl_redisplay();
+	signal(SIGQUIT, SIG_IGN);
 }
 
 void	free_fds()
@@ -76,37 +64,26 @@ void	free_fds()
 
 int32_t	main(int32_t argc, char **argv, char **envp)
 {
-	// char	*str;
+	char	*str;
 	t_data	data;
 
 	(void)argc;
 	(void)argv;
 	(void)envp;
 	init(&data, envp);
-	if (argv[1])
+	while (69)
 	{
-		ft_printf_fd(STDERR_FILENO, "after if argv[1]\n");
-		fake_parser(&data, argv[1]);
+		signal(SIGINT, ctrl_c);
+		signal(SIGQUIT, ctrl_bslash);
+		signal(SIGQUIT, SIG_IGN);
+		str = readline("🦇Mishell: ");
+		if (str == NULL)
+			return (printf("exit\n"), 0);
+		parser(str, data.envp_head, &data);
 		execution(&data);
+		add_history(str);
+		free(str);
 	}
-	// else
-	// {
-	// 	while (69)
-	// 	{
-	// 		// signal(SIGINT, ctrl_c);
-	// 		// signal(SIGQUIT, ctrl_bslash);
-	// 		signal(SIGQUIT, SIG_IGN);
-	// 		str = readline("🦇Mishell: ");
-	// 		if (str == NULL)
-	// 			return (printf("exit\n"), 0);
-	// 		if (ft_strncmp(str, "./minishell", 12))
-	// 			execution(&data);
-	// 		// str = ft_strdup("export hi | env");
-	// 		// parser(&data, str);
-	// 		add_history(str);
-	// 		free(str);
-	// 	}
-	// }
 	free_data(&data);
 	return (0);
 }
