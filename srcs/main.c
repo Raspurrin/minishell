@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/04 03:33:05 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/15 12:55:47 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 		str = readline("🦇Mishell: ");
 		if (str == NULL)
 			return (printf("exit\n"), 0);
-		parser(&data, str);
+		parser(str, envp, data);
 		execution(&data);
 		add_history(str);
 		free(str);
