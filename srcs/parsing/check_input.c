@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_input.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: pooneh <pooneh@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/10/31 12:58:33 by pooneh            #+#    #+#             */
+/*   Updated: 2022/11/01 11:36:38 by pooneh           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include"../../includes/minishell.h"
 
@@ -23,16 +34,11 @@ int	check_neighbouring_chars(char *s)
 	return (i);
 }
 
-int		check_input_before_handling(char *s)
+void		check_input_before_handling(char *s)
 {
 	int	i;
 
 	i = 0;
-	if (ft_strlen(s) == 1)
-	{
-		return (1);
-	}
-	printf("currently namjoo%s\n",s);
 	while (s[i])
 	{
 		if (s[i] == '"' || s[i] == '\'')
@@ -42,7 +48,7 @@ int		check_input_before_handling(char *s)
 				printf("Minishell: unclosed quote!\n");
 				exit(45);
 			}
-			i += skip_quotes(s + i) - 1;
+			i += skip_quotes(s + i);
 		}
 		if (ft_strchr("><|", s[i]))
 		{
@@ -50,5 +56,4 @@ int		check_input_before_handling(char *s)
 		}
 		i++;
 	}
-	return (0);
 }
