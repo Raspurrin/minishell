@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/04 02:56:02 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/15 12:34:11 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,5 +181,40 @@ void	export_add(t_data *data, t_group *group);
 void	pwd(t_data *data, t_group *group);
 void	init_pwd(t_data *data);
 void	unset(t_data *data, t_group *group);
+
+/*copy all of my stuff*/
+void	execution(t_data *data);
+
+
+/*		initialize		*/
+
+void	lstaddback(t_infile **lst, t_infile *new);
+void	lstaddback_out(t_outfile **lst, t_outfile *new);
+void	initialize(t_group	**data, int index, char **envp);
+void	words_init(t_group	**info, char *name);
+void	out_file_init(t_group	**info, char *s, char *name);
+void	in_file_init(t_group	**info, char *s, char *name);
+
+
+
+/*		lexical_scan	*/
+int		skip_quotes(char *s);
+int		special_chars(t_group **info, char *s);
+int		skip_chars(char *s);
+int		quoted_word_extract(t_group **info, char *s);
+int		normal_word_extract(t_group **info, char *s);
+
+void	first_initialization(char **pipe_wise_splitted_array, t_group	**data);
+char	*expand(char *name, t_group **info);
+char	**ft_split_shell(const char *s, char c);
+int		skip_spaces(char *s);
+void	lstaddback_out(t_outfile **lst, t_outfile *new);
+void	lstaddback(t_infile **lst, t_infile *new);
+int		check_neighbouring_chars(char *s);
+int		check_input_before_handling(char *s);
+char	**ft_split_shell(const char *s, char c);
+bool	ft_isalnum_ms(int32_t c);
+int		first_char_check(char c);
+
 
 #endif
