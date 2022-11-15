@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/15 13:07:56 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/15 13:27:21 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,29 +14,29 @@
 
 #include "../../includes/minishell.h"
 
-// void executing(t_group *info) //just for test purposes
-// {
-// 	int	y;
-// 	// t_outfile	*head = info->outfile;
+void executing(t_group *info) //just for test purposes
+{
+	int	y;
+	// t_outfile	*head = info->outfile;
 
-// 	y = 0;
-// 	while (info->full_cmd[y])
-// 	{
-// 		printf("i   %d    word|%s|\n", y, info->full_cmd[y]);
-// 		y++;
-// 	}
-// 	// while (info->outfile != NULL)
-// 	// {
-// 	// 	printf("info->outfiles|%s|\n", info->outfile->name);
-// 	// 	info->outfile = info->outfile->next;
-// 	// }
-// 	// info->outfile = head;
-// 	while (info->infile != NULL)
-// 	{
-// 		printf("info->infiles|%s| %d\n", info->infile->name, info->infile->here_doc);
-// 		info->infile = info->infile->next;
-// 	}
-// }
+	y = 0;
+	while (info->full_cmd[y])
+	{
+		printf("i   %d    word|%s|\n", y, info->full_cmd[y]);
+		y++;
+	}
+	// while (info->outfile != NULL)
+	// {
+	// 	printf("info->outfiles|%s|\n", info->outfile->name);
+	// 	info->outfile = info->outfile->next;
+	// }
+	// info->outfile = head;
+	while (info->infile != NULL)
+	{
+		printf("info->infiles|%s| %d\n", info->infile->name, info->infile->here_doc);
+		info->infile = info->infile->next;
+	}
+}
 
 void	make_token(char *s, t_group *info, int index, char **envp, t_data *data)
 {
@@ -67,8 +67,8 @@ void	make_token(char *s, t_group *info, int index, char **envp, t_data *data)
 		i++;
 	}
 	info->full_cmd[info->commandc] = NULL;
-	(void)data;
-	//data->args = info;
+	// (void)data;
+	data->group= info;
 	//executing(info); //parsed data is passed to execution.
 }
 
