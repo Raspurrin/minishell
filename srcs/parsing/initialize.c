@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   initialize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 18:01:38 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/15 13:42:03 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/15 19:17:11 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	first_initialization(char **pipe_wise_splitted_array, t_group	**data)
 		return ;
 }
 
-void	initialize(t_group	**data, int index, char **envp)
+void	initialize(t_group	**data, int index, t_env *envp)
 {
 	(void)index;
 	(*data)->infile = NULL;
@@ -49,11 +49,12 @@ void	initialize(t_group	**data, int index, char **envp)
 	(*data)->read_out = 0;
 	(*data)->full_cmd = (char **)ft_calloc(sizeof(char *),3);
 	(*data)->commandc = 0;
-	(*data)->envp = envp;
+	(void)envp;
+	// (*data)->envp = envp;
 	// printf("envp check%s\n", (*data)->envp[1]);
 }
 
-void	in_file_init(t_group	**info, char *s, char *name)
+void	in_file_init(t_group	**info, char *s, char *name, t_env *envp)
 {
 	t_infile	*new;
 
@@ -62,8 +63,8 @@ void	in_file_init(t_group	**info, char *s, char *name)
 		return ;
 	new->name = name;
 	if (ft_strchr(name, '$'))
-		name = expand(name, info);
-	printf("substr in|%s|\n", name);
+		name = expand(name, info, envp);
+	// printf("substr in|%s|\n", name);
 	// free(name);
 	if (s[1] == '<')
 		new->here_doc = 1;
@@ -74,7 +75,7 @@ void	in_file_init(t_group	**info, char *s, char *name)
 	// printf("ll test %s\n", (*info)->infile->next->name);
 }
 
-void	out_file_init(t_group	**info, char *s, char *name)
+void	out_file_init(t_group	**info, char *s, char *name, t_env *envp)
 {
 	t_outfile	*new;
 
@@ -82,9 +83,9 @@ void	out_file_init(t_group	**info, char *s, char *name)
 	if (!new)
 		return ;
 	if (ft_strchr(name, '$'))
-		name = expand(name, info);
+		name = expand(name, info, envp);
 	new->name = name;
-	printf("substr out|%s|\n", new->name);
+	// printf("substr out|%s|\n", new->name);
 	if (s[1] == '<')
 		new->append = 1;
 	else
@@ -94,18 +95,18 @@ void	out_file_init(t_group	**info, char *s, char *name)
 	// free(name);
 }
 
-void	words_init(t_group	**info, char *name)
+void	words_init(t_group	**info, char *name, t_env *envp)
 {
 	char		**command_array;
 
 	if (ft_strchr(name, '$'))
-		name = expand(name, info);
+		name = expand(name, info, envp);
 	(*info)->commandc = (*info)->commandc + 1;
 	command_array = (char **)ft_realloc((*info)->full_cmd,
 			sizeof(char *) * ((*info)->commandc) + 2);
 	command_array[(*info)->commandc - 1] = name;
 	(*info)->full_cmd
 	[(*info)->commandc - 1] = command_array[(*info)->commandc - 1];
-	printf("substr word|%s|\n", (*info)->full_cmd[(*info)->commandc - 1]);
+	// printf("substr word|%s|\n", (*info)->full_cmd[(*info)->commandc - 1]);
 	(*info)->full_cmd[(*info)->commandc] = NULL;
 }
