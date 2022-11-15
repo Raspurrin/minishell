@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_input.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pooneh <pooneh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:58:33 by pooneh            #+#    #+#             */
-/*   Updated: 2022/11/01 11:36:38 by pooneh           ###   ########.fr       */
+/*   Updated: 2022/11/14 18:49:38 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,16 @@ int	check_neighbouring_chars(char *s)
 	return (i);
 }
 
-void		check_input_before_handling(char *s)
+int		check_input_before_handling(char *s)
 {
 	int	i;
 
 	i = 0;
+	if (ft_strlen(s) == 1)
+	{
+		return (1);
+	}
+	printf("currently namjoo%s\n",s);
 	while (s[i])
 	{
 		if (s[i] == '"' || s[i] == '\'')
@@ -48,7 +53,7 @@ void		check_input_before_handling(char *s)
 				printf("Minishell: unclosed quote!\n");
 				exit(45);
 			}
-			i += skip_quotes(s + i);
+			i += skip_quotes(s + i) - 1;
 		}
 		if (ft_strchr("><|", s[i]))
 		{
@@ -56,4 +61,5 @@ void		check_input_before_handling(char *s)
 		}
 		i++;
 	}
+	return (0);
 }

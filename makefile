@@ -6,7 +6,7 @@
 #    By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/11 18:45:17 by pmoghadd          #+#    #+#              #
-#    Updated: 2022/11/13 06:38:41 by mialbert         ###   ########.fr        #
+#    Updated: 2022/11/15 13:40:50 by mialbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,8 +15,9 @@ OBJ_DIR =	object_files
 CFLAGS	=	-Wall -Wextra -Werror -g
 NAME	=	minishell
 READLINE = 	-I $(HOME)/goinfre/.brew/opt/readline/include/ -L $(HOME)/goinfre/.brew/opt/readline/lib/ -lreadline
+DEBUG	=	-fsanitize=address
 LIBFT	=	./libs/libft/
-SRCS	=	./srcs/parsing/parser.c \
+SRCS	=	./srcs/parsing/main2.c \
 			./srcs/parsing/initialize.c \
 			./srcs/parsing/lexical_scan.c \
 			./srcs/parsing/expand.c \
