@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/15 15:39:20 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/15 19:57:20 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ void	set_exitcode(t_data *data)
 	}
 }
 
-static void	ctrl_c(int32_t sig)
-{
-	(void)sig;
-	ft_printf_fd(STDOUT_FILENO, "\n");
-	rl_on_new_line();
-	rl_replace_line("", 1);
-	rl_redisplay(); // not sure if this is fine or not
-}
+// static void	ctrl_c(int32_t sig)
+// {
+// 	(void)sig;
+// 	ft_printf_fd(STDOUT_FILENO, "\n");
+// 	rl_on_new_line();
+// 	rl_replace_line("", 1);
+// 	rl_redisplay(); // not sure if this is fine or not
+// }
 
 static void	ctrl_bslash(int32_t sig)
 {
@@ -62,6 +62,44 @@ void	free_fds()
 		close(i++);
 }
 
+void	print_parser(t_data *data)
+{
+	size_t		i;
+	size_t		j;
+	t_infile	*infile;
+	t_outfile	*outfile;
+
+	i = 0;
+	j = 0;
+	printf("=====PRINTING PARSER=======\n");
+	while (i < data->groupc)
+	{
+		infile = data->group[i].infile;
+		outfile = data->group[i].outfile;
+		printf("groupc: %zu\n", data->groupc);
+		while (data->group[i].full_cmd[j])
+		{
+			printf("cmd[%zu]: %s\n", j, data->group[i].full_cmd[j]);
+			j++;
+		}
+		j = 0;
+		// print_2d_fd(data->group[i].full_cmd, 1);
+		while (outfile != NULL)
+		{
+			printf("outfile name: %s append: %d\n", outfile->name, outfile->append);
+			outfile = outfile->next;
+		}
+		while (infile != NULL)
+		{
+			printf("infile name: %s here_doc: %d\n", infile->name, infile->here_doc);
+			infile = infile->next;
+		}
+		printf("builtin: %p\n", data->group[i].builtin);
+		i++;
+	}
+	printf("==========================\n");
+}
+
 int32_t	main(int32_t argc, char **argv, char **envp)
 {
 	char	*str;
@@ -73,13 +111,14 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 	init(&data, envp);
 	while (69)
 	{
-		signal(SIGINT, ctrl_c);
+		// signal(SIGINT, ctrl_c);
 		signal(SIGQUIT, ctrl_bslash);
 		signal(SIGQUIT, SIG_IGN);
 		str = readline("🦇Mishell: ");
 		if (str == NULL)
 			return (printf("exit\n"), 0);
 		parser(str, data.envp_head, &data);
+		print_parser(&data);
 		execution(&data);
 		add_history(str);
 		free(str);

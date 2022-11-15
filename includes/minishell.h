@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/15 17:03:30 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/15 19:31:32 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@
 # include <sys/signal.h>
 # include <sys/wait.h>
 # include <signal.h>
-# include </Users/pmoghadd/goinfre/.brew/opt/readline/include/readline/readline.h>
-# include </Users/pmoghadd/goinfre/.brew/opt/readline/include/readline/history.h>
+// # include </Users/pmoghadd/goinfre/.brew/opt/readline/include/readline/readline.h>
+// # include </Users/pmoghadd/goinfre/.brew/opt/readline/include/readline/history.h>
+# include </Users/mialbert/goinfre/.brew/opt/readline/include/readline/readline.h>
+# include </Users/mialbert/goinfre/.brew/opt/readline/include/readline/history.h>
 # include "../libs/libft/includes/libft.h"
 
 # define READ 0

@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/13 23:13:02 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/15 19:29:25 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,6 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2])
 	ft_printf_fd(STDERR_FILENO, "%s\n", path);
 	for(int randomcountingvariable = 0; data->group[i].full_cmd[randomcountingvariable]; randomcountingvariable++)
 		ft_printf_fd(STDERR_FILENO, "%s\n", data->group[i].full_cmd[randomcountingvariable]);
-	fprintf(stderr, "djaisin tell me why the print above didn't print anything plspls\n");
 	// usleep(50000000);
 	if (execve(path, data->group[i].full_cmd, env) == -1)
 		return (free(path), free(env), display_error(data, "execve failed", true));
