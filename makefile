@@ -6,7 +6,7 @@
 #    By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/11 18:45:17 by pmoghadd          #+#    #+#              #
-#    Updated: 2022/11/15 13:40:50 by mialbert         ###   ########.fr        #
+#    Updated: 2022/11/15 21:17:25 by mialbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -81,7 +81,7 @@ libft:
 	@$(MAKE) -C $(LIBFT)
 
 $(NAME): banner $(OBJS)
-	@$(CC) $(FLAGS_OS) $(CFLAGS) $(OBJS) $(LIBFT)libft.a $(READLINE) $(FSAN) -o $(NAME)
+	@$(CC) $(FLAGS_OS) $(CFLAGS) $(ADDUSER) $(OBJS) $(LIBFT)libft.a $(READLINE) $(FSAN) -o $(NAME)
 # $(CDIR) $(TESTER)
 # @mkdir object_files
 # @mv $(OBJS) object_files
