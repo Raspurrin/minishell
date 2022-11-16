@@ -6,13 +6,13 @@
 #    By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/11 18:45:17 by pmoghadd          #+#    #+#              #
-#    Updated: 2022/11/16 11:23:02 by pmoghadd         ###   ########.fr        #
+#    Updated: 2022/11/16 15:37:12 by pmoghadd         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 OBJ_DIR =	object_files
-# CFLAGS	=	-Wall -Wextra -Werror -g
+CFLAGS	=	-Wall -Wextra -Werror -g
 NAME	=	minishell
 READLINE = 	-I $(HOME)/goinfre/.brew/opt/readline/include/ -L $(HOME)/goinfre/.brew/opt/readline/lib/ -lreadline
 DEBUG	=	-fsanitize=address
@@ -81,7 +81,7 @@ libft:
 	@$(MAKE) -C $(LIBFT)
 
 $(NAME): banner $(OBJS)
-	@$(CC) $(FLAGS_OS) $(CFLAGS) $(OBJS) $(LIBFT)libft.a $(READLINE) $(FSAN) -o $(NAME)
+	@$(CC) $(FLAGS_OS) $(CFLAGS) $(ADDUSER) $(OBJS) $(LIBFT)libft.a $(READLINE) $(FSAN) -o $(NAME)
 # $(CDIR) $(TESTER)
 # @mkdir object_files
 # @mv $(OBJS) object_files
