@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/15 19:58:43 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/16 14:40:56 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 void executing(t_group *info) //just for test purposes
 {
 	int	y;
-	// t_outfile	*head = info->outfile;
+	t_outfile	*head = info->outfile;
 
 	y = 0;
 	while (info->full_cmd[y])
@@ -30,12 +30,12 @@ void executing(t_group *info) //just for test purposes
 		printf("info->outfiles|%s|\n", info->outfile->name);
 		info->outfile = info->outfile->next;
 	}
-	// info->outfile = head;
-	// while (info->infile != NULL)
-	// {
-	// 	printf("info->infiles|%s| %d\n", info->infile->name, info->infile->here_doc);
-	// 	info->infile = info->infile->next;
-	// }
+	info->outfile = head;
+	while (info->infile != NULL)
+	{
+		printf("info->infiles|%s| %d\n", info->infile->name, info->infile->here_doc);
+		info->infile = info->infile->next;
+	}
 }
 
 void	make_token(char *s, t_group *info, int index, t_env *envp, t_data *data)
@@ -68,7 +68,7 @@ void	make_token(char *s, t_group *info, int index, t_env *envp, t_data *data)
 	}
 	info->full_cmd[info->commandc] = NULL;
 	data->group= info;
-	executing(info); //parsed data is printed
+	// executing(info); //parsed data is printed
 }
 
 void	parser(char *str, t_env *envp, t_data *data)

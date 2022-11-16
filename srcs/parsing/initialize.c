@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 18:01:38 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/15 19:17:11 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/16 14:40:20 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	initialize(t_group	**data, int index, t_env *envp)
 	// (*data)->outfilec = 0;
 	(*data)->read_in = 0;
 	(*data)->read_out = 0;
-	(*data)->full_cmd = (char **)ft_calloc(sizeof(char *),3);
+	(*data)->full_cmd = (char **)ft_calloc(sizeof(char *),1);
 	(*data)->commandc = 0;
 	(void)envp;
 	// (*data)->envp = envp;
@@ -104,9 +104,9 @@ void	words_init(t_group	**info, char *name, t_env *envp)
 	(*info)->commandc = (*info)->commandc + 1;
 	command_array = (char **)ft_realloc((*info)->full_cmd,
 			sizeof(char *) * ((*info)->commandc) + 2);
-	command_array[(*info)->commandc - 1] = name;
-	(*info)->full_cmd
-	[(*info)->commandc - 1] = command_array[(*info)->commandc - 1];
-	// printf("substr word|%s|\n", (*info)->full_cmd[(*info)->commandc - 1]);
-	(*info)->full_cmd[(*info)->commandc] = NULL;
+	free((*info)->full_cmd);
+	command_array[((*info)->commandc) - 1] = name;
+	command_array[((*info)->commandc)] = NULL;
+	(*info)->full_cmd = command_array;
+	// printf("index: %d substr word|%s|\n", (*info)->commandc - 1, (*info)->full_cmd[(*info)->commandc - 1]);	
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/07 14:00:41 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/15 20:07:49 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void	make_token(t_data *data, char *s, t_group *info, int index)
 	(void)info;
 	(void)index;
 	(void)data;
-	(void)s;
 	info = (t_group *)malloc(sizeof(t_group));
 	if (!info)
 		return ;

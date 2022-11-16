@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/15 19:57:20 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/16 11:55:20 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	print_parser(t_data *data)
 			j++;
 		}
 		j = 0;
-		// print_2d_fd(data->group[i].full_cmd, 1);
+		print_2d_fd(data->group[i].full_cmd, 1);
 		while (outfile != NULL)
 		{
 			printf("outfile name: %s append: %d\n", outfile->name, outfile->append);
@@ -118,11 +118,11 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 		if (str == NULL)
 			return (printf("exit\n"), 0);
 		parser(str, data.envp_head, &data);
-		print_parser(&data);
-		execution(&data);
+		// print_parser(&data);
+		// execution(&data);
 		add_history(str);
 		free(str);
 	}
-	free_data(&data);
+	// free_data(&data);
 	return (0);
 }

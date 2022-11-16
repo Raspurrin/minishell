@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:24:43 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/15 17:02:16 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/16 11:33:55 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,11 +74,16 @@ int	special_chars(t_group **info, char *s, t_env *envp)
 		out_file_init(info, s, ft_substr(s, space + 1 + indicator, end), envp);
 	else
 		words_init(info, ft_substr(s, space + 1 + indicator, end), envp);
+	// t_outfile	*tmp = (*info)->outfile;
 	// while ((*info)->outfile->next != NULL)
 	// {
 	// 	printf("the good the abd the ugly%s\n", (*info)->outfile->name);
 	// 	(*info)->outfile = (*info)->outfile->next;
 	// }
+	// (*info)->outfile = tmp;
+	// while((*info)->full_cmd[i])
+	// {	printf("teh good the ugly%s\n", (*info)->full_cmd[i]);
+	// i++;}
 	return (end + space + indicator);
 }
 

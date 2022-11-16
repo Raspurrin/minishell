@@ -3,16 +3,16 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+         #
+#    By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/11 18:45:17 by pmoghadd          #+#    #+#              #
-#    Updated: 2022/11/15 13:40:50 by mialbert         ###   ########.fr        #
+#    Updated: 2022/11/16 11:23:02 by pmoghadd         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 
 OBJ_DIR =	object_files
-CFLAGS	=	-Wall -Wextra -Werror -g
+# CFLAGS	=	-Wall -Wextra -Werror -g
 NAME	=	minishell
 READLINE = 	-I $(HOME)/goinfre/.brew/opt/readline/include/ -L $(HOME)/goinfre/.brew/opt/readline/lib/ -lreadline
 DEBUG	=	-fsanitize=address
