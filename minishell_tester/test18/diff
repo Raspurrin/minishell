@@ -1,0 +1,4 @@
+34c34
+< declare -x something="blue"
+---
+> declare -x something="====blue"
