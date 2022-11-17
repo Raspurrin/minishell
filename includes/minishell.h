@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/16 15:37:27 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/17 18:51:20 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ void	free_fds();
 
 void	lstaddback(t_infile **lst, t_infile *new);
 void	lstaddback_out(t_outfile **lst, t_outfile *new);
-void	initialize(t_group	**data, int index, t_env *envp);
+void	initialize(t_group	**data);
 void	words_init(t_group	**info, char *name, t_env *envp);
 void	out_file_init(t_group	**info, char *s, char *name, t_env *envp);
 void	in_file_init(t_group	**info, char *s, char *name, t_env *envp);
@@ -143,7 +143,7 @@ int		skip_chars(char *s);
 int		quoted_word_extract(t_group **info, char *s, t_env *envp);
 int		normal_word_extract(t_group **info, char *s, t_env *envp);
 
-void	first_initialization(char **pipe_wise_splitted_array, t_group	**data);
+void	first_initialization(char **pipe_wise_splitted_array, t_group	*data);
 char	*expand(char *name, t_group **info, t_env *envp);
 char	**ft_split_shell(const char *s, char c);
 int		skip_spaces(char *s);
@@ -154,13 +154,13 @@ int		check_input_before_handling(char *s);
 char	**ft_split_shell(const char *s, char c);
 bool	ft_isalnum_ms(int32_t c);
 int		first_char_check(char c);
-void	make_token(char *s, t_group *info, int index, t_env *envp, t_data *data);
+void	make_token(char *s, t_group **info, t_env *envp);
 
 /* general */
 void	display_error(t_data *data, char *error_msg, bool yeet);
 void	free_at_exit(t_data *data);
 void	free_data(t_data *data);
-void	parser(char *str, t_env *envp, t_data *data);
+void    parser(char *str, t_env *envp, t_data *data);
 
 /* environment variable linked list handlers */
 void	env(t_data *data, t_group *group);

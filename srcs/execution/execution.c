@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/15 19:29:25 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/17 18:47:24 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,7 +170,7 @@ static void	exec_cmds(t_data *data)
 	ft_printf_fd(STDERR_FILENO, "after builtin parent if\n");
 	while (i < (size_t)data->groupc)
 	{
-		ft_printf_fd(STDERR_FILENO, "parent start\n");
+		ft_printf_fd(STDERR_FILENO, "parent start: i %d\n", i);
 		pipe(fd);
 		pid = fork();
 		if (pid == -1)
@@ -182,8 +182,9 @@ static void	exec_cmds(t_data *data)
 			close(data->tmp_fd);
 		data->tmp_fd = fd[READ];
 		close(fd[WRITE]);
-		ft_printf_fd(STDERR_FILENO, "parent end\n");
+		ft_printf_fd(STDERR_FILENO, "parent end: i %d\n", i);
 		i++;
+		ft_printf_fd(STDERR_FILENO, "after i++: %d\n", i);
 	}
 	ft_printf_fd(STDERR_FILENO, "end\n");
 	close(fd[READ]);
@@ -205,5 +206,4 @@ void	execution(t_data *data)
 	// 	data->status = status;
 	// 	i++;
 	// }
-	free_at_exit(data);
 }

@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 18:01:38 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/17 15:05:16 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/17 18:50:39 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,21 +22,21 @@ int		ft_strlen_array(char **s)
 	return (i);
 }
 
-void	first_initialization(char **pipe_wise_splitted_array, t_group	**data)
+void	first_initialization(char **pipe_wise_splitted_array, t_group *data)
 {
 	int	i;
 
 	i = 0;
 	while (pipe_wise_splitted_array[i])
-		i++;
-	*data = (t_group *)malloc(sizeof(t_group) * (i + 1));
+		i++;		
+	//data = (t_group *)malloc(sizeof(t_group *));
+	data = (t_group *)malloc(sizeof(t_group) * (i + 1));
 	if (!data)
 		return ;
 }
 
-void	initialize(t_group	**data, int index, t_env *envp)
+void	initialize(t_group	**data)
 {
-	(void)index;
 	(*data)->infile = NULL;
 	(*data)->outfile = NULL;
 	// (*data)->outfile->next = NULL;
@@ -47,11 +47,8 @@ void	initialize(t_group	**data, int index, t_env *envp)
 	// (*data)->outfilec = 0;
 	(*data)->read_in = 0;
 	(*data)->read_out = 0;
-	(*data)->full_cmd = (char **)ft_calloc(sizeof(char *),1);
+	(*data)->full_cmd = (char **)ft_calloc(sizeof(char *), 1);
 	(*data)->commandc = 0;
-	(void)envp;
-	// (*data)->envp = envp;
-	// printf("envp check%s\n", (*data)->envp[1]);
 }
 
 void	in_file_init(t_group	**info, char *s, char *name, t_env *envp)
