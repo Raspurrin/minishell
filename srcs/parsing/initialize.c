@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 18:01:38 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/16 14:40:20 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/17 15:05:16 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	first_initialization(char **pipe_wise_splitted_array, t_group	**data)
 	i = 0;
 	while (pipe_wise_splitted_array[i])
 		i++;
-	data = (t_group **)malloc(sizeof(t_group *) * (i + 1));
+	*data = (t_group *)malloc(sizeof(t_group) * (i + 1));
 	if (!data)
 		return ;
 }

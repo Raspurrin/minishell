@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/15 20:07:49 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/17 15:07:41 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,10 +46,7 @@ void	make_token(t_data *data, char *s, t_group *info, int index)
 	(void)info;
 	(void)index;
 	(void)data;
-	info = (t_group *)malloc(sizeof(t_group));
-	if (!info)
-		return ;
-	initialize(&info, index);
+	initialize(&info, index, data->envp_head);
 	while (s[i])
 	{
 		if (s[i] && (s[i] == '>' || s[i] == '<'))
@@ -77,15 +74,14 @@ void	parser(t_data *data, char *str)
 {
 	int		i;
 	char	**pipe_wise_splitted;
-	t_group	*array_of_struct;
-
 	i = 0;
 	check_input_before_handling(str);
 	pipe_wise_splitted = ft_split_shell(str, '|');
-	first_initialization(pipe_wise_splitted, &array_of_struct);
+	first_initialization(pipe_wise_splitted, &(data->group));
 	while (pipe_wise_splitted[i])
 	{
-		make_token(data, pipe_wise_splitted[i], (&array_of_struct[i]), i);
+		make_token(data, pipe_wise_splitted[i], &(data->group[i]), i);
 		i++;
 	}
+	printf("test for the array of struct%s\n", data->group[0].full_cmd[0]);
 }

@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/16 14:40:56 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/17 14:59:12 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,23 +68,22 @@ void	make_token(char *s, t_group *info, int index, t_env *envp, t_data *data)
 	}
 	info->full_cmd[info->commandc] = NULL;
 	data->group= info;
-	// executing(info); //parsed data is printed
+	executing(info); //parsed data is printed
 }
 
 void	parser(char *str, t_env *envp, t_data *data)
 {
 	int		i;
 	char	**pipe_wise_splitted;
-	t_group	*array_of_struct;
 
 	i = 0;
 	if (!check_input_before_handling(str))
 	{
 		pipe_wise_splitted = ft_split_shell(str, '|');
-		first_initialization(pipe_wise_splitted, &array_of_struct);
+		first_initialization(pipe_wise_splitted, &data->group);
 		while (pipe_wise_splitted[i])
 		{
-			make_token(pipe_wise_splitted[i], (&array_of_struct[i]), i, envp, data);
+			make_token(pipe_wise_splitted[i], data->group, i, envp, data);
 			i++;
 		}
 	}
