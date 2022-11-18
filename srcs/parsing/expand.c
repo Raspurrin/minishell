@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 14:50:42 by pooneh            #+#    #+#             */
-/*   Updated: 2022/11/18 16:17:52 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/18 17:10:18 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,16 @@ int	replace_variable_value(char **name, int index, char	*variable, t_env *envp)
 	{
 		if (!ft_strncmp(variable, envp->key, ft_strlen(variable)))
 		{
-			tmp_head = ft_strjoin(tmp_head, envp->value);
+			tmp_head = ft_strjoin_minishell(tmp_head, envp->value);
 			l = ft_strlen(envp->value);
 		}
 		else if (!ft_strncmp(variable, "?", 1))
-			tmp_head = ft_strjoin(tmp_head, envp->key);
+			tmp_head = ft_strjoin_minishell(tmp_head, envp->key);
 		envp = envp->next;
 	}
 	envp = tmp;
 	if (l == 0 && (variable[0] == '"' || variable[0] == '\''))
-		tmp_head = ft_strjoin(tmp_head, variable);
+		tmp_head = ft_strjoin_minishell(tmp_head, variable);
 	tmp_head = ft_strjoin(tmp_head, tmp_tail);
 	*name = tmp_head;
 	return (l + index);
@@ -74,7 +74,7 @@ char	*expand(char *name, t_env *envp)
 	i = 0;
 	while (name[i])
 	{
-		if (name[i] == '\'')
+		if (name[i] == '\'' && name[skip_quotes(name + i) - 1] == '\'')
 			i += skip_quotes(name + i);
 		if (name[i] == '$')
 		{

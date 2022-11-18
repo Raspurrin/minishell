@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:58:33 by pooneh            #+#    #+#             */
-/*   Updated: 2022/11/15 19:17:44 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/18 17:29:07 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,7 @@ int		check_input_before_handling(char *s)
 
 	i = 0;
 	if (ft_strlen(s) == 1)
-	{
 		return (1);
-	}
 	while (s[i])
 	{
 		if (s[i] == '"' || s[i] == '\'')
@@ -53,6 +51,11 @@ int		check_input_before_handling(char *s)
 				exit(45);
 			}
 			i += skip_quotes(s + i) - 1;
+		}
+		if (s[i + 1] && ((s[i] == '<' && s[i + 1] == '>') || (s[i] == '>' && s[i + 1] == '<')))
+		{
+			printf("Minishell: syntax error near unexpected token '%c'\n", s[i + 1]);
+			exit(45);
 		}
 		if (ft_strchr("><|", s[i]))
 		{

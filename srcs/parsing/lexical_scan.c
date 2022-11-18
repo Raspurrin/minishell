@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:24:43 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/16 11:33:55 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/18 17:30:07 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,17 +18,6 @@ int	skip_chars(char *s)
 	int	end;
 
 	i = 0;
-	// while (s[i] && s[i] != ' ' && s[i] != '"' && s[i] != '\'')
-	// {
-	// 	printf("my very primary check %c\n", s[i]);
-	// 	// if (s[i] == '"' || s[i] == '\'')
-	// 	// 	i = skip_quotes(s + i) - 1;	
-	// 	i++;
-	// }
-	// end = i;
-	// if (s[i] && (s[i] == '"' || s[i] == '\''))
-	// 	end = i + skip_quotes(s + i);
-	// printf("s[i] is %c\n", s[i]);
 	while (s[i] && s[i] != ' ')
 	{
 		if (s[i] == '"' || s[i] == '\'')
@@ -57,7 +46,6 @@ int	special_chars(t_group **info, char *s, t_env *envp)
 	int	space;
 	int	end = 0;
 	int	indicator;
-	// int	word_counter = 0;
 
 	indicator = 0;
 	if ((s[0] == '<' && s[1] == '<') || (s[0] == '>' && s[1] == '>'))
@@ -74,16 +62,6 @@ int	special_chars(t_group **info, char *s, t_env *envp)
 		out_file_init(info, s, ft_substr(s, space + 1 + indicator, end), envp);
 	else
 		words_init(info, ft_substr(s, space + 1 + indicator, end), envp);
-	// t_outfile	*tmp = (*info)->outfile;
-	// while ((*info)->outfile->next != NULL)
-	// {
-	// 	printf("the good the abd the ugly%s\n", (*info)->outfile->name);
-	// 	(*info)->outfile = (*info)->outfile->next;
-	// }
-	// (*info)->outfile = tmp;
-	// while((*info)->full_cmd[i])
-	// {	printf("teh good the ugly%s\n", (*info)->full_cmd[i]);
-	// i++;}
 	return (end + space + indicator);
 }
 
@@ -105,19 +83,6 @@ int	normal_word_extract(t_group **info, char *s, t_env *envp)
 
 	i = 0;
 	end = skip_chars(s);
-	// while (s[i] && s[i] != ' ')
-	// {
-	// 	if (s[i] == '"')
-	// 	{
-	// 		i = skip_quotes(s);
-	// 		end = i; 
-	// 		if (s[i] && s[i + 1] == ' ')
-	// 			break;
-	// 	}
-	// 	i++;
-	// }
-	// end = i;
-	// printf("gelaris\n");
 	words_init(info, ft_substr(s, 0, end), envp);
 	return (end);
 }

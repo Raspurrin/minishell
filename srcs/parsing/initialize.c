@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 18:01:38 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/18 16:18:22 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/18 17:00:19 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,21 @@ void	first_initialization(char **pipe_wise_splitted_array, t_group *data)
 	i = 0;
 	while (pipe_wise_splitted_array[i])
 		i++;		
-	//data = (t_group *)malloc(sizeof(t_group *));
 	data = (t_group *)malloc(sizeof(t_group) * (i + 1));
 	if (!data)
 		return ;
 }
 
-void	initialize(t_group	**data)
+void	initialize(t_group	**info)
 {
-	(*data)->infile = NULL;
-	(*data)->outfile = NULL;
-	(*data)->read_in = 0;
-	(*data)->read_out = 0;
-	(*data)->full_cmd = (char **)ft_calloc(sizeof(char *), 1);
-	(*data)->commandc = 0;
+	(*info)->infile = NULL;
+	(*info)->outfile = NULL;
+	(*info)->read_in = 0;
+	(*info)->read_out = 0;
+	(*info)->full_cmd = (char **)ft_calloc(sizeof(char *), 1);
+	if (!(*info)->full_cmd)
+		return ;
+	(*info)->commandc = 0;
 }
 
 void	in_file_init(t_group	**info, char *s, char *name, t_env *envp)
