@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/15 23:34:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/15 23:40:53 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/18 14:20:43 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,6 @@ void	fake_parser(t_data *data, char *test)
 	{
 		data->groupc = 2;
 		data->group = ft_calloc(sizeof(t_group), 2);
-		ft_printf_fd(STDERR_FILENO, "data->group[0]: %p\n", data->group[0]);
-		ft_printf_fd(STDERR_FILENO, "data->group[1]: %p\n", data->group[1]);
 		data->group[0].full_cmd = ft_calloc(3, sizeof(char *));
 		data->group[0].full_cmd[0] = ft_strdup("grep");
 		data->group[0].full_cmd[1] = ft_strdup("yo");
@@ -118,13 +116,10 @@ void	fake_parser(t_data *data, char *test)
 		data->group[1].infile->here_doc = false;
 		data->group[1].infile->next = NULL;
 		data->group[1].outfile = malloc(sizeof(t_outfile));
-		ft_printf_fd(STDERR_FILENO, "(this is the memory location we are looking for lol): %p\n", &data->group[1].outfile);
 		data->group[1].outfile->name = ft_strdup(FOLDER3"outfile2");
 		data->group[1].outfile->append = false;
 		data->group[1].outfile->next = NULL;
 		data->group[1].builtin = NULL;
-		ft_printf_fd(STDERR_FILENO, "data->group[0]: %p\n", data->group[0]);
-		ft_printf_fd(STDERR_FILENO, "data->group[1]: %p\n", data->group[1]);
 	}
 	else if (ft_strncmp("4", test, 1) == 0)
 	{
@@ -922,8 +917,55 @@ void	fake_parser(t_data *data, char *test)
 		data->group[0].outfile->next->append = false;
 		data->group[0].outfile->next->next = NULL;
 	}
+	else if (ft_strncmp("29", test, 4) == 0)
+	{
+		data->groupc = 1;
+		data->group = ft_calloc(sizeof(t_group), 1);
+		data->group[0].full_cmd = ft_calloc(3, sizeof(char *));
+		data->group[0].full_cmd[0] = ft_strdup("cd");
+		data->group[0].full_cmd[1] = ft_strdup("Documents");
+		data->group[0].full_cmd[2] = NULL;
+		data->group[0].infile = NULL;
+		data->group[0].outfile = NULL;
+		data->group[0].builtin = NULL;
+		execution(data);
+		free_groups(data);
+		fake_parser(data, "29.1");
+	}
+	else if (ft_strncmp("29.1", test, 4) == 0)
+	{
+		data->groupc = 1;
+		data->group = ft_calloc(sizeof(t_group), 1);
+		data->group[0].full_cmd = ft_calloc(2, sizeof(char *));
+		data->group[0].full_cmd[0] = ft_strdup("pwd");
+		data->group[0].full_cmd[1] = NULL;
+		data->group[0].infile = NULL;
+		data->group[0].outfile = malloc(sizeof(t_outfile));
+		data->group[0].outfile->name = ft_strdup("asdfdsfDSAF");
+		data->group[0].outfile->append = false;
+		data->group[0].outfile->next = NULL;
+		data->group[0].builtin = NULL;
+		return (execution(data), exit(0));
+	}
+	else if (ft_strncmp("32", test, 4) == 0)
+	{
+		data->groupc = 2;
+		data->group = ft_calloc(sizeof(t_group), 2);
+		data->group[0].full_cmd = ft_calloc(2, sizeof(char *));
+		data->group[0].full_cmd[0] = ft_strdup("ls");
+		data->group[0].full_cmd[1] = NULL;
+		data->group[0].infile = NULL;
+		data->group[0].outfile = NULL;
+		data->group[0].builtin = NULL;
+		data->group[1].full_cmd = ft_calloc(3, sizeof(char *));
+		data->group[1].full_cmd[0] = ft_strdup("grep");
+		data->group[1].full_cmd[1] = ft_strdup("file");
+		data->group[1].full_cmd[2] = NULL;
+		data->group[1].infile = NULL;
+		data->group[1].outfile = NULL;
+		data->group[1].builtin = NULL;
+	}
 }
-
 // int32_t	main(int32_t argc, char **argv, char **envp)
 // {
 // 	// char	*str;
@@ -935,7 +977,7 @@ void	fake_parser(t_data *data, char *test)
 // 	init(&data, envp);
 // 	if (argv[1])
 // 	{
-// 		ft_printf_fd(STDERR_FILENO, "after if argv[1]\n");
+// 		sprintf(debugBuf + ft_strlen(debugBuf), "after if argv[1]\n");
 // 		fake_parser(&data, argv[1]);
 // 		execution(&data);
 // 	}

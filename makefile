@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+         #
+#    By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/11 18:45:17 by pmoghadd          #+#    #+#              #
-#    Updated: 2022/11/17 15:32:55 by pmoghadd         ###   ########.fr        #
+#    Updated: 2022/11/18 19:03:45 by mialbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,8 @@ SRCS	=	./srcs/parsing/main2.c \
 			./srcs/init.c \
 			./srcs/utils.c \
 			./srcs/error.c \
-			./srcs/free.c
+			./srcs/free.c \
+			./srcs/execution/path.c
 
 OBJS	= $(SRCS:.c=.o)
 

@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 03:22:30 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/13 05:44:28 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/18 19:05:58 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,48 +27,6 @@ static void	update_oldpwd(t_data *data)
 		oldpwd->value = "";
 	else 
 		oldpwd->value = data->pwd;
-}
-
-/**
- * @param relative The relative path to edit path with. Ex: ../../evals/ft_irc
- * outcome: Documents/evals/ft_irc
- * @param path The path you want to start with. 
- * Ex: Documents/my_projects/minishell
- */
-char	*relative_path(char *relative, char *path)
-{
-	size_t	len;
-	char	*folder;
-	
-	len = 0;
-	if (ft_strncmp(relative, "./", 2) == 0)
-		relative += 2;
-	while (ft_strncmp(relative, "../", 3) == 0)
-	{
-		len = pos_char_end(path, '/');
-		path = ft_substr(path, 0, len);
-		relative += 3;
-	}
-	while (relative)
-	{
-		len = pos_char_start(relative, '/');
-		folder = ft_substr(relative, 0, len);
-		path = ft_strjoin(path, folder);
-		relative += len;
-	}
-	if (access(path, F_OK | X_OK) == 0)
-		return (path);
-	return (NULL);
-}
-
-char	*absolute_or_relative(char *path, char *old_path)
-{
-	if (access(path, F_OK | X_OK) == 0)
-		return (path);
-	path = relative_path(path, old_path);
-	if (!path)
-		return (NULL);
-	return (path);
 }
 
 /**

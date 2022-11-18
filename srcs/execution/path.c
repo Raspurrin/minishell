@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 17:37:00 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/17 21:17:53 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/18 16:29:52 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,18 +24,24 @@ char	*relative_path(char *relative, char *pwd)
 	char	*folder;
 
 	len = 0;
-	ft_printf_fd(STDERR_FILENO, "in relative_path\n");
+	sprintf(debugBuf + ft_strlen(debugBuf), "in relative_path\n");
 	if (ft_strncmp(relative, "./", 2) == 0)
 		relative += 2;
-	while (ft_strncmp(relative, "../", 3) == 0)
+	while (ft_strncmp(relative, "..", 2) == 0)
 	{
 		len = pos_char_end(pwd, '/');
 		pwd = ft_substr(pwd, 0, len);
+		if ( ft_strncmp(relative, "../", 3) != 0)
+		{
+			sprintf(debugBuf + ft_strlen(debugBuf), "pwd: %s\n", pwd);
+			return (pwd);
+		}
 		relative += 3;
 	}
 	folder = ft_strjoin("/", relative);
 	pwd = gnl_strjoin(pwd, folder);
 	free(folder);
+	sprintf(debugBuf + ft_strlen(debugBuf), "pwd: %s\n", pwd);
 	if (access(pwd, F_OK | X_OK) == 0)
 		return (pwd);
 	return (free(pwd), NULL);
@@ -43,18 +49,20 @@ char	*relative_path(char *relative, char *pwd)
 
 char	*absolute_or_relative(char *path, char *pwd)
 {
-	ft_printf_fd(STDERR_FILENO, "in absolute_or_relative\n");
-	if (access(path, F_OK | X_OK) == 0)
+	sprintf(debugBuf + ft_strlen(debugBuf), "in absolute_or_relative\n");
+	if (ft_strncmp(&path[0], "/", 1) == 0 && (access(path, F_OK | X_OK) == 0))
 	{
-		ft_printf_fd(STDERR_FILENO, "Yooo ok path\n");
+		sprintf(debugBuf + ft_strlen(debugBuf), "Yooo ok path\n");
+		sprintf(debugBuf + ft_strlen(debugBuf), "path: %s\n", path);
 		return (path);
 	}
 	path = relative_path(path, pwd);
 	if (!path || (access(path, F_OK | X_OK) != 0))
 	{
-		ft_printf_fd(STDERR_FILENO, "bullshit path actually\n");
+		sprintf(debugBuf + ft_strlen(debugBuf), "bullshit path actually\n");
 		return (NULL);
 	}
+	sprintf(debugBuf + ft_strlen(debugBuf), "path: %s\n", path);
 	return (path);
 }
 
