@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/17 18:51:04 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/18 16:12:02 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,25 @@ void executing(t_group *info) //just for test purposes
 	}
 }
 
+char *remove_quotes(char *name)
+{
+	int	i;
+	int length;
+	char *result;
+
+	i = 1;
+	length = ft_strlen(name);
+	result = malloc(sizeof(char) * (length - 1));
+	while (i < length - 1)
+	{
+		result[i - 1] = name[i];
+		i++;
+	}
+	result[i] = '\0';
+	// free (name);
+	return (result);
+}
+
 void	make_token(char *s, t_group **info, t_env *envp)
 {
 	int		i;
@@ -63,7 +82,7 @@ void	make_token(char *s, t_group **info, t_env *envp)
 		}
 		i++;
 	}
-	// executing(*info); //parsed data is printed
+	executing(*info); //parsed data is printed
 }
 
 void	parser(char *str, t_env *envp, t_data *data)

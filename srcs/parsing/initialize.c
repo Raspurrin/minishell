@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 18:01:38 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/17 18:50:39 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/18 16:18:22 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,6 @@ void	initialize(t_group	**data)
 {
 	(*data)->infile = NULL;
 	(*data)->outfile = NULL;
-	// (*data)->outfile->next = NULL;
-	// (*data)->infile->next = NULL;
-	// (*data)->infile->here_doc = (bool *)malloc(sizeof(bool));
-	// (*data)->outfile->append = (bool *)malloc(sizeof(bool));
-	// (*data)->infilec = 0;
-	// (*data)->outfilec = 0;
 	(*data)->read_in = 0;
 	(*data)->read_out = 0;
 	(*data)->full_cmd = (char **)ft_calloc(sizeof(char *), 1);
@@ -58,9 +52,11 @@ void	in_file_init(t_group	**info, char *s, char *name, t_env *envp)
 	new = malloc(sizeof(t_infile));
 	if (!new)
 		return ;
-	new->name = name;
 	if (ft_strchr(name, '$'))
-		name = expand(name, info, envp);
+		name = expand(name, envp);
+	if(name[0] == '\"' || name[0] == '\'')
+		name = remove_quotes(name);
+	new->name = name;
 	// printf("substr in|%s|\n", name);
 	// free(name);
 	if (s[1] == '<')
@@ -80,7 +76,9 @@ void	out_file_init(t_group	**info, char *s, char *name, t_env *envp)
 	if (!new)
 		return ;
 	if (ft_strchr(name, '$'))
-		name = expand(name, info, envp);
+		name = expand(name, envp);
+	if(name[0] == '\"' || name[0] == '\'')
+		name = remove_quotes(name);
 	new->name = name;
 	// printf("substr out|%s|\n", new->name);
 	if (s[1] == '<')
@@ -97,7 +95,9 @@ void	words_init(t_group	**info, char *name, t_env *envp)
 	char		**command_array;
 
 	if (ft_strchr(name, '$'))
-		name = expand(name, info, envp);
+		name = expand(name, envp);
+	if(name[0] == '\"' || name[0] == '\'')
+		name = remove_quotes(name);
 	(*info)->commandc = (*info)->commandc + 1;
 	command_array = (char **)ft_realloc((*info)->full_cmd,
 			sizeof(char *) * ((*info)->commandc) + 2);
