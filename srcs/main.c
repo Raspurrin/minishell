@@ -6,19 +6,23 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/19 15:17:22 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/19 16:24:32 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include <stdlib.h>
 
+void	this_is_debug_yo()
+{
+	ft_printf_fd(STDERR_FILENO, "%s", debugBuf);
+}
+
 static void	init(t_data *data, char **envp)
 {
 	ft_bzero(data, sizeof(data));
-	data->paths = NULL;
+	data->group = NULL;
 	env_innit(data, envp);
-	path_innit(data);
 	init_pwd(data);
 }
 
@@ -118,8 +122,9 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 		if (str == NULL)
 			return (printf("exit\n"), 0);
 		parser(str, data.envp_head, &data);
-		print_parser(&data);
-		// execution(&data);
+		// print_parser(&data);
+		if (data.group)
+			execution(&data);
 		add_history(str);
 		free(str);
 	}

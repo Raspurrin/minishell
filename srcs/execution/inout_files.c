@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 03:43:43 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/13 01:04:42 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/19 15:27:37 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static int32_t	here_doc(t_data *data, t_infile *lst)
 	printf("hi\n");
 	fd = open(lst->name, O_RDWR | O_CREAT | O_TRUNC, 0666);
 	printf("fd in heredoc: %d\n", fd);
-	ft_printf_fd(STDERR_FILENO, "In heredoc\n");
+	sprintf(debugBuf + ft_strlen(debugBuf), "In heredoc\n");
 	if (fd == -1)
 		display_error(data, "Heredoc inout_files, Open infile failed", true);
 	while (ft_strncmp(line, lst->name, ft_strlen(lst->name) + 1) != 10)
@@ -103,24 +103,25 @@ bool	outfiles(t_data *data, t_group *group)
 	t_outfile	*lst;
 	
 	lst = group->outfile;
-	// ft_printf_fd(STDERR_FILENO, "%s\n", group->outfile);
-	// ft_printf_fd(STDERR_FILENO, "%s\n", group->full_cmd[0]);
-	// ft_printf_fd(STDERR_FILENO, "%p\n", group->outfile);
-	// ft_printf_fd(STDERR_FILENO, "%s\n", group->outfile->name);
+	// sprintf(debugBuf + ft_strlen(debugBuf), "%s\n", group->outfile);
+	// sprintf(debugBuf + ft_strlen(debugBuf), "%s\n", group->full_cmd[0]);
+	// sprintf(debugBuf + ft_strlen(debugBuf), "%p\n", group->outfile);
+	// sprintf(debugBuf + ft_strlen(debugBuf), "%s\n", group->outfile->name);
+	sprintf(debugBuf + ft_strlen(debugBuf), "in outfiles\n");
 	while (lst != NULL)
 	{
-		ft_printf_fd(STDERR_FILENO, "outfile: %s\n", lst->name);
+		sprintf(debugBuf + ft_strlen(debugBuf), "outfile: %s\n", lst->name);
 		if (lst->append == !false)
 		{
-			ft_printf_fd(STDERR_FILENO, "is appended\n");
+			sprintf(debugBuf + ft_strlen(debugBuf), "is appended\n");
 			flag = (O_RDWR | O_CREAT | O_APPEND);
 		}
 		else
 		{
-			ft_printf_fd(STDERR_FILENO, "is not appended\n");
+			sprintf(debugBuf + ft_strlen(debugBuf), "is not appended\n");
 			flag = (O_RDWR | O_CREAT | O_TRUNC);
 		}
-		ft_printf_fd(STDERR_FILENO, "opened: %s\nappend: %d\n", lst->name, lst->append);
+		sprintf(debugBuf + ft_strlen(debugBuf), "opened: %s\nappend: %d\n", lst->name, lst->append);
 		fd = open(lst->name, flag, 0666);
 		if (fd == -1)
 		{
@@ -129,7 +130,7 @@ bool	outfiles(t_data *data, t_group *group)
 		}
 		if (lst->next == NULL)
 		{
-			ft_printf_fd(STDERR_FILENO, "Dupping %s to STDOUT\n", lst->name);
+			sprintf(debugBuf + ft_strlen(debugBuf), "Dupping %s to STDOUT\n", lst->name);
 			return (dup2(fd, STDOUT_FILENO), close(fd), true);
 		}
 		close(fd);

@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/13 06:36:38 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/13 23:22:05 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/19 15:14:28 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ void	free_groups(t_data *data)
 
 void	free_data(t_data *data)
 {
-	free_2d(data->paths);
 	free_env_lst((void *)data->envp_head);
 	if (data->pwd)
 	{
