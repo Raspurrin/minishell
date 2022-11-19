@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/19 14:27:55 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/19 14:48:58 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@
 typedef struct s_group	t_group;
 typedef struct s_data	t_data;
 typedef void			(*t_builtin)(t_data *, t_group *);
+char	debugBuf[6969];
 
 typedef struct s_outfile
 {
@@ -184,6 +185,7 @@ char	*find_path(t_data *data, char *cmd_name);
 void	path_innit(t_data *data);
 char	*find_new_path(char *str, char *path);
 char	*absolute_or_relative(char *path, char *old_path);
+char	*relative_path(char *relative, char *pwd);
 
 /* builtins: */
 void	exit_check(t_data *data, t_group *group);
