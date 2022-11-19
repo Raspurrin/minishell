@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/19 14:27:55 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/19 15:47:29 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,7 @@ int		first_char_check(char c);
 void	make_token(char *s, t_group **info, t_env *envp);
 char	*remove_quotes(char *name);
 char	*ft_strjoin_minishell(char *str1, char *str2);
+void	err_parser(char *msg, char c);
 
 /* general */
 void	display_error(t_data *data, char *error_msg, bool yeet);

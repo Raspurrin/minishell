@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:58:33 by pooneh            #+#    #+#             */
-/*   Updated: 2022/11/18 17:29:07 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/19 16:18:11 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,9 @@ int	check_neighbouring_chars(char *s)
 	while (s[i] && s[i] == c)
 		i++;
 	if (c == '|' && i >= 2)
-	{
-		printf("Minishell: syntax error near unexpected token `%c'\n",c); //add err file
-		exit(45);
-	}
+		err_parser("Minishell: syntax error near unexpected token", c);
 	else if (i >= 3)
-	{
-		printf("Minishell: syntax error near unexpected token `%c'\n",c); //add err file
-		exit(45);//what here ?
-	}
+		err_parser("Minishell: syntax error near unexpected token", c);
 	return (i);
 }
 
@@ -45,22 +39,14 @@ int		check_input_before_handling(char *s)
 	{
 		if (s[i] == '"' || s[i] == '\'')
 		{
-			if (!s[i + skip_quotes(s + i) - 1]) //add error function and exit code
-			{
-				printf("Minishell: unclosed quote!\n");
-				exit(45);
-			}
+			if (!s[i + skip_quotes(s + i) - 1])
+				err_parser("Minishell: error, unclosed quote", s[i]);
 			i += skip_quotes(s + i) - 1;
 		}
 		if (s[i + 1] && ((s[i] == '<' && s[i + 1] == '>') || (s[i] == '>' && s[i + 1] == '<')))
-		{
-			printf("Minishell: syntax error near unexpected token '%c'\n", s[i + 1]);
-			exit(45);
-		}
-		if (ft_strchr("><|", s[i]))
-		{
+			err_parser("Minishell: syntax error near unexpected token", s[i + 1]);
+		if (ft_strchr("><|/", s[i]))
 			i = i + check_neighbouring_chars(s + i);
-		}
 		i++;
 	}
 	return (0);

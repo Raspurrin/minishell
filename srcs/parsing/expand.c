@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 14:50:42 by pooneh            #+#    #+#             */
-/*   Updated: 2022/11/18 17:10:18 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/19 15:20:07 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,16 +37,14 @@ int	replace_variable_value(char **name, int index, char	*variable, t_env *envp)
 	int	l;
 	char	*tmp_tail;
 	char	*tmp_head;
-	t_env	*tmp;
 
 	i = 0;
 	l = 0;
-	tmp = envp;
 	tmp_tail = *name + index + ft_strlen(variable);
-	if (index > 1)
+	// if (index > 1)
 		tmp_head = ft_substr(*name, 0, index - 1);
-	else
-		tmp_head = "";
+	// else
+	// 	tmp_head = "";
 	while (envp)
 	{
 		if (!ft_strncmp(variable, envp->key, ft_strlen(variable)))
@@ -58,10 +56,9 @@ int	replace_variable_value(char **name, int index, char	*variable, t_env *envp)
 			tmp_head = ft_strjoin_minishell(tmp_head, envp->key);
 		envp = envp->next;
 	}
-	envp = tmp;
 	if (l == 0 && (variable[0] == '"' || variable[0] == '\''))
 		tmp_head = ft_strjoin_minishell(tmp_head, variable);
-	tmp_head = ft_strjoin(tmp_head, tmp_tail);
+	tmp_head = ft_strjoin_minishell(tmp_head, tmp_tail); //changed for leaks
 	*name = tmp_head;
 	return (l + index);
 }

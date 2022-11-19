@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:54:11 by pooneh            #+#    #+#             */
-/*   Updated: 2022/11/18 16:47:39 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/19 15:48:54 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,4 +98,10 @@ int	first_char_check(char c)
 	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c == '_'))
 		return (1);
 	return (0);
+}
+
+void err_parser(char *msg, char c)
+{
+	printf("%s '%c'\n", msg, c);
+	exit(EXIT_FAILURE);
 }
