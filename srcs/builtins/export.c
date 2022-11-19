@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:10:18 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/14 01:45:13 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/19 17:20:28 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	export(t_data *data, t_group *group)
 	t_env	*lst;
 	t_env	*smol;
 	t_env	*tmp;
-	ft_printf_fd(STDERR_FILENO, "EXPORT IS A BEER TYPE\n");
+
 	(void)group;
 	lst = data->envp_head;
 	smol = lst;
@@ -53,11 +53,9 @@ void	export(t_data *data, t_group *group)
 		else if (smol->printed == false) // because the while loop before goes to the end regardless if printed == true or not lmao kinda cursed
 			ft_printf_fd(STDOUT_FILENO, "declare -x %s=\"%s\"\n", smol->key, smol->value);
 		smol->printed = true;
-		ft_printf_fd(STDERR_FILENO, "smol: %s \t\tnext: %p\n", smol->key, smol->next);
 		lst = lst->next;
 	}
 	set_printed_false(data);
-	ft_printf_fd(STDERR_FILENO, "LIKE MY SOUL\n");
 }
 
 // char **env_split(size_t	wcount, )

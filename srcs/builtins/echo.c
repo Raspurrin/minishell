@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 03:04:01 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/18 16:11:42 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/19 19:43:51 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	echo(t_data *data, t_group *group)
 	}	
 	echo++;
 	
-	while ((ft_strncmp("-n", (*echo), 2) == 0) && *echo)
+	while ((*echo && ft_strncmp("-n", (*echo), 2) == 0))
 	{
 		while ((*echo)[i])
 		{
