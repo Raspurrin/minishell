@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 03:43:43 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/18 14:20:04 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/19 15:27:37 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ bool	outfiles(t_data *data, t_group *group)
 	// sprintf(debugBuf + ft_strlen(debugBuf), "%s\n", group->full_cmd[0]);
 	// sprintf(debugBuf + ft_strlen(debugBuf), "%p\n", group->outfile);
 	// sprintf(debugBuf + ft_strlen(debugBuf), "%s\n", group->outfile->name);
+	sprintf(debugBuf + ft_strlen(debugBuf), "in outfiles\n");
 	while (lst != NULL)
 	{
 		sprintf(debugBuf + ft_strlen(debugBuf), "outfile: %s\n", lst->name);

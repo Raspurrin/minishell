@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/18 19:02:38 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/19 15:30:39 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ bool	builtin_check(t_data *data, t_group *group)
 {
 	(void)data;
 	
-	if (!group || !group->full_cmd[0])
+	if (!group || !group->full_cmd)
 		return (false);
 	sprintf(debugBuf + ft_strlen(debugBuf), "in builtlin_check, cmd: %s\n", group->full_cmd[0]);
 	if (ft_strncmp(group->full_cmd[0], "cd", 2) == 0)
@@ -78,8 +78,10 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2])
 	char	*path;
 	char	**env;
 
+	path = NULL;
 	sprintf(debugBuf + ft_strlen(debugBuf), "======in child_cmd=======\n");
-	sprintf(debugBuf + ft_strlen(debugBuf), "i: %zu, in child_cmd cmd: %s\n", i, data->group[i].full_cmd[0]);
+	if (data->group[i].full_cmd)
+		sprintf(debugBuf + ft_strlen(debugBuf), "i: %zu, in child_cmd cmd: %s\n", i, data->group[i].full_cmd[0]);
 	if (!infiles(data, &data->group[i]) && i > 0)
 	{
 		sprintf(debugBuf + ft_strlen(debugBuf), "Dupping tmp_fd (%d) to STDIN\n", data->tmp_fd);
@@ -100,7 +102,8 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2])
 		exit(0);
 	}
 	env = env_2darr(data, data->envp_head);
-	path = find_path(data, data->group[i].full_cmd[0]);
+	if (data->group[i].full_cmd)
+		path = find_path(data, data->group[i].full_cmd[0]);
 	if (!path)
 		return (display_error(data, NULL, true));
 	sprintf(debugBuf + ft_strlen(debugBuf), "before execv\n");
@@ -141,6 +144,7 @@ static void	exec_cmds(t_data *data)
 		pid = fork();
 		if (pid == -1)
 			display_error(data, "fork failed", true);
+		sprintf(debugBuf + ft_strlen(debugBuf), "forked\n");
 		if (pid == 0)
 			child_cmd(data, i, fd);
 		waitpid(pid, NULL, 0); //parent too slow lol
@@ -180,5 +184,5 @@ void	execution(t_data *data)
 	// 	data->status = status;
 	// 	i++;
 	// }
-	free_at_exit(data);
+	free_groups(data);
 }

@@ -6,20 +6,11 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 22:46:32 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/15 15:37:21 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/19 15:10:45 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-
-void	path_innit(t_data *data)
-{
-	t_env	*lst;
-
-	lst = find_node(data->envp_head, "PATH");
-	if (lst)
-		data->paths = ft_split(lst->value, ':');
-}
 
 /**
  * With the false param free_env_node only frees 

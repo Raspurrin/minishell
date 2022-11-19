@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/19 14:48:58 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/19 15:37:57 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,14 @@
 # define FOLDER12 "minishell_tester/test12/"
 # define FOLDER16 "minishell_tester/test16/"
 
+// #define DEBUG 1
+
 typedef struct s_group	t_group;
 typedef struct s_data	t_data;
 typedef void			(*t_builtin)(t_data *, t_group *);
 char	debugBuf[6969];
+
+void	this_is_debug_yo();
 
 typedef struct s_outfile
 {
@@ -95,7 +99,6 @@ typedef struct s_env
 typedef struct s_data
 {
 	int32_t	status;
-	char	**paths;
 	t_env	*envp_head;	
 	t_group	*group;
 	char	*pwd;
@@ -164,6 +167,7 @@ void	display_error(t_data *data, char *error_msg, bool yeet);
 void	free_at_exit(t_data *data);
 void	free_data(t_data *data);
 void    parser(char *str, t_env *envp, t_data *data);
+void	free_groups(t_data *data);
 
 /* environment variable linked list handlers */
 void	env(t_data *data, t_group *group);
