@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/19 16:24:32 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/19 17:11:22 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,14 +41,14 @@ void	set_exitcode(t_data *data)
 	}
 }
 
-// static void	ctrl_c(int32_t sig)
-// {
-// 	(void)sig;
-// 	ft_printf_fd(STDOUT_FILENO, "\n");
-// 	rl_on_new_line();
-// 	rl_replace_line("", 1);
-// 	rl_redisplay(); // not sure if this is fine or not
-// }
+static void	ctrl_c(int32_t sig)
+{
+	(void)sig;
+	ft_printf_fd(STDOUT_FILENO, "\n");
+	rl_on_new_line();
+	rl_replace_line("", 1);
+	rl_redisplay(); // not sure if this is fine or not
+}
 
 static void	ctrl_bslash(int32_t sig)
 {
@@ -115,7 +115,7 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 	init(&data, envp);
 	while (69)
 	{
-		// signal(SIGINT, ctrl_c);
+		signal(SIGINT, ctrl_c);
 		signal(SIGQUIT, ctrl_bslash);
 		signal(SIGQUIT, SIG_IGN);
 		str = readline("🦇Mishell: ");

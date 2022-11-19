@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 03:43:43 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/19 15:27:37 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/19 16:28:25 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static int32_t	here_doc(t_data *data, t_infile *lst)
 	line = ft_calloc(2, 1);
 	printf("hi\n");
 	fd = open(lst->name, O_RDWR | O_CREAT | O_TRUNC, 0666);
-	printf("fd in heredoc: %d\n", fd);
 	sprintf(debugBuf + ft_strlen(debugBuf), "In heredoc\n");
 	if (fd == -1)
 		display_error(data, "Heredoc inout_files, Open infile failed", true);
