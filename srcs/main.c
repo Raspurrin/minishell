@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/18 17:30:53 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/19 14:37:31 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 			return (printf("exit\n"), 0);
 		parser(str, data.envp_head, &data);
 		// print_parser(&data);
-		execution(&data);
+		// execution(&data);
 		add_history(str);
 		free(str);
 	}

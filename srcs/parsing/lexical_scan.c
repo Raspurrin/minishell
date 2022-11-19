@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:24:43 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/18 17:30:07 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/19 13:44:10 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int	quoted_word_extract(t_group **info, char *s, t_env *envp)
 	end = skip_quotes(s);
 	if (*(s + end) && ((*(s + end) != ' ' && *(s + end) != '<' && *(s + end) != '>')))
 		end = end + skip_chars(s + end);
+	
 	words_init(info, ft_substr(s, 0, end), envp);
 	return (end - 1);
 }

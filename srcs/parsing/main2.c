@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/18 16:44:44 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/19 14:38:13 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,14 @@ char *remove_quotes(char *name)
 
 	i = 1;
 	length = ft_strlen(name);
-	result = malloc(sizeof(char) * (length - 1));
+	result = ft_realloc(name, sizeof(char) * (length - 1));
 	while (i < length - 1)
 	{
 		result[i - 1] = name[i];
 		i++;
 	}
-	result[i] = '\0';
-	// free (name);
+	result[i - 1] = '\0';
+	free (name);
 	return (result);
 }
 
@@ -63,7 +63,7 @@ void	make_token(char *s, t_group **info, t_env *envp)
 
 	i = 0;
 	initialize(info);
-	while (s[i])
+	while (i < (int)ft_strlen(s))
 	{
 		if (s[i] && (s[i] == '>' || s[i] == '<'))
 		{
@@ -82,7 +82,9 @@ void	make_token(char *s, t_group **info, t_env *envp)
 		}
 		i++;
 	}
-	executing(*info); //parsed data is printed
+	if ((*info)->commandc == 0)
+		(*info)->full_cmd = NULL;
+	// executing(*info); //parsed data is printed
 }
 
 void	parser(char *str, t_env *envp, t_data *data)
@@ -95,7 +97,7 @@ void	parser(char *str, t_env *envp, t_data *data)
 	if (!check_input_before_handling(str))
 	{
 		pipe_wise_splitted = ft_split_shell(str, '|');
-		first_initialization(pipe_wise_splitted, data->group);
+		first_initialization(pipe_wise_splitted, data);
 		while (pipe_wise_splitted[i])
 		{
 			tmp = &(data->group[i]);

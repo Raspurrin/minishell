@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 18:01:38 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/18 17:00:19 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/19 14:26:56 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,14 @@ int		ft_strlen_array(char **s)
 	return (i);
 }
 
-void	first_initialization(char **pipe_wise_splitted_array, t_group *data)
+void	first_initialization(char **pipe_wise_splitted_array, t_data *data)
 {
 	int	i;
 
 	i = 0;
 	while (pipe_wise_splitted_array[i])
 		i++;		
-	data = (t_group *)malloc(sizeof(t_group) * (i + 1));
+	data->group = (t_group *)malloc(sizeof(t_group) * (i + 1));
 	if (!data)
 		return ;
 }
@@ -106,5 +106,4 @@ void	words_init(t_group	**info, char *name, t_env *envp)
 	command_array[((*info)->commandc) - 1] = name;
 	command_array[((*info)->commandc)] = NULL;
 	(*info)->full_cmd = command_array;
-	// printf("index: %d substr word|%s|\n", (*info)->commandc - 1, (*info)->full_cmd[(*info)->commandc - 1]);	
 }

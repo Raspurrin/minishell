@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/18 16:23:02 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/19 14:27:55 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ int		skip_chars(char *s);
 int		quoted_word_extract(t_group **info, char *s, t_env *envp);
 int		normal_word_extract(t_group **info, char *s, t_env *envp);
 
-void	first_initialization(char **pipe_wise_splitted_array, t_group	*data);
+void	first_initialization(char **pipe_wise_splitted_array, t_data *data);
 char	*expand(char *name, t_env *envp);
 char	**ft_split_shell(const char *s, char c);
 int		skip_spaces(char *s);
