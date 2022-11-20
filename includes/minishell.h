@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/20 01:19:27 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/20 03:06:26 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,7 +182,7 @@ char	**env_split(char *str, char del);
 void	print_env(t_env *lst);
 
 /* execution */
-char	*get_pwd(size_t buf_size);
+bool	pwd(t_data *data, t_group *group);
 void	env_innit(t_data *data, char **envp);
 void	execution(t_data *data);
 bool	infiles(t_data *data, t_group *group);
@@ -201,7 +201,6 @@ void	echo(t_data *data, t_group *group);
 void	exit_check(t_data *data, t_group *group);
 void	export(t_data *data, t_group *group);
 void	export_add(t_data *data, t_group *group);
-void	pwd(t_data *data, t_group *group);
 void	init_pwd_size(t_data *data);
 void	unset(t_data *data, t_group *group);
 
