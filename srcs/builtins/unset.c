@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:10:21 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/13 23:21:13 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/20 03:20:12 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,15 @@
  * [prev]->[cur]->[next]	->		[prev]->[next]
  * Or if node is the head, just make the next node the start of the list.
  */
-void	unset(t_data *data, t_group *group)
+bool	unset(t_data *data, t_group *group)
 {
 	size_t	i;
 	t_env	*lst;
 	t_env	*prev;
 
 	i = 1;
+	if (!group->full_cmd[i])
+		return (false);
 	while (group->full_cmd[i])
 	{
 		lst = data->envp_head;
@@ -48,4 +50,5 @@ void	unset(t_data *data, t_group *group)
 		}
 		i++;
 	}
+	return (true);
 }

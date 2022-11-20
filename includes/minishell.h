@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/20 03:06:26 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/20 03:46:39 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@
 
 typedef struct s_group	t_group;
 typedef struct s_data	t_data;
-typedef void			(*t_builtin)(t_data *, t_group *);
+typedef bool			(*t_builtin)();
 char	debugBuf[6969];
 
 void	this_is_debug_yo();
@@ -172,7 +172,6 @@ void    parser(char *str, t_env *envp, t_data *data);
 void	free_groups(t_data *data);
 
 /* environment variable linked list handlers */
-void	env(t_data *data, t_group *group);
 char	**env_2darr(t_data *data, t_env *lst);
 void	print_group(void);
 t_env	*find_node(t_env *lst, char *key);
@@ -195,13 +194,14 @@ char	*absolute_or_relative(char *path, char *old_path);
 char	*relative_path(char *relative, char *pwd);
 
 /* builtins: */
-void	exit_check(t_data *data, t_group *group);
-void	cd(t_data *data, t_group *group);
-void	echo(t_data *data, t_group *group);
-void	exit_check(t_data *data, t_group *group);
-void	export(t_data *data, t_group *group);
-void	export_add(t_data *data, t_group *group);
-void	init_pwd_size(t_data *data);
-void	unset(t_data *data, t_group *group);
+bool	exit_check(t_data *data, t_group *group);
+bool	cd(t_data *data, t_group *group);
+bool	echo(t_group *group);
+bool	exit_check(t_data *data, t_group *group);
+bool	export(t_data *data, t_group *group);
+bool	export_add(t_data *data, t_group *group);
+bool	init_pwd_size(t_data *data);
+bool	unset(t_data *data, t_group *group);
+bool	env(t_data *data, t_group *group);
 
 #endif
