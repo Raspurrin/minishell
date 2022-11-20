@@ -6,7 +6,7 @@
 #    By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/11 18:45:17 by pmoghadd          #+#    #+#              #
-#    Updated: 2022/11/19 22:07:45 by mialbert         ###   ########.fr        #
+#    Updated: 2022/11/20 15:14:19 by mialbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,7 @@ SRCS	=	./srcs/parsing/main2.c \
 			./srcs/builtins/unset.c \
 			./srcs/main.c \
 			./srcs/error.c \
-			./srcs/free.c \
+			./srcs/free.c
 
 OBJS	= $(SRCS:.c=.o)
 
@@ -83,9 +83,8 @@ libft:
 
 $(NAME): banner $(OBJS)
 	@$(CC) $(FLAGS_OS) $(CFLAGS) $(ADDUSER) $(OBJS) $(LIBFT)libft.a $(READLINE) $(FSAN) -o $(NAME)
-# $(CDIR) $(TESTER)
-# @mkdir object_files
-# @mv $(OBJS) object_files
+	@mkdir object_files
+	@mv $(OBJS) object_files
 
 e: all
 	./$(NAME)
