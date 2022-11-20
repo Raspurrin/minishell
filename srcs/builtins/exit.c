@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 01:54:20 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/20 03:15:23 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/20 04:10:54 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,3 +34,5 @@ bool	exit_check(t_data *data, t_group *group)
 	}
 	return (true);
 }
+
+// asdfasfasfd
