@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 01:52:49 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/13 23:02:18 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/20 03:46:25 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,21 @@ void	print_env(t_env *lst)
  * Printing out the environmental variables that have a value, 
  * otherwise they are ignored. 
  */
-void	env(t_data *data, t_group *group)
+bool	env(t_data *data, t_group *group)
 {
 	size_t	i;
 
 	i = 0;
-	(void)group;
+	if (!group->full_cmd || !group->full_cmd[i])
+		return (false);
 	while (group->full_cmd[i] && ft_strncmp(group->full_cmd[i], \
 							"env", ft_strlen(group->full_cmd[i])) == 0)
 		i++;
 	if (group->full_cmd[i] != NULL)
 	{
 		ft_printf_fd(STDERR_FILENO, "env: %s: No such file or directory", \
-																group->full_cmd[i]);
-		return ;
+														group->full_cmd[i]);
+		return (true);
 	}
-	print_env(data->envp_head);
+	return (print_env(data->envp_head), true);
 }

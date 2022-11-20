@@ -6,13 +6,13 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/19 15:30:39 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/20 03:39:53 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// but what if full_cmd[0] == "echowfjselfijal";
+
 bool	builtin_check(t_data *data, t_group *group)
 {
 	(void)data;

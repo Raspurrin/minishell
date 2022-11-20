@@ -6,14 +6,14 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/19 17:11:22 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/20 02:49:37 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include <stdlib.h>
 
-void	this_is_debug_yo()
+void	this_is_debug_yo(void)
 {
 	ft_printf_fd(STDERR_FILENO, "%s", debugBuf);
 }
@@ -23,7 +23,6 @@ static void	init(t_data *data, char **envp)
 	ft_bzero(data, sizeof(data));
 	data->group = NULL;
 	env_innit(data, envp);
-	init_pwd(data);
 }
 
 /**
@@ -106,9 +105,12 @@ void	print_parser(t_data *data)
 
 int32_t	main(int32_t argc, char **argv, char **envp)
 {
-	char	*str;
 	t_data	data;
-
+	char	*str;
+	// char	*buf;
+	// for (int xyz=0; envp[xyz]; xyz++)
+	// 	printf("%s\n", envp[xyz]);
+	// 	exit(0);
 	(void)argc;
 	(void)argv;
 	(void)envp;
