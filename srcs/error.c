@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 22:53:56 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/21 14:02:43 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/21 18:26:08 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	errno(int8_t nbr, char *str[2])
 	static const char	*errors[] = {
 		"",
 		": command not found",
-		": syntax error near unexpected token",
+		": syntax error near unexpected token ",
 		"is a directory",
 		"no such file or directory: ",
 		": not a valid identifier",
