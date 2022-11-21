@@ -6,29 +6,27 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/20 03:39:53 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/21 03:45:51 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-
 bool	builtin_check(t_data *data, t_group *group)
 {
 	(void)data;
-	
 	if (!group || !group->full_cmd)
 		return (false);
 	sprintf(debugBuf + ft_strlen(debugBuf), "in builtlin_check, cmd: %s\n", group->full_cmd[0]);
-	if (ft_strncmp(group->full_cmd[0], "cd", 2) == 0)
+	if (ft_strcmp(group->full_cmd[0], "cd") == 0)
 		group->builtin = &cd;
-	else if (ft_strncmp(group->full_cmd[0], "echo", 4) == 0)
+	else if (ft_strcmp(group->full_cmd[0], "echo") == 0)
 		group->builtin = &echo;
-	else if (ft_strncmp(group->full_cmd[0], "env", 3) == 0)
+	else if (ft_strcmp(group->full_cmd[0], "env") == 0)
 		group->builtin = &env;
-	else if (ft_strncmp(group->full_cmd[0], "exit", 4) == 0)
+	else if (ft_strcmp(group->full_cmd[0], "exit") == 0)
 		group->builtin = &exit_check;
-	else if (ft_strncmp(group->full_cmd[0], "export", 6) == 0) 
+	else if (ft_strcmp(group->full_cmd[0], "export") == 0) 
 	{
 		if (group->full_cmd[1] == NULL)
 		{
@@ -41,9 +39,9 @@ bool	builtin_check(t_data *data, t_group *group)
 			group->builtin = &export_add;
 		}
 	}
-	else if (ft_strncmp(group->full_cmd[0], "pwd", 3) == 0)
+	else if (ft_strcmp(group->full_cmd[0], "pwd") == 0)
 		group->builtin = &pwd;
-	else if (ft_strncmp(group->full_cmd[0], "unset", 5) == 0)
+	else if (ft_strcmp(group->full_cmd[0], "unset") == 0)
 		group->builtin = &unset;
 	else
 		return (sprintf(debugBuf + ft_strlen(debugBuf), "no builtin found: %p\n", group->builtin), false);
@@ -96,20 +94,20 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2])
 	if (builtin_check(data, &data->group[i]) == true)
 	{
 		sprintf(debugBuf + ft_strlen(debugBuf), "Builtin in child process\n");
-		if (!data->group[i].builtin)
-			display_error(data, "builtin fucked?", true);
 		data->group[i].builtin(data, &data->group[i]);
 		exit(0);
 	}
 	env = env_2darr(data, data->envp_head);
 	if (data->group[i].full_cmd)
 		path = find_path(data, data->group[i].full_cmd[0]);
+	this_is_debug_yo();
+	sprintf(debugBuf + ft_strlen(debugBuf), "path: %s\n", path);
 	if (!path)
-		return (display_error(data, NULL, true));
+		return (display_error(data, CMD, true, join_err(data->group[i].full_cmd[0], "")));
 	sprintf(debugBuf + ft_strlen(debugBuf), "before execv\n");
 	sprintf(debugBuf + ft_strlen(debugBuf), "%s\n", path);
 	if (execve(path, data->group[i].full_cmd, env) == -1)
-		return (free(path), free(env), display_error(data, "execve failed", true));
+		return (free(path), free(env), display_error(data, -1, true, join_err(data->group[i].full_cmd[0], "")));
 }
 
 /**
@@ -142,8 +140,8 @@ static void	exec_cmds(t_data *data)
 		sprintf(debugBuf + ft_strlen(debugBuf), "parent start i: %zu\n", i);
 		pipe(fd);
 		pid = fork();
-		if (pid == -1)
-			display_error(data, "fork failed", true);
+		// if (pid == -1)
+		// 	display_error(data, "fork failed", true);
 		sprintf(debugBuf + ft_strlen(debugBuf), "forked\n");
 		if (pid == 0)
 			child_cmd(data, i, fd);
