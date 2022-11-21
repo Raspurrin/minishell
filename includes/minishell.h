@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/21 13:54:41 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/21 14:12:43 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,11 @@
 # include <sys/signal.h>
 # include <sys/wait.h>
 # include <signal.h>
+# include <unistd.h>
 // # include </Users/pmoghadd/goinfre/.brew/opt/readline/include/readline/readline.h>
 // # include </Users/pmoghadd/goinfre/.brew/opt/readline/include/readline/history.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+# include </Users/mialbert/goinfre/.brew/opt/readline/include/readline/readline.h>
+# include </Users/mialbert/goinfre/.brew/opt/readline/include/readline/history.h>
 # include "../libs/libft/includes/libft.h"
 
 # define READ 0
@@ -49,7 +50,7 @@
 
 typedef struct s_group	t_group;
 typedef struct s_data	t_data;
-typedef void			(*t_builtin)(t_data *, t_group *);
+typedef bool			(*t_builtin)();
 char	debugBuf[6969];
 
 void	this_is_debug_yo();
@@ -101,7 +102,7 @@ typedef struct s_data
 	int32_t	status;
 	t_env	*envp_head;	
 	t_group	*group;
-	char	*pwd;
+	size_t	pwd_size;
 	size_t	groupc;
 	size_t	envpc;
 	int32_t	tmp_fd;
@@ -172,7 +173,6 @@ void    parser(char *str, t_env *envp, t_data *data);
 void	free_groups(t_data *data);
 
 /* environment variable linked list handlers */
-void	env(t_data *data, t_group *group);
 char	**env_2darr(t_data *data, t_env *lst);
 void	print_group(void);
 t_env	*find_node(t_env *lst, char *key);
@@ -182,6 +182,7 @@ char	**env_split(char *str, char del);
 void	print_env(t_env *lst);
 
 /* execution */
+bool	pwd(t_data *data, t_group *group);
 void	env_innit(t_data *data, char **envp);
 void	execution(t_data *data);
 bool	infiles(t_data *data, t_group *group);
@@ -194,14 +195,14 @@ char	*absolute_or_relative(char *path, char *old_path);
 char	*relative_path(char *relative, char *pwd);
 
 /* builtins: */
-void	exit_check(t_data *data, t_group *group);
-void	cd(t_data *data, t_group *group);
-void	echo(t_data *data, t_group *group);
-void	exit_check(t_data *data, t_group *group);
-void	export(t_data *data, t_group *group);
-void	export_add(t_data *data, t_group *group);
-void	pwd(t_data *data, t_group *group);
-void	init_pwd(t_data *data);
-void	unset(t_data *data, t_group *group);
+bool	exit_check(t_data *data, t_group *group);
+bool	cd(t_data *data, t_group *group);
+bool	echo(t_group *group);
+bool	exit_check(t_data *data, t_group *group);
+bool	export(t_data *data, t_group *group);
+bool	export_add(t_data *data, t_group *group);
+bool	init_pwd_size(t_data *data);
+bool	unset(t_data *data, t_group *group);
+bool	env(t_data *data, t_group *group);
 
 #endif

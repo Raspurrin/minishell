@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init.c                                             :+:      :+:    :+:   */
+/*   env_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 22:46:32 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/19 15:10:45 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/20 01:56:16 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 /**
  * With the false param free_env_node only frees 
@@ -66,6 +66,10 @@ void	env_innit(t_data *data, char **envp)
 	char	**tmp;
 	t_env	*lst;
 
+
+	// for (size_t i = 0; envp[i]; i++)
+	// 	printf("%s\n", envp[i]);
+	// exit(0);
 	data->envp_head = malloc(sizeof(t_env));
 	if (!data->envp_head)
 		return (display_error(data, "Malloc failed", true));
@@ -81,6 +85,7 @@ void	env_innit(t_data *data, char **envp)
 			lst->value = tmp[1];
 		free(tmp);
 		envp++;
+		// printf("%s\n", *envp);
 		if (*envp != NULL)
 		{
 			lst->next = malloc(sizeof(t_env));
@@ -90,5 +95,9 @@ void	env_innit(t_data *data, char **envp)
 		}
 	}
 	lst->next = NULL;
+	// t_env *env;
+	// env = find_node(data->envp_head, "PWD");
+	// printf("%s\n", env->value);
+	// exit(0);
 	change_(data);
 }

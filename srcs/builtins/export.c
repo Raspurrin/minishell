@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:10:18 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/14 01:45:13 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/20 03:23:47 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,24 +25,25 @@ static void	set_printed_false(t_data *data)
 	}
 }
 
-void	export(t_data *data, t_group *group)
+bool	export(t_data *data, t_group *group)
 {
 	t_env	*lst;
 	t_env	*smol;
 	t_env	*tmp;
-	ft_printf_fd(STDERR_FILENO, "EXPORT IS A BEER TYPE\n");
+
 	(void)group;
 	lst = data->envp_head;
 	smol = lst;
+	if (!lst)
+		return (false);
 	while (lst->next != NULL)
 	{
 		tmp = data->envp_head;
-		while (tmp->printed == true && tmp->next != NULL) // why does this happen if not everything is set to false
+		while (tmp->printed == true && tmp->next != NULL)
 			tmp = tmp->next;
 		smol = tmp;
 		while (tmp != NULL)
 		{
-			// ft_printf_fd(STDERR_FILENO, "tmp->key: %s smol->key: %s\n", tmp->key, smol->key);
 			if ((ft_strncmp(tmp->key, smol->key, ft_strlen(smol->key)) < 0 && \
 													tmp->printed == false))
 				smol = tmp;
@@ -50,14 +51,13 @@ void	export(t_data *data, t_group *group)
 		}
 		if (!smol->value)
 			ft_printf_fd(STDOUT_FILENO, "declare -x %s\n", smol->key);
-		else if (smol->printed == false) // because the while loop before goes to the end regardless if printed == true or not lmao kinda cursed
-			ft_printf_fd(STDOUT_FILENO, "declare -x %s=\"%s\"\n", smol->key, smol->value);
+		else if (smol->printed == false)
+			ft_printf_fd(STDOUT_FILENO, "declare -x %s=\"%s\"\n", smol->key, \
+																smol->value);
 		smol->printed = true;
-		ft_printf_fd(STDERR_FILENO, "smol: %s \t\tnext: %p\n", smol->key, smol->next);
 		lst = lst->next;
 	}
-	set_printed_false(data);
-	ft_printf_fd(STDERR_FILENO, "LIKE MY SOUL\n");
+	return (set_printed_false(data), true);
 }
 
 // char **env_split(size_t	wcount, )
@@ -91,7 +91,7 @@ static bool check_export(char *export)
  * example:
  * export something=====blue something= USER=mialbert
  */
-void	export_add(t_data *data, t_group *group)
+bool	export_add(t_data *data, t_group *group)
 {
 	size_t	i;
 	t_env	*dup;
@@ -108,7 +108,7 @@ void	export_add(t_data *data, t_group *group)
 		{
 			ft_printf_fd(STDERR_FILENO, "check_export failed\n");
 			if (!group->full_cmd[i + 1])
-				return ;
+				return (false);
 			i++;
 		}
 		tmp = env_split(group->full_cmd[i], '=');
@@ -141,4 +141,5 @@ void	export_add(t_data *data, t_group *group)
 		}
 		i++;
 	}
+	return (true);
 }

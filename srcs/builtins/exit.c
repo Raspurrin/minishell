@@ -6,13 +6,13 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 01:54:20 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/04 03:17:51 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/20 03:15:23 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	exit_check(t_data *data, t_group *group)
+bool	exit_check(t_data *data, t_group *group)
 {
 	size_t	i;
 	int32_t	nbr;
@@ -26,10 +26,11 @@ void	exit_check(t_data *data, t_group *group)
 			while (ft_isdigit(group->full_cmd[1][i]))
 				i++;
 			if (group->full_cmd[1][i] && !ft_isdigit(group->full_cmd[1][i]))
-				return (display_error(data, "", false));
+				return (display_error(data, "", false), false);
 			nbr = ft_atoi(group->full_cmd[1]);
 		}
 		printf("exit\n");
 		exit(nbr);
 	}
+	return (true);
 }

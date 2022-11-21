@@ -6,26 +6,38 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 03:16:49 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/15 15:38:30 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/20 03:45:23 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	init_pwd(t_data *data)
+/**
+ * @brief Cheeeeeeeeeeeeeese.
+ */
+bool	pwd(t_data *data, t_group *group)
 {
-	t_env	*lst;
+	size_t	size;
+	size_t	old_size;
+	char	*buf;
 
-	lst = find_node(data->envp_head, "PWD");
-	if (lst)
-		data->pwd = ft_strdup(lst->value);
-	else
-		data->pwd = NULL;
-}
-
-void	pwd(t_data *data, t_group *group)
-{
 	(void)group;
-
-	ft_printf_fd(STDOUT_FILENO, "%s\n", data->pwd);
+	(void)data;
+	size = 100;
+	buf = malloc(size);
+	if (!buf)
+		return (false);
+	while (true)
+	{
+		buf = getcwd(buf, size);
+		if (buf)
+			break ;
+		old_size = size;
+		size += 100;
+		buf = ft_realloc_n(buf, size, old_size);
+		if (!buf)
+			return (false);
+	}
+	ft_printf_fd(STDOUT_FILENO, "%s\n", buf);
+	return (free (buf), true);
 }

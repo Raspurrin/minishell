@@ -6,14 +6,14 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/21 13:55:52 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/21 14:13:30 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include <stdlib.h>
 
-void	this_is_debug_yo()
+void	this_is_debug_yo(void)
 {
 	ft_printf_fd(STDERR_FILENO, "%s", debugBuf);
 }
@@ -23,7 +23,6 @@ static void	init(t_data *data, char **envp)
 	ft_bzero(data, sizeof(data));
 	data->group = NULL;
 	env_innit(data, envp);
-	init_pwd(data);
 }
 
 /**
@@ -41,14 +40,14 @@ void	set_exitcode(t_data *data)
 	}
 }
 
-// static void	ctrl_c(int32_t sig)
-// {
-// 	(void)sig;
-// 	ft_printf_fd(STDOUT_FILENO, "\n");
-// 	rl_on_new_line();
-// 	rl_replace_line("", 1);
-// 	rl_redisplay(); // not sure if this is fine or not
-// }
+static void	ctrl_c(int32_t sig)
+{
+	(void)sig;
+	ft_printf_fd(STDOUT_FILENO, "\n");
+	rl_on_new_line();
+	rl_replace_line("", 1);
+	rl_redisplay(); // not sure if this is fine or not
+}
 
 static void	ctrl_bslash(int32_t sig)
 {
@@ -106,16 +105,19 @@ void	print_parser(t_data *data)
 
 int32_t	main(int32_t argc, char **argv, char **envp)
 {
-	char	*str;
 	t_data	data;
-
+	char	*str;
+	// char	*buf;
+	// for (int xyz=0; envp[xyz]; xyz++)
+	// 	printf("%s\n", envp[xyz]);
+	// 	exit(0);
 	(void)argc;
 	(void)argv;
 	(void)envp;
 	init(&data, envp);
 	while (69)
 	{
-		// signal(SIGINT, ctrl_c);
+		signal(SIGINT, ctrl_c);
 		signal(SIGQUIT, ctrl_bslash);
 		signal(SIGQUIT, SIG_IGN);
 		str = readline("🦇Mishell: ");

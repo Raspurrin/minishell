@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 03:04:01 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/18 16:11:42 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/20 03:43:51 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,33 +36,33 @@ static void	print_echo(bool	newline, char **str)
  * Valid newline cancel: echo -n -n -nnnnnn -nn Hello
  * Invalid: echo -nnnn-n Hello
  */
-void	echo(t_data *data, t_group *group)
+bool	echo(t_group *group)
 {
 	bool	newline;
 	char	**echo;
 	size_t	i;
 
 	i = 1;
-	(void)data;
 	newline = true;
 	echo = group->full_cmd;
-	if (!echo || !echo[1]) // !echo check is there to avoid making the other check segfault
+	if (!echo || !*echo)
+		return (false);
+	if (!echo || !echo[1])
 	{
 		echo[0] = ft_strdup("");
-		return (print_echo(newline, echo));
+		return (print_echo(newline, echo), true);
 	}	
 	echo++;
-	
-	while ((ft_strncmp("-n", (*echo), 2) == 0) && *echo)
+	while ((*echo && ft_strncmp("-n", (*echo), 2) == 0))
 	{
 		while ((*echo)[i])
 		{
 			if ((*echo)[i++] != 'n')
-				return (print_echo(newline, echo));
+				return (print_echo(newline, echo), true);
 		}
 		echo++;
 		newline = !true;
 		i = 1;
 	}
-	return (print_echo(newline, echo));
+	return (print_echo(newline, echo), true);
 }
