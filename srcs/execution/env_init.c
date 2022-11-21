@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 22:46:32 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/20 23:50:40 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/21 03:27:39 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,13 @@ void	env_innit(t_data *data, char **envp)
 		lst->keyvalue = ft_strdup(*envp);
 		tmp = env_split(*envp, '=');
 		lst->key = tmp[0];
-		if (ft_strncmp(lst->key, "SHLVL", ft_strlen(lst->key) == 0))
+		if (ft_strcmp(lst->key, "SHLVL") == 0)
+		{
+			printf("SHLVL: %s\n", tmp[1]);
 			lst->value = ft_itoa(ft_atoi(tmp[1]) + 1);
+			lst->keyvalue = ft_strjoin("SHLVL=", lst->value);
+			printf("lst->value: %s\n", lst->value);
+		}
 		else
 			lst->value = tmp[1];
 		free(tmp);
