@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/21 13:38:07 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/21 13:38:49 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@
 
 # define READ 0
 # define WRITE 1
-# define DEBUG 1
 
 # define FOLDER "minishell_tester/"
 # define FOLDER1 "minishell_tester/test1/"
@@ -47,7 +46,7 @@
 # define FOLDER12 "minishell_tester/test12/"
 # define FOLDER16 "minishell_tester/test16/"
 
-// #define DEBUG 1
+#define DEBUG 1
 
 typedef struct s_group	t_group;
 typedef struct s_data	t_data;
