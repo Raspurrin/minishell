@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 22:53:56 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/21 01:47:01 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/21 03:49:41 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,11 @@ static void	errno(int8_t nbr, char *str[2])
 		"invalid option",
 		"too many arguments",
 		"HOME not set",
-		"permission denied",
+		": permission denied",
 		"numeric argument required"
 	};
-
 	if (nbr == -1)
-		return (perror(NULL));
+		return (perror(str[0]));
 	this_is_debug_yo();
 	ft_printf_fd(STDERR_FILENO, "%s%s%s\n", str[0], errors[nbr], str[1]);
 }

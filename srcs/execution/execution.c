@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/21 00:58:56 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/21 03:45:51 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2])
 	sprintf(debugBuf + ft_strlen(debugBuf), "before execv\n");
 	sprintf(debugBuf + ft_strlen(debugBuf), "%s\n", path);
 	if (execve(path, data->group[i].full_cmd, env) == -1)
-		return (free(path), free(env) /*display_error(data, "execve failed", true)*/);
+		return (free(path), free(env), display_error(data, -1, true, join_err(data->group[i].full_cmd[0], "")));
 }
 
 /**
