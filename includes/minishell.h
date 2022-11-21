@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/21 08:55:48 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/21 11:31:01 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ typedef struct s_data	t_data;
 typedef bool			(*t_builtin)();
 char	debugBuf[6969];
 
-void	this_is_debug_yo();
+void	this_is_debug_yo(void);
 
 enum e_errno
 {

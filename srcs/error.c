@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 22:53:56 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/21 09:00:51 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/21 10:44:37 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,13 @@ static void	errno(int8_t nbr, char *str[2])
 
 	if (nbr == -1)
 	{
-		err = ft_strjoin(PROMPT, str[0]);
-		return (perror(err), free(err));
+		err = gnl_strjoin(PROMPT, str[0]);
+		return (perror(err), free(str), free(err));
 	}
 	this_is_debug_yo();
 	ft_printf_fd(STDERR_FILENO, "%s%s%s%s @ %s (line: %d)\n", \
 				PROMPT, str[0], errors[nbr], str[1], __FILE__, __LINE__);
+	free(str);
 }
 
 /**
