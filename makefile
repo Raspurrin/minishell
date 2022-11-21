@@ -6,7 +6,7 @@
 #    By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/11 18:45:17 by pmoghadd          #+#    #+#              #
-#    Updated: 2022/11/20 15:14:19 by mialbert         ###   ########.fr        #
+#    Updated: 2022/11/20 23:12:12 by mialbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -83,10 +83,10 @@ libft:
 
 $(NAME): banner $(OBJS)
 	@$(CC) $(FLAGS_OS) $(CFLAGS) $(ADDUSER) $(OBJS) $(LIBFT)libft.a $(READLINE) $(FSAN) -o $(NAME)
-	@mkdir object_files
-	@mv $(OBJS) object_files
+	@mv $(OBJS) $(OBJ_DIR)
 
 e: all
+	FSAN = -fsanitize=address
 	./$(NAME)
 
 test: 
@@ -95,6 +95,8 @@ test:
 clean:
 	@rm -f $(OBJS)
 	@echo "${B_RED}🧹 Cleaning: ${RED} object files $(NC)"
+	rm -rf $(OBJ_DIR)
+	mkdir $(OBJ_DIR)
 
 fclean: clean
 	@rm -f philo

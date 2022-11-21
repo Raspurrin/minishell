@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 01:54:20 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/20 04:12:08 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/20 18:13:27 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ bool	exit_check(t_data *data, t_group *group)
 
 	i = 0;
 	nbr = 0;
+	(void)data;
 	if (ft_strncmp(group->full_cmd[0], "exit", 4) == 0)
 	{
 		if (group->full_cmd[1])
@@ -26,7 +27,7 @@ bool	exit_check(t_data *data, t_group *group)
 			while (ft_isdigit(group->full_cmd[1][i]))
 				i++;
 			if (group->full_cmd[1][i] && !ft_isdigit(group->full_cmd[1][i]))
-				return (display_error(data, "", false), false);
+				return (/*display_error(data, "", false),*/ false);
 			nbr = ft_atoi(group->full_cmd[1]);
 		}
 		printf("exit\n");

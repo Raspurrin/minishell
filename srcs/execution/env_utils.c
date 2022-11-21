@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 23:06:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/19 22:08:11 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/20 23:47:32 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ t_env	*find_node(t_env *lst, char *key)
 {
 	while (lst != NULL)
 	{
-		if (ft_strncmp(lst->key, key, ft_strlen(lst->key)) == 0 && !ft_strncmp(key, lst->key, ft_strlen(key)))
+		if (ft_strncmp(lst->key, key, ft_strlen(lst->key)) == 0 && \
+			!ft_strncmp(key, lst->key, ft_strlen(key)))
 			return (lst);
 		lst = lst->next;
 	}
@@ -43,8 +44,8 @@ char	**env_2darr(t_data *data, t_env *lst)
 	size_t	i;
 
 	i = 0;
-	if (!lst)
-		return (display_error(data, "Env list failed to create", true), NULL);
+	// if (!lst)
+	// 	return (display_error(data, "Env list failed to create", true), NULL);
 	env = malloc((get_lstsize(data->envp_head) + 1) * sizeof(char *)); // count size each time
 	while (lst->next != NULL)
 	{

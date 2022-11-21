@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 22:46:32 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/20 01:56:16 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/20 23:50:40 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,13 +66,9 @@ void	env_innit(t_data *data, char **envp)
 	char	**tmp;
 	t_env	*lst;
 
-
-	// for (size_t i = 0; envp[i]; i++)
-	// 	printf("%s\n", envp[i]);
-	// exit(0);
 	data->envp_head = malloc(sizeof(t_env));
-	if (!data->envp_head)
-		return (display_error(data, "Malloc failed", true));
+	// if (!data->envp_head)
+		// return (display_error(data, "Malloc failed", true));
 	lst = data->envp_head;
 	while (*envp != NULL)
 	{
@@ -89,15 +85,11 @@ void	env_innit(t_data *data, char **envp)
 		if (*envp != NULL)
 		{
 			lst->next = malloc(sizeof(t_env));
-			if (!lst->next)
-				return (display_error(data, "Malloc failed", true));
+			// if (!lst->next)
+			// 	return (display_error(data, "Malloc failed", true));
 			lst = lst->next;
 		}
 	}
 	lst->next = NULL;
-	// t_env *env;
-	// env = find_node(data->envp_head, "PWD");
-	// printf("%s\n", env->value);
-	// exit(0);
 	change_(data);
 }
