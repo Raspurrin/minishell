@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 22:53:56 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/21 10:44:37 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/21 14:02:43 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ void	display_error(t_data *data, int8_t nbr, bool yeet, char *str[])
 	errno(nbr, str);
 	if (yeet)
 	{
-		ft_printf_fd(STDERR_FILENO, "in display_error, yeetin'\n");
 		free_data(data);
 		exit(EXIT_FAILURE);
 	}

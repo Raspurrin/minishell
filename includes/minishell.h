@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/21 11:31:01 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/21 14:17:37 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,8 @@
 # include <sys/wait.h>
 # include <signal.h>
 # include <unistd.h>
-// # include </Users/pmoghadd/goinfre/.brew/opt/readline/include/readline/readline.h>
-// # include </Users/pmoghadd/goinfre/.brew/opt/readline/include/readline/history.h>
-# include </Users/mialbert/goinfre/.brew/opt/readline/include/readline/readline.h>
-# include </Users/mialbert/goinfre/.brew/opt/readline/include/readline/history.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include "../libs/libft/includes/libft.h"
 
 # define READ 0
