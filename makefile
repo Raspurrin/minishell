@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+         #
+#    By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/11 18:45:17 by pmoghadd          #+#    #+#              #
-#    Updated: 2022/11/18 19:03:45 by mialbert         ###   ########.fr        #
+#    Updated: 2022/11/21 13:54:17 by pmoghadd         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,6 +24,7 @@ SRCS	=	./srcs/parsing/main2.c \
 			./srcs/parsing/shell_split.c \
 			./srcs/parsing/utils.c \
 			./srcs/parsing/check_input.c \
+			./srcs/parsing/quotes.c \
 			./srcs/execution/execution.c \
 			./srcs/execution/inout_files.c \
 			./srcs/builtins/cd.c \

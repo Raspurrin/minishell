@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 18:01:38 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/19 14:26:56 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/21 13:49:20 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,34 @@ void	initialize(t_group	**info)
 	(*info)->commandc = 0;
 }
 
+// char	quote_type(char *name) //finds the first quote in name
+// {
+// 	if (!ft_strchr(name, '\'') && !ft_strchr(name, '\"'))
+// 		return (0);
+// 	if (pos_char_start(name, '\"') < pos_char_start(name, '\''))
+// 		return ('\"');
+// 	return ('\'');
+// }
+
+
+// char * rm_quotes_(char *name)
+// {
+// 	int i;
+
+// 	i = 0;
+// 	while (name[i])
+// 	{
+// 		if (name[i] == '\"' || name[i] == '\'')
+// 		{
+// 			name = remove_quotes(name + i);
+// 			i += skip_quotes(name + i) - 2;
+// 		}
+// 		i++;
+// 		printf("torture%s\n", name);
+// 	}
+// 	return (name);
+// }
+
 void	in_file_init(t_group	**info, char *s, char *name, t_env *envp)
 {
 	t_infile	*new;
@@ -55,8 +83,9 @@ void	in_file_init(t_group	**info, char *s, char *name, t_env *envp)
 		return ;
 	if (ft_strchr(name, '$'))
 		name = expand(name, envp);
-	if(name[0] == '\"' || name[0] == '\'')
-		name = remove_quotes(name);
+	// if (ft_strchar(name, quote_type(name)))
+	// 	name = remove_quotes(ft_strchar(name, quote_type(name)));
+	name = rm_quotes_(name);
 	new->name = name;
 	// printf("substr in|%s|\n", name);
 	// free(name);
@@ -78,8 +107,10 @@ void	out_file_init(t_group	**info, char *s, char *name, t_env *envp)
 		return ;
 	if (ft_strchr(name, '$'))
 		name = expand(name, envp);
-	if(name[0] == '\"' || name[0] == '\'')
-		name = remove_quotes(name);
+	name = rm_quotes_(name);
+
+	// if(name[0] == '\"' || name[0] == '\'')
+	// 	name = remove_quotes(name);
 	new->name = name;
 	// printf("substr out|%s|\n", new->name);
 	if (s[1] == '<')
@@ -97,8 +128,7 @@ void	words_init(t_group	**info, char *name, t_env *envp)
 
 	if (ft_strchr(name, '$'))
 		name = expand(name, envp);
-	if(name[0] == '\"' || name[0] == '\'')
-		name = remove_quotes(name);
+	name = rm_quotes_(name);
 	(*info)->commandc = (*info)->commandc + 1;
 	command_array = (char **)ft_realloc((*info)->full_cmd,
 			sizeof(char *) * ((*info)->commandc) + 2);

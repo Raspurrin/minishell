@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/19 14:38:13 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/21 13:50:27 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,24 +38,24 @@ void executing(t_group *info) //just for test purposes
 	}
 }
 
-char *remove_quotes(char *name)
-{
-	int	i;
-	int length;
-	char *result;
+// char *remove_quotes(char *name)
+// {
+// 	int	i;
+// 	int length;
+// 	char *result;
 
-	i = 1;
-	length = ft_strlen(name);
-	result = ft_realloc(name, sizeof(char) * (length - 1));
-	while (i < length - 1)
-	{
-		result[i - 1] = name[i];
-		i++;
-	}
-	result[i - 1] = '\0';
-	free (name);
-	return (result);
-}
+// 	i = 1;
+// 	length = ft_strlen(name);
+// 	result = ft_realloc(name, sizeof(char) * (length - 1));
+// 	while (i < length - 1)
+// 	{
+// 		result[i - 1] = name[i];
+// 		i++;
+// 	}
+// 	result[i - 1] = '\0';
+// 	free (name);
+// 	return (result);
+// }
 
 void	make_token(char *s, t_group **info, t_env *envp)
 {

@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/19 16:23:44 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/21 13:54:41 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ int		special_chars(t_group **info, char *s, t_env *envp);
 int		skip_chars(char *s);
 int		quoted_word_extract(t_group **info, char *s, t_env *envp);
 int		normal_word_extract(t_group **info, char *s, t_env *envp);
+char * rm_quotes_(char *name);
 
 void	first_initialization(char **pipe_wise_splitted_array, t_data *data);
 char	*expand(char *name, t_env *envp);
@@ -159,9 +160,9 @@ char	**ft_split_shell(const char *s, char c);
 bool	ft_isalnum_ms(int32_t c);
 int		first_char_check(char c);
 void	make_token(char *s, t_group **info, t_env *envp);
-char	*remove_quotes(char *name);
+char *remove_quotes(char *name, int start);
 char	*ft_strjoin_minishell(char *str1, char *str2);
-void	err_parser(char *msg, char c);
+int	err_parser(char *msg, char c);
 
 /* general */
 void	display_error(t_data *data, char *error_msg, bool yeet);

@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:54:11 by pooneh            #+#    #+#             */
-/*   Updated: 2022/11/19 15:48:54 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/21 13:52:38 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,8 +100,9 @@ int	first_char_check(char c)
 	return (0);
 }
 
-void err_parser(char *msg, char c)
+int err_parser(char *msg, char c)
 {
-	printf("%s '%c'\n", msg, c);
-	exit(EXIT_FAILURE);
+    printf("%s '%c'\n", msg, c);
+    return (-1);
+    // exit(EXIT_FAILURE);
 }
