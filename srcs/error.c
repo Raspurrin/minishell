@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 22:53:56 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/21 03:49:41 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/21 09:00:51 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,24 +34,30 @@ char	**join_err(char *str1, char *str2)
  */
 static void	errno(int8_t nbr, char *str[2])
 {
+	char				*err;
 	static const char	*errors[] = {
 		"",
 		": command not found",
 		": syntax error near unexpected token",
 		"is a directory",
-		"No such file or directory",
+		"no such file or directory: ",
 		": not a valid identifier",
-		"event not found",
-		"invalid option",
-		"too many arguments",
+		": event not found",
+		": invalid option",
+		": too many arguments",
 		"HOME not set",
 		": permission denied",
-		"numeric argument required"
+		": numeric argument required"
 	};
+
 	if (nbr == -1)
-		return (perror(str[0]));
+	{
+		err = ft_strjoin(PROMPT, str[0]);
+		return (perror(err), free(err));
+	}
 	this_is_debug_yo();
-	ft_printf_fd(STDERR_FILENO, "%s%s%s\n", str[0], errors[nbr], str[1]);
+	ft_printf_fd(STDERR_FILENO, "%s%s%s%s @ %s (line: %d)\n", \
+				PROMPT, str[0], errors[nbr], str[1], __FILE__, __LINE__);
 }
 
 /**

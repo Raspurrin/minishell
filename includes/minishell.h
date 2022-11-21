@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/21 02:31:34 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/21 08:55:48 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 
 # define READ 0
 # define WRITE 1
+# define PROMPT "🦇Mishell: "
 
 // #define DEBUG 1
 
