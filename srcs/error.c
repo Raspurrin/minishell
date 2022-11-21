@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 22:53:56 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/21 13:35:36 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/03 21:57:39 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	free_at_exit(t_data *data)
 {
 	(void)data;
 }
-// yo
+
 /**
  * Perror uses the errno variable, which is set with an error message
  * by the last malfunctioning function
