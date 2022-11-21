@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 01:52:49 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/20 03:46:25 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/21 14:04:15 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	print_env(t_env *lst)
 	while (lst != NULL)
 	{
 		if (lst->value && lst->keyvalue && *lst->value)
-			ft_printf_fd(STDOUT_FILENO, "%s\n", lst->keyvalue);
+			ft_printf_fd(STDOUT_FILENO, "%s=%s\n", lst->key, lst->value);
 		lst = lst->next;
 	}
 }
@@ -40,9 +40,7 @@ bool	env(t_data *data, t_group *group)
 		i++;
 	if (group->full_cmd[i] != NULL)
 	{
-		ft_printf_fd(STDERR_FILENO, "env: %s: No such file or directory", \
-														group->full_cmd[i]);
-		return (true);
+		return (display_error(data, NODIR, false, join_err("", group->full_cmd[i])), false);
 	}
 	return (print_env(data->envp_head), true);
 }

@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:10:18 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/20 03:23:47 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/21 03:43:36 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,17 +72,18 @@ void	lst_addback(t_data *data, t_env *new)
 	lst->next = new;
 }
 
-static bool check_export(char *export)
+bool	check_key(char *key)
 {
-	ft_printf_fd(STDERR_FILENO, "check_export: %s\n", export);
-	while (*export)
+	ft_printf_fd(STDERR_FILENO, "check_key: %s\n", key);
+	while (*key)
 	{
-		if ((!(ft_isalpha(*export)) && *export != '_' && *export != '='))
+		if ((!(ft_isalpha(*key)) && (!ft_isalnum(*key)) \
+					&& *key != ' ' && *key != '_' && *key != '='))
 		{
-			ft_printf_fd(STDERR_FILENO, "Cause export fails: %c", *export);
+			ft_printf_fd(STDERR_FILENO, "Cause key fails: %c", key);
 			return (false);
 		}
-		export++;
+		key++;
 	}
 	return (true);
 }
@@ -104,11 +105,12 @@ bool	export_add(t_data *data, t_group *group)
 	while (group->full_cmd[i])
 	{
 		ft_printf_fd(STDERR_FILENO, "group->full_cmd[i]: %s\n", group->full_cmd[i]);
-		while (!check_export(group->full_cmd[i])) // this is retarded, pls be more smart
+		while (!check_key(group->full_cmd[i])) // this is retarded, pls be more smart
 		{
-			ft_printf_fd(STDERR_FILENO, "check_export failed\n");
+			ft_printf_fd(STDERR_FILENO, "check_key failed\n");
 			if (!group->full_cmd[i + 1])
-				return (false);
+				return (display_error(data, INVID, false, \
+							join_err(group->full_cmd[i], "")), false);
 			i++;
 		}
 		tmp = env_split(group->full_cmd[i], '=');

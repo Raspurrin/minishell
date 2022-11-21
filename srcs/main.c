@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/21 14:13:30 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/21 14:22:33 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static void	ctrl_bslash(int32_t sig)
 	signal(SIGQUIT, SIG_IGN);
 }
 
-void	free_fds()
+void	free_fds(void)
 {
 	int	i;
 
@@ -107,20 +107,18 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 {
 	t_data	data;
 	char	*str;
-	// char	*buf;
-	// for (int xyz=0; envp[xyz]; xyz++)
-	// 	printf("%s\n", envp[xyz]);
-	// 	exit(0);
+
 	(void)argc;
 	(void)argv;
 	(void)envp;
+
 	init(&data, envp);
 	while (69)
 	{
 		signal(SIGINT, ctrl_c);
 		signal(SIGQUIT, ctrl_bslash);
 		signal(SIGQUIT, SIG_IGN);
-		str = readline("🦇Mishell: ");
+		str = readline(PROMPT);
 		if (str == NULL)
 			return (printf("exit\n"), 0);
 		parser(str, data.envp_head, &data);

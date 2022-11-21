@@ -6,7 +6,7 @@
 #    By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/11 18:45:17 by pmoghadd          #+#    #+#              #
-#    Updated: 2022/11/21 14:12:01 by pmoghadd         ###   ########.fr        #
+#    Updated: 2022/11/21 14:21:33 by pmoghadd         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ SRCS	=	./srcs/parsing/main2.c \
 			./srcs/builtins/unset.c \
 			./srcs/main.c \
 			./srcs/error.c \
-			./srcs/free.c \
+			./srcs/free.c
 
 OBJS	= $(SRCS:.c=.o)
 

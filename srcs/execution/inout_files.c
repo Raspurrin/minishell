@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 03:43:43 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/19 16:28:25 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/20 18:12:17 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,13 @@ static int32_t	here_doc(t_data *data, t_infile *lst)
 	int32_t		fd;
 	char		*line;
 
+	(void)data;
 	line = ft_calloc(2, 1);
 	printf("hi\n");
 	fd = open(lst->name, O_RDWR | O_CREAT | O_TRUNC, 0666);
 	sprintf(debugBuf + ft_strlen(debugBuf), "In heredoc\n");
-	if (fd == -1)
-		display_error(data, "Heredoc inout_files, Open infile failed", true);
+	// if (fd == -1)
+	// 	display_error(data, "Heredoc inout_files, Open infile failed", true);
 	while (ft_strncmp(line, lst->name, ft_strlen(lst->name) + 1) != 10)
 	{
 		free(line);
@@ -65,7 +66,7 @@ bool	infiles(t_data *data, t_group *group)
 			if (fd == -1)
 			{
 				free_fds();
-				display_error(data, "Opening infile failed", true);
+				//display_error(data, "Opening infile failed", true);
 			}
 		}
 		if (lst->next == NULL)
@@ -101,6 +102,7 @@ bool	outfiles(t_data *data, t_group *group)
 	int16_t		flag;
 	t_outfile	*lst;
 	
+	(void)data;
 	lst = group->outfile;
 	// sprintf(debugBuf + ft_strlen(debugBuf), "%s\n", group->outfile);
 	// sprintf(debugBuf + ft_strlen(debugBuf), "%s\n", group->full_cmd[0]);
@@ -125,7 +127,7 @@ bool	outfiles(t_data *data, t_group *group)
 		if (fd == -1)
 		{
 			free_fds();
-			display_error(data, "Opening outfile failed", true);
+			//display_error(data, "Opening outfile failed", true);
 		}
 		if (lst->next == NULL)
 		{

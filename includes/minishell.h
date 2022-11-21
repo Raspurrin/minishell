@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/21 14:12:43 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/21 14:21:39 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,29 +22,13 @@
 # include <sys/wait.h>
 # include <signal.h>
 # include <unistd.h>
-// # include </Users/pmoghadd/goinfre/.brew/opt/readline/include/readline/readline.h>
-// # include </Users/pmoghadd/goinfre/.brew/opt/readline/include/readline/history.h>
-# include </Users/mialbert/goinfre/.brew/opt/readline/include/readline/readline.h>
-# include </Users/mialbert/goinfre/.brew/opt/readline/include/readline/history.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include "../libs/libft/includes/libft.h"
 
 # define READ 0
 # define WRITE 1
-
-# define FOLDER "minishell_tester/"
-# define FOLDER1 "minishell_tester/test1/"
-# define FOLDER2 "minishell_tester/test2/"
-# define FOLDER3 "minishell_tester/test3/"
-# define FOLDER4 "minishell_tester/test4/"
-# define FOLDER5 "minishell_tester/test5/"
-# define FOLDER6 "minishell_tester/test6/"
-# define FOLDER7 "minishell_tester/test7/"
-# define FOLDER8 "minishell_tester/test8/"
-# define FOLDER9 "minishell_tester/test9/"
-# define FOLDER10 "minishell_tester/test10/"
-# define FOLDER11 "minishell_tester/test11/"
-# define FOLDER12 "minishell_tester/test12/"
-# define FOLDER16 "minishell_tester/test16/"
+# define PROMPT "🦇Mishell: "
 
 // #define DEBUG 1
 
@@ -53,7 +37,23 @@ typedef struct s_data	t_data;
 typedef bool			(*t_builtin)();
 char	debugBuf[6969];
 
-void	this_is_debug_yo();
+void	this_is_debug_yo(void);
+
+enum e_errno
+{
+	EMPTY,
+	CMD,
+	TOKEN,
+	ISDIR,
+	NODIR,
+	INVID,
+	NOEVENT,
+	INVOPT,
+	ARGS,
+	HOME,
+	PERM,
+	NUMARG
+};
 
 typedef struct s_outfile
 {
@@ -166,11 +166,12 @@ char	*ft_strjoin_minishell(char *str1, char *str2);
 int	err_parser(char *msg, char c);
 
 /* general */
-void	display_error(t_data *data, char *error_msg, bool yeet);
+void	display_error(t_data *data, int8_t nbr, bool yeet, char *str[2]);
 void	free_at_exit(t_data *data);
 void	free_data(t_data *data);
-void    parser(char *str, t_env *envp, t_data *data);
+void	parser(char *str, t_env *envp, t_data *data);
 void	free_groups(t_data *data);
+char	**join_err(char *str1, char *str2);
 
 /* environment variable linked list handlers */
 char	**env_2darr(t_data *data, t_env *lst);
@@ -182,6 +183,7 @@ char	**env_split(char *str, char del);
 void	print_env(t_env *lst);
 
 /* execution */
+bool	check_key(char *key);
 bool	pwd(t_data *data, t_group *group);
 void	env_innit(t_data *data, char **envp);
 void	execution(t_data *data);

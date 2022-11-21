@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 22:46:32 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/20 01:56:16 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/21 03:27:39 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,21 +66,22 @@ void	env_innit(t_data *data, char **envp)
 	char	**tmp;
 	t_env	*lst;
 
-
-	// for (size_t i = 0; envp[i]; i++)
-	// 	printf("%s\n", envp[i]);
-	// exit(0);
 	data->envp_head = malloc(sizeof(t_env));
-	if (!data->envp_head)
-		return (display_error(data, "Malloc failed", true));
+	// if (!data->envp_head)
+		// return (display_error(data, "Malloc failed", true));
 	lst = data->envp_head;
 	while (*envp != NULL)
 	{
 		lst->keyvalue = ft_strdup(*envp);
 		tmp = env_split(*envp, '=');
 		lst->key = tmp[0];
-		if (ft_strncmp(lst->key, "SHLVL", ft_strlen(lst->key) == 0))
+		if (ft_strcmp(lst->key, "SHLVL") == 0)
+		{
+			printf("SHLVL: %s\n", tmp[1]);
 			lst->value = ft_itoa(ft_atoi(tmp[1]) + 1);
+			lst->keyvalue = ft_strjoin("SHLVL=", lst->value);
+			printf("lst->value: %s\n", lst->value);
+		}
 		else
 			lst->value = tmp[1];
 		free(tmp);
@@ -89,15 +90,11 @@ void	env_innit(t_data *data, char **envp)
 		if (*envp != NULL)
 		{
 			lst->next = malloc(sizeof(t_env));
-			if (!lst->next)
-				return (display_error(data, "Malloc failed", true));
+			// if (!lst->next)
+			// 	return (display_error(data, "Malloc failed", true));
 			lst = lst->next;
 		}
 	}
 	lst->next = NULL;
-	// t_env *env;
-	// env = find_node(data->envp_head, "PWD");
-	// printf("%s\n", env->value);
-	// exit(0);
 	change_(data);
 }
