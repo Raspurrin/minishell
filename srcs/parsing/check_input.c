@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:58:33 by pooneh            #+#    #+#             */
-/*   Updated: 2022/11/21 19:43:02 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/22 17:10:38 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,6 +91,7 @@ bool only_one_char(char *s)
 		return (free(tmp), true);
 	else if (ft_strlen(tmp) == 2 && (ft_strchr("<>", tmp[0]) || ft_strchr("<>", tmp[1]))) //<< and >> and <>
 		return (free(tmp), true);
+	free(tmp);
 	return (false);
 }
 
