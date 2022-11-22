@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 01:54:20 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/22 17:51:48 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/22 23:29:52 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ bool	exit_check(t_data *data, t_group *group)
 	{
 		printf("exit\n");
 		exit_code = 1;
-		return (display_error(ARGS, join_err("", ""), NULL, group), false);
+		return (display_error(ARGS, join_err(NULL, NULL), NULL, group), false);
 	}
 	else if (ft_strncmp(group->full_cmd[0], "exit", 4) == 0)
 	{
@@ -40,7 +40,8 @@ bool	exit_check(t_data *data, t_group *group)
 		}
 		printf("exit\n");
 		if (errno)
-			display_error(ARGS, join_err("", ""), NULL, group);
+			display_error(ARGS, join_err(NULL, NULL), NULL, group);
+		shlvl_msg(data->envp_head, true);
 		free_data(data);
 		exit(nbr);
 	}

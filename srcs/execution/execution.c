@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/22 17:40:18 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/22 23:31:33 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,11 +103,11 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2])
 	this_is_debug_yo();
 	sprintf(debugBuf + ft_strlen(debugBuf), "path: %s\n", path);
 	if (!path)
-		return (display_error(CMD, join_err(data->group[i].full_cmd[0], ""), data, NULL));
+		return (display_error(CMD, join_err(data->group[i].full_cmd[0], NULL), data, NULL));
 	sprintf(debugBuf + ft_strlen(debugBuf), "before execv\n");
 	sprintf(debugBuf + ft_strlen(debugBuf), "%s\n", path);
 	if (execve(path, data->group[i].full_cmd, env) == -1)
-		return (free(path), free(env), display_error(-1, join_err(data->group[i].full_cmd[0], ""), data, NULL));
+		return (free(path), free(env), display_error(-1, join_err(data->group[i].full_cmd[0], NULL), data, NULL));
 }
 
 /**
@@ -170,11 +170,12 @@ void	execution(t_data *data)
 	//sprintf(debugBuf + ft_strlen(debugBuf), "my leg hurts\n");
 	if (!data->group)
 		return ;
+	signal(SIGINT, SIG_IGN);
 	exec_cmds(data);
 	sprintf(debugBuf + ft_strlen(debugBuf), "after exec_cmds\n");
-	#if (DEBUG)
-	this_is_debug_yo();
-	#endif
+	// #if (DEBUG)
+	// this_is_debug_yo();
+	// #endif
 	// while (i < data->groupc)
 	// {
 	// 	// wait(&status);

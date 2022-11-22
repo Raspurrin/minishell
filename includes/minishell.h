@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/22 17:43:50 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/22 22:23:48 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@
 # define WRITE 1
 # define PROMPT "🦇MiShell: "
 
-
 int16_t	exit_code;
 // #define DEBUG 1
 
@@ -41,6 +40,21 @@ char	debugBuf[6969];
 
 void	this_is_debug_yo(void);
 
+/**
+ *  EMPTY	- ""
+	CMD		- command not found
+	TOKEN	- syntax error near unexpexted token
+	ISDIR	- is a directory
+	NODIR	- No such file or directory				1
+	IDENT	- not a valid identifier				1
+	NOEVENT	- event not found
+	INVOPT	- invalid option
+	ARGS	- too many arguments					1
+	HOME	- HOME not set
+	PERM	- permission denied
+	NUMARG	- numeric arugment required
+	ERR_COUNT - undefined error
+*/
 enum e_errno
 {
 	EMPTY,
@@ -197,6 +211,7 @@ char	*find_new_path(char *str, char *path);
 char	*absolute_or_relative(char *path, char *old_path);
 char	*relative_path(char *relative, char *pwd);
 void	set_exitcode(void);
+void	shlvl_msg(t_env *envp_head, bool exit);
 void	greeting_msg(t_env *envp_head);
 
 /* builtins: */

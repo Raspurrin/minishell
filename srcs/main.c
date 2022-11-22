@@ -6,17 +6,19 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/22 17:52:46 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/22 21:26:15 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 #include <stdlib.h>
 
+// #ifdef (DEBUG)
 void	this_is_debug_yo(void)
 {
-	ft_printf_fd(STDERR_FILENO, "%s", debugBuf);
+	// ft_printf_fd(STDERR_FILENO, "%s", debugBuf);
 }
+// #endif
 
 static void	init(t_data *data, char **envp)
 {
@@ -49,12 +51,12 @@ static void	ctrl_c(int32_t sig)
 	rl_redisplay(); // not sure if this is fine or not
 }
 
-static void	ctrl_bslash(int32_t sig)
-{
-	(void)sig;
-	rl_redisplay();
-	signal(SIGQUIT, SIG_IGN);
-}
+// static void	ctrl_bslash(int32_t sig)
+// {
+// 	(void)sig;
+// 	rl_redisplay();
+// 	signal(SIGQUIT, SIG_IGN);
+// }
 
 void	free_fds(void)
 {
@@ -103,21 +105,7 @@ void	print_parser(t_data *data)
 	printf("==========================\n");
 }
 
-void	greeting_msg(t_env *envp_head)
-{
-	t_env	*env;
 
-	env = find_node(envp_head, "SHLVL");
-	ft_printf_fd(STDERR_FILENO, "\033[1;35m    Welcome to 🦇MiShell\n\n"
-"    /\\                 /\\\n"
- "   / \\'._   (\\_/)   _.'/ \\\n "
-" /_.''._'--('.')--'_.''._\\ \n"
-"  | \\_ / `;=/ \" \\=;` \\ _/ |\n"
-"   \\/ `\\__|`\\___/`|__/` \\/\n"
-"           \\(/|\\)/ \n      "
-"      \"   \"\n"
-		"\033[0;34m You are at shell level: %s🤿\n\033[0m", env->value);
-}
 
 int32_t	main(int32_t argc, char **argv, char **envp)
 {
@@ -133,8 +121,8 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 	while (69)
 	{
 		signal(SIGINT, ctrl_c);
-		signal(SIGQUIT, ctrl_bslash);
 		signal(SIGQUIT, SIG_IGN);
+		// signal(SIGQUIT, ctrl_bslash);
 		str = readline(PROMPT);
 		if (str == NULL)
 			return (printf("exit\n"), 0);

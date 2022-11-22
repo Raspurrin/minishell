@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:10:18 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/22 17:55:26 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/22 23:30:06 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ bool	export_add(t_data *data, t_group *group)
 	{
 		if (!check_key(group->full_cmd[i]))
 		{
-			display_error(NODIR, join_err(group->full_cmd[i], ""), NULL, group);
+			display_error(NODIR, join_err(group->full_cmd[i], NULL), NULL, group);
 			if (!group->full_cmd[i + 1])
 				return (false);
 		}
@@ -123,7 +123,7 @@ bool	export_add(t_data *data, t_group *group)
 				free(tmp[0]);
 				free(tmp);
 			}
-			else 
+			else
 			{
 				new = ft_calloc(sizeof(t_env), 1);
 				new->keyvalue = ft_strdup(group->full_cmd[i]);
