@@ -6,7 +6,7 @@
 #    By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/11 18:45:17 by pmoghadd          #+#    #+#              #
-#    Updated: 2022/11/21 14:21:33 by pmoghadd         ###   ########.fr        #
+#    Updated: 2022/11/22 21:55:28 by pmoghadd         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,13 +17,15 @@ NAME	=	minishell
 READLINE = 	-I $(HOME)/goinfre/.brew/opt/readline/include/ -L $(HOME)/goinfre/.brew/opt/readline/lib/ -lreadline
 DEBUG	=	-fsanitize=address
 LIBFT	=	./libs/libft/
-SRCS	=	./srcs/parsing/main2.c \
+SRCS	=	./srcs/parsing/parsing_brain.c \
 			./srcs/parsing/initialize.c \
 			./srcs/parsing/lexical_scan.c \
 			./srcs/parsing/expand.c \
 			./srcs/parsing/shell_split.c \
 			./srcs/parsing/utils.c \
+			./srcs/parsing/utils2.c \
 			./srcs/parsing/check_input.c \
+			./srcs/parsing/check_input_utils.c \
 			./srcs/parsing/quotes.c \
 			./srcs/execution/execution.c \
 			./srcs/execution/inout_files.c \

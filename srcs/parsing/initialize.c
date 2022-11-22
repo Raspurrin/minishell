@@ -6,34 +6,38 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 18:01:38 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/22 20:07:47 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/22 22:06:54 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int		ft_strlen_array(char **s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-
+/**
+ * @brief the number of groups (dependant on the number of pipes)
+ * is used here to make enough groups in for a group pointer in the data struct 
+ * type.
+ * 
+ * @param pipe_wise_splitted_array 
+ * @param data 
+ */
 void	first_initialization(char **pipe_wise_splitted_array, t_data *data)
 {
 	int	i;
 
 	i = 0;
 	while (pipe_wise_splitted_array[i])
-		i++;		
+		i++;
 	data->group = (t_group *)malloc(sizeof(t_group) * (i + 1));
 	if (!data)
 		return ;
 }
 
+/**
+ * @brief initialized the linked lists of in and outfile and commands char ** space
+ * is made
+ * 
+ * @param info 
+ */
 void	initialize(t_group	**info)
 {
 	(*info)->infile = NULL;
@@ -46,33 +50,16 @@ void	initialize(t_group	**info)
 	(*info)->commandc = 0;
 }
 
-// char	quote_type(char *name) //finds the first quote in name
-// {
-// 	if (!ft_strchr(name, '\'') && !ft_strchr(name, '\"'))
-// 		return (0);
-// 	if (pos_char_start(name, '\"') < pos_char_start(name, '\''))
-// 		return ('\"');
-// 	return ('\'');
-// }
-
-
-// char * rm_quotes_(char *name)
-// {
-// 	int i;
-
-// 	i = 0;
-// 	while (name[i])
-// 	{
-// 		if (name[i] == '\"' || name[i] == '\'')
-// 		{
-// 			name = remove_quotes(name + i);
-// 			i += skip_quotes(name + i) - 2;
-// 		}
-// 		i++;
-// 		printf("torture%s\n", name);
-// 	}
-// 	return (name);
-// }
+/**
+ * @brief initialized the input linked list. creates a node of t_infile types and saves in
+ * it wether it is a heredoc or input file. 
+ * if a variable, it is expanded. if containing quotes, they are passed to the quote removal
+ * func. 
+ * @param info 
+ * @param s 
+ * @param name 
+ * @param envp 
+ */
 
 void	in_file_init(t_group	**info, char *s, char *name, t_env *envp)
 {
@@ -83,20 +70,27 @@ void	in_file_init(t_group	**info, char *s, char *name, t_env *envp)
 		return ;
 	if (ft_strchr(name, '$'))
 		name = expand(name, envp);
-	// if (ft_strchar(name, quote_type(name)))
-	// 	name = remove_quotes(ft_strchar(name, quote_type(name)));
-	name = rm_quotes_(name);
+	name = rm_quotes_all(name);
 	new->name = name;
-	// printf("substr in|%s|\n", name);
-	// free(name);
 	if (s[1] == '<')
 		new->here_doc = 1;
 	else
 		new->here_doc = 0;
 	new->next = NULL;
 	lstaddback(&(*info)->infile, new);
-	// printf("ll test %s\n", (*info)->infile->next->name);
 }
+
+/**
+ * @brief saves the output files names in the t_outfile linked list.
+ * tells if it is normal or append. if a variable, it is expanded. 
+ * if containing quotes, they are passed to the quote removal
+ * func. 
+ * 
+ * @param info 
+ * @param s 
+ * @param name 
+ * @param envp 
+ */
 
 void	out_file_init(t_group	**info, char *s, char *name, t_env *envp)
 {
@@ -107,28 +101,31 @@ void	out_file_init(t_group	**info, char *s, char *name, t_env *envp)
 		return ;
 	if (ft_strchr(name, '$'))
 		name = expand(name, envp);
-	name = rm_quotes_(name);
-
-	// if(name[0] == '\"' || name[0] == '\'')
-	// 	name = remove_quotes(name);
+	name = rm_quotes_all(name);
 	new->name = name;
-	// printf("substr out|%s|\n", new->name);
 	if (s[1] == '<')
 		new->append = 1;
 	else
 		new->append = 0;
 	new->next = NULL;
 	lstaddback_out(&(*info)->outfile, new);
-	// free(name);
 }
-
+/**
+ * @brief words mean commands. every thing other than in/out files comes here and
+ * is saved in a char ** 
+ * if a variable, it is expanded. if containing quotes, they are passed to the quote removal
+ * func. 
+ * @param info 
+ * @param name 
+ * @param envp 
+ */
 void	words_init(t_group	**info, char *name, t_env *envp)
 {
 	char		**command_array;
 
 	if (ft_strchr(name, '$'))
 		name = expand(name, envp);
-	name = rm_quotes_(name);
+	name = rm_quotes_all(name);
 	(*info)->commandc = (*info)->commandc + 1;
 	command_array = (char **)realloc((*info)->full_cmd,
 			sizeof(char *) * ((*info)->commandc) + 1);

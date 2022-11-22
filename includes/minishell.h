@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/21 14:21:39 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/22 21:52:36 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,68 +108,81 @@ typedef struct s_data
 	int32_t	tmp_fd;
 }	t_data;
 
-typedef struct t_parsing
-{
-	char				*infile;
-	char				*outfile;
-	char				*command;
-	struct t_parsing	*next;
-}	t_parsing;
 
-typedef struct token
-{
-	char			*command;
-	char			**command_ops;
-	t_infile		*infile;
-	t_outfile		*outfile;
-	size_t			counter_infile;
-	size_t			counter_outfile;
-	int				read_in;
-	int				read_out;
-	struct token	*next;
-}	t_token;
 
 /*		remove later	*/
 void	free_fds();
 
+/********************************PARSING***************************/
+
+/*		parsing brain	*/
+
+void	make_token(char *s, t_group **info, t_env *envp);
+void	parser(char *str, t_env *envp, t_data *data);
+
+/*		check_input		*/
+
+int		check_input_before_parsing(char *s);
+bool	check_input_before_parsing_helper(char *s);
+int		check_neighbouring_chars(char *s);
+
+/*		check_input_utils	*/
+
+int		check_neighbouring_chars(char *s);
+int		skip_spaces_backwards(char *s, int i);
+
 /*		initialize		*/
 
-void	lstaddback(t_infile **lst, t_infile *new);
-void	lstaddback_out(t_outfile **lst, t_outfile *new);
+void	first_initialization(char **pipe_wise_splitted_array, t_data *data);
 void	initialize(t_group	**data);
 void	words_init(t_group	**info, char *name, t_env *envp);
 void	out_file_init(t_group	**info, char *s, char *name, t_env *envp);
 void	in_file_init(t_group	**info, char *s, char *name, t_env *envp);
 
 /*		lexical_scan	*/
+
+int		skip_chars(char *s);
 int		skip_quotes(char *s);
 int		special_chars(t_group **info, char *s, t_env *envp);
-int		skip_chars(char *s);
 int		quoted_word_extract(t_group **info, char *s, t_env *envp);
 int		normal_word_extract(t_group **info, char *s, t_env *envp);
-char * rm_quotes_(char *name);
 
-void	first_initialization(char **pipe_wise_splitted_array, t_data *data);
+/*		quotes		*/
+
+char	*rm_quotes_all(char *name);
+char	*rm_two_quotes(char *name, int start);
+char	quote_type(char *name);
+
+/*		expand			*/
+
+char	*find_variable_part(char *string);
+int		replace_variable_value(char **name, int index,
+			char	*variable, t_env *envp);
 char	*expand(char *name, t_env *envp);
-char	**ft_split_shell(const char *s, char c);
-int		skip_spaces(char *s);
-void	lstaddback_out(t_outfile **lst, t_outfile *new);
-void	lstaddback(t_infile **lst, t_infile *new);
-int		check_neighbouring_chars(char *s);
-int		check_input_before_handling(char *s);
-char	**ft_split_shell(const char *s, char c);
-bool	ft_isalnum_ms(int32_t c);
-int		first_char_check(char c);
-void	make_token(char *s, t_group **info, t_env *envp);
-char *remove_quotes(char *name, int start);
-char	*ft_strjoin_minishell(char *str1, char *str2);
-int	err_parser(char *msg, char c);
 
+/*		shell_split		*/
+
+char	**ft_split_shell(const char *s, char c);
+
+/*		utils			*/
+
+void	lstaddback(t_infile **lst, t_infile *new);
+void	lstaddback_out(t_outfile **lst, t_outfile *new);
+char	*ft_strjoin_minishell(char *str1, char *str2);
+int		skip_spaces(char *s);
+bool	ft_isalnum_ms(int32_t c);
+
+/*		utils2				*/
+
+int		first_char_check(char c);
+int		err_parser(char *msg, char c);
+int		ft_strlen_array(char **s);
+
+/********************************EXECUTION***************************/
 /* general */
 void	display_error(t_data *data, int8_t nbr, bool yeet, char *str[2]);
 void	free_at_exit(t_data *data);
 void	free_data(t_data *data);
-void	parser(char *str, t_env *envp, t_data *data);
 void	free_groups(t_data *data);
 char	**join_err(char *str1, char *str2);
 
