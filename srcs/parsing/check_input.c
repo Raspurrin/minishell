@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:58:33 by pooneh            #+#    #+#             */
-/*   Updated: 2022/11/22 17:10:38 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/22 18:24:39 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,7 @@ bool space_check(char *s)
 		free(tmp);
 		return (false);
 	}
+	free(tmp);
 	return (true);
 }
 

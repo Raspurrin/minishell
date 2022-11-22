@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/21 13:50:27 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/22 18:18:18 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,8 +102,10 @@ void	parser(char *str, t_env *envp, t_data *data)
 		{
 			tmp = &(data->group[i]);
 			make_token(pipe_wise_splitted[i], &tmp, envp);
+			free(pipe_wise_splitted[i]);
 			i++;
 		}
+		free(pipe_wise_splitted);
 	}
 	data->groupc = i;
  }
