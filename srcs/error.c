@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 22:53:56 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/22 23:33:12 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/23 00:53:42 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	**join_err(char *str1, char *str2)
  * @param str Contains two strings, the first will be placed before the errno
  * message and the second afterwards.
  */
-static void	errno(t_group *group, uint8_t nbr, char *str[2])
+static void	errno(t_group *group, int8_t nbr, char *str[2])
 {
 	static const char	*errors[] = {
 		"",
@@ -56,7 +56,7 @@ static void	errno(t_group *group, uint8_t nbr, char *str[2])
 		"undefined error"
 	};
 
-	if (nbr > ERR_COUNT)
+	if (nbr > ERR_COUNT || nbr < 0)
 		nbr = ERR_COUNT;
 	if (group && group->builtin)
 		ft_printf_fd(STDERR_FILENO, "%s%s: %s%s%s\n", \
@@ -65,6 +65,12 @@ static void	errno(t_group *group, uint8_t nbr, char *str[2])
 		ft_printf_fd(STDERR_FILENO, "%s%s%s%s\n", \
 								PROMPT, str[0], errors[nbr], str[1]);
 	free(str);
+}
+
+static void	yeet(t_data *data)
+{
+	free_data(data);
+	exit(EXIT_FAILURE);
 }
 
 /**
@@ -79,18 +85,18 @@ static void	errno(t_group *group, uint8_t nbr, char *str[2])
  */
 void	display_error(int8_t nbr, char *str[], t_data *data, t_group *group)
 {
+	errno(group, nbr, str);
+	if (data)
+		yeet(data);
+}
+
+void	ft_perror(char *msg, t_data *data)
+{
 	char	*err;
 
-	this_is_debug_yo();
-	errno(group, nbr, str);
-	if (nbr == -1)
-	{
-		err = ft_strjoin_str2(PROMPT, str[0]);
-		return (perror(err), free(str), free(err));
-	}
+	err = ft_strjoin(PROMPT, msg);
+	perror(msg);
 	if (data)
-	{
-		free_data(data);
-		exit(EXIT_FAILURE);
-	}
+		yeet(data);
+	free(err);
 }

@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/22 22:23:48 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/23 00:50:44 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include <fcntl.h>
+# include <execinfo.h>
 # include <stdio.h>
 # include <stdint.h>
 # include <stdbool.h>
@@ -187,6 +188,7 @@ void	parser(char *str, t_env *envp, t_data *data);
 void	free_groups(t_data *data);
 char	**join_err(char *str1, char *str2);
 char	*join_builtin(char *str1, char *str2);
+void	ft_perror(char *msg, t_data *data);
 
 /* environment variable linked list handlers */
 char	**env_2darr(t_data *data, t_env *lst);
