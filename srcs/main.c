@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/21 14:22:33 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/22 17:52:46 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,12 @@ static void	init(t_data *data, char **envp)
  * WTERMSIG returns the value of the signal raised by the child process.
  * If SIGINT (interrupt/CTRL-C) was raised, it adds 128 to the exit code.
  */
-void	set_exitcode(t_data *data)
+void	set_exitcode(void)
 {
-	if (WIFSIGNALED(data->status))
+	if (WIFSIGNALED(exit_code))
 	{
-		if (WTERMSIG(data->status) == SIGINT)
-			data->status = 128 + WTERMSIG(data->status);
+		if (WTERMSIG(exit_code) == SIGINT)
+			exit_code = 128 + WTERMSIG(exit_code);
 	}
 }
 
@@ -103,6 +103,22 @@ void	print_parser(t_data *data)
 	printf("==========================\n");
 }
 
+void	greeting_msg(t_env *envp_head)
+{
+	t_env	*env;
+
+	env = find_node(envp_head, "SHLVL");
+	ft_printf_fd(STDERR_FILENO, "\033[1;35m    Welcome to 🦇MiShell\n\n"
+"    /\\                 /\\\n"
+ "   / \\'._   (\\_/)   _.'/ \\\n "
+" /_.''._'--('.')--'_.''._\\ \n"
+"  | \\_ / `;=/ \" \\=;` \\ _/ |\n"
+"   \\/ `\\__|`\\___/`|__/` \\/\n"
+"           \\(/|\\)/ \n      "
+"      \"   \"\n"
+		"\033[0;34m You are at shell level: %s🤿\n\033[0m", env->value);
+}
+
 int32_t	main(int32_t argc, char **argv, char **envp)
 {
 	t_data	data;
@@ -113,6 +129,7 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 	(void)envp;
 
 	init(&data, envp);
+	greeting_msg(data.envp_head);
 	while (69)
 	{
 		signal(SIGINT, ctrl_c);
@@ -122,9 +139,9 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 		if (str == NULL)
 			return (printf("exit\n"), 0);
 		parser(str, data.envp_head, &data);
-		print_parser(&data);
-		// if (data.group)
-		// 	execution(&data);
+		// print_parser(&data);
+		if (data.group)
+			execution(&data);
 		add_history(str);
 		free(str);
 	}

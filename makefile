@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+         #
+#    By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/11 18:45:17 by pmoghadd          #+#    #+#              #
-#    Updated: 2022/11/21 14:21:33 by pmoghadd         ###   ########.fr        #
+#    Updated: 2022/11/21 15:49:16 by mialbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -103,5 +103,8 @@ fclean: clean
 	@echo "${B_RED}🧹 Cleaning: ${RED} $(NAME)$(NC)"
 
 re: fclean all
+	cd includes
+	bash fix.sh
+	cd ..
 
 .PHONY: all clean fclean re banner $(NAME) libft e submodule

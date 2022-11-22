@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 03:04:01 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/20 03:43:51 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/21 22:20:38 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,13 @@ static void	print_echo(bool	newline, char **str)
  * Valid newline cancel: echo -n -n -nnnnnn -nn Hello
  * Invalid: echo -nnnn-n Hello
  */
-bool	echo(t_group *group)
+bool	echo(t_data *data, t_group *group)
 {
 	bool	newline;
 	char	**echo;
 	size_t	i;
 
+	(void)data;
 	i = 1;
 	newline = true;
 	echo = group->full_cmd;

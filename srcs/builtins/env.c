@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 01:52:49 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/21 14:04:15 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/22 17:11:08 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,8 @@ bool	env(t_data *data, t_group *group)
 		i++;
 	if (group->full_cmd[i] != NULL)
 	{
-		return (display_error(data, NODIR, false, join_err("", group->full_cmd[i])), false);
+		return (display_error(NODIR, join_err(group->full_cmd[i], ""), \
+													NULL, group), false);
 	}
 	return (print_env(data->envp_head), true);
 }

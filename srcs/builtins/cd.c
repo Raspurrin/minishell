@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 03:22:30 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/20 03:22:43 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/22 17:10:54 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,6 @@ static void	update_oldpwd(t_data *data)
 bool	cd(t_data *data, t_group *group)
 {
 	if (chdir(group->full_cmd[1]) == -1)
-		return (perror(NULL), false);
+		return (display_error(NODIR, join_err("", ""), NULL, group), false);
 	return (update_oldpwd(data), true);
 }

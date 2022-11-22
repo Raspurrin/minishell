@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:10:21 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/21 02:33:28 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/22 17:55:55 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,12 +30,11 @@ bool	unset(t_data *data, t_group *group)
 
 	while (group->full_cmd[i])
 	{
-		while (!check_key(group->full_cmd[i])) // no u
+		while (!check_key(group->full_cmd[i]))
 		{
-			ft_printf_fd(STDERR_FILENO, "check_export failed\n");
 			if (!group->full_cmd[i + 1])
-				return (display_error(data, INVID, false, \
-							join_err(group->full_cmd[i], "")), false);
+				return (display_error(IDENT, join_err(group->full_cmd[i], ""), \
+														data, group), false);
 			i++;
 		}
 		lst = data->envp_head;

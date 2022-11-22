@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/21 03:45:51 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/22 17:40:18 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,11 +103,11 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2])
 	this_is_debug_yo();
 	sprintf(debugBuf + ft_strlen(debugBuf), "path: %s\n", path);
 	if (!path)
-		return (display_error(data, CMD, true, join_err(data->group[i].full_cmd[0], "")));
+		return (display_error(CMD, join_err(data->group[i].full_cmd[0], ""), data, NULL));
 	sprintf(debugBuf + ft_strlen(debugBuf), "before execv\n");
 	sprintf(debugBuf + ft_strlen(debugBuf), "%s\n", path);
 	if (execve(path, data->group[i].full_cmd, env) == -1)
-		return (free(path), free(env), display_error(data, -1, true, join_err(data->group[i].full_cmd[0], "")));
+		return (free(path), free(env), display_error(-1, join_err(data->group[i].full_cmd[0], ""), data, NULL));
 }
 
 /**
@@ -179,7 +179,7 @@ void	execution(t_data *data)
 	// {
 	// 	// wait(&status);
 	// 	waitpid(-1, &status, WNOHANG);
-	// 	data->status = status;
+	// 	exit_code = status;
 	// 	i++;
 	// }
 	free_groups(data);
