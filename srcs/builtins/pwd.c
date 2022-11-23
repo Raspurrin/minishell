@@ -15,7 +15,7 @@
 /**
  * @brief Cheeeeeeeeeeeeeese.
  */
-bool	pwd(t_data *data, t_group *group)
+int8_t	pwd(t_data *data, t_group *group)
 {
 	size_t	size;
 	size_t	old_size;
@@ -26,7 +26,7 @@ bool	pwd(t_data *data, t_group *group)
 	size = 100;
 	buf = malloc(size);
 	if (!buf)
-		return (false);
+		return (1);
 	while (true)
 	{
 		buf = getcwd(buf, size);
@@ -36,8 +36,8 @@ bool	pwd(t_data *data, t_group *group)
 		size += 100;
 		buf = ft_realloc_n(buf, size, old_size);
 		if (!buf)
-			return (false);
+			return (1);
 	}
 	ft_printf_fd(STDOUT_FILENO, "%s\n", buf);
-	return (free (buf), true);
+	return (free (buf), 0);
 }
