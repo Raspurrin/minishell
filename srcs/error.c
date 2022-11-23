@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 22:53:56 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/23 00:53:42 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/23 03:28:07 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,12 @@ void	display_error(int8_t nbr, char *str[], t_data *data, t_group *group)
 void	ft_perror(char *msg, t_data *data)
 {
 	char	*err;
+	char	*msg2;
 
-	err = ft_strjoin(PROMPT, msg);
-	perror(msg);
+	msg2 = msg;
+	err = ft_strjoin(PROMPT, msg2);
+	perror(err);
 	if (data)
 		yeet(data);
-	free(err);
+	// free(err);
 }

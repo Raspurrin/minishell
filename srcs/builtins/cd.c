@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 03:22:30 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/22 23:29:25 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/23 03:28:12 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,15 @@ static void	update_oldpwd(t_data *data)
 */
 bool	cd(t_data *data, t_group *group)
 {
-	if (chdir(group->full_cmd[1]) == -1)
+	t_env	*env;
+
+	if (!group->full_cmd[1])
+	{
+		env = find_node(data->envp_head, "HOME");
+		if (env && env->value)
+			chdir(env->value);
+	}
+	else if (chdir(group->full_cmd[1]) == -1)
 		return (display_error(NODIR, join_err(NULL, NULL), NULL, group), false);
 	return (update_oldpwd(data), true);
 }
