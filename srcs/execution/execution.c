@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/21 03:45:51 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/23 01:07:33 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	close_fds(t_data *data, size_t i, int32_t fd[2])
  * Which is why this is done in a child process. 
  * At the very last itteration, the output is redirected to a file. 
  */
-static void	child_cmd(t_data *data, size_t i, int32_t fd[2])
+static int16_t	child_cmd(t_data *data, size_t i, int32_t fd[2])
 {
 	char	*path;
 	char	**env;
@@ -94,8 +94,8 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2])
 	if (builtin_check(data, &data->group[i]) == true)
 	{
 		sprintf(debugBuf + ft_strlen(debugBuf), "Builtin in child process\n");
-		data->group[i].builtin(data, &data->group[i]);
-		exit(0);
+		g_exitcode = data->group[i].builtin(data, &data->group[i]);
+		exit(g_exitcode);
 	}
 	env = env_2darr(data, data->envp_head);
 	if (data->group[i].full_cmd)
@@ -103,11 +103,12 @@ static void	child_cmd(t_data *data, size_t i, int32_t fd[2])
 	this_is_debug_yo();
 	sprintf(debugBuf + ft_strlen(debugBuf), "path: %s\n", path);
 	if (!path)
-		return (display_error(data, CMD, true, join_err(data->group[i].full_cmd[0], "")));
+		return (display_error(CMD, join_err(data->group[i].full_cmd[0], NULL), data, NULL), 127);
 	sprintf(debugBuf + ft_strlen(debugBuf), "before execv\n");
 	sprintf(debugBuf + ft_strlen(debugBuf), "%s\n", path);
 	if (execve(path, data->group[i].full_cmd, env) == -1)
-		return (free(path), free(env), display_error(data, -1, true, join_err(data->group[i].full_cmd[0], "")));
+		return (free(env), ft_perror(data->group[i].full_cmd[0], NULL), 127);
+	return (1);
 }
 
 /**
@@ -130,7 +131,7 @@ static void	exec_cmds(t_data *data)
 		infiles(data, data->group);
 		outfiles(data, data->group);
 		sprintf(debugBuf + ft_strlen(debugBuf), "before function pointer\n");
-		data->group[0].builtin(data, &data->group[0]);
+		g_exitcode = data->group[0].builtin(data, &data->group[0]);
 		sprintf(debugBuf + ft_strlen(debugBuf), "after function pointer\n");
 		return ;
 	}
@@ -144,7 +145,7 @@ static void	exec_cmds(t_data *data)
 		// 	display_error(data, "fork failed", true);
 		sprintf(debugBuf + ft_strlen(debugBuf), "forked\n");
 		if (pid == 0)
-			child_cmd(data, i, fd);
+			g_exitcode = child_cmd(data, i, fd);
 		waitpid(pid, NULL, 0); //parent too slow lol
 		if (i > 0)
 		{
@@ -170,16 +171,17 @@ void	execution(t_data *data)
 	//sprintf(debugBuf + ft_strlen(debugBuf), "my leg hurts\n");
 	if (!data->group)
 		return ;
+	signal(SIGINT, SIG_IGN);
 	exec_cmds(data);
 	sprintf(debugBuf + ft_strlen(debugBuf), "after exec_cmds\n");
-	#if (DEBUG)
-	this_is_debug_yo();
-	#endif
+	// #if (DEBUG)
+	// this_is_debug_yo();
+	// #endif
 	// while (i < data->groupc)
 	// {
 	// 	// wait(&status);
 	// 	waitpid(-1, &status, WNOHANG);
-	// 	data->status = status;
+	// 	exit_code = status;
 	// 	i++;
 	// }
 	free_groups(data);

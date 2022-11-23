@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:10:18 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/21 03:43:36 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/22 23:30:06 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static void	set_printed_false(t_data *data)
 	}
 }
 
-bool	export(t_data *data, t_group *group)
+int8_t	export(t_data *data, t_group *group)
 {
 	t_env	*lst;
 	t_env	*smol;
@@ -57,7 +57,7 @@ bool	export(t_data *data, t_group *group)
 		smol->printed = true;
 		lst = lst->next;
 	}
-	return (set_printed_false(data), true);
+	return (set_printed_false(data), 0);
 }
 
 // char **env_split(size_t	wcount, )
@@ -74,15 +74,13 @@ void	lst_addback(t_data *data, t_env *new)
 
 bool	check_key(char *key)
 {
-	ft_printf_fd(STDERR_FILENO, "check_key: %s\n", key);
+	if (*key == '=')
+		return (false);
 	while (*key)
 	{
 		if ((!(ft_isalpha(*key)) && (!ft_isalnum(*key)) \
 					&& *key != ' ' && *key != '_' && *key != '='))
-		{
-			ft_printf_fd(STDERR_FILENO, "Cause key fails: %c", key);
 			return (false);
-		}
 		key++;
 	}
 	return (true);
@@ -92,56 +90,55 @@ bool	check_key(char *key)
  * example:
  * export something=====blue something= USER=mialbert
  */
-bool	export_add(t_data *data, t_group *group)
+int8_t	export_add(t_data *data, t_group *group)
 {
 	size_t	i;
 	t_env	*dup;
 	t_env	*new;
 	char	**tmp;
+	int8_t	exit;
 
 	i = 1;
-	ft_printf_fd(STDERR_FILENO, "export add\n");
+	exit = 0;
 	print_2d_fd(group->full_cmd, STDERR_FILENO);
 	while (group->full_cmd[i])
 	{
-		ft_printf_fd(STDERR_FILENO, "group->full_cmd[i]: %s\n", group->full_cmd[i]);
-		while (!check_key(group->full_cmd[i])) // this is retarded, pls be more smart
+		if (!check_key(group->full_cmd[i]))
 		{
-			ft_printf_fd(STDERR_FILENO, "check_key failed\n");
+			exit = 1;
+			display_error(NODIR, join_err(group->full_cmd[i], NULL), NULL, group);
 			if (!group->full_cmd[i + 1])
-				return (display_error(data, INVID, false, \
-							join_err(group->full_cmd[i], "")), false);
-			i++;
+				return (exit);
 		}
-		tmp = env_split(group->full_cmd[i], '=');
-		ft_printf_fd(STDERR_FILENO, "tmp[0]: %s\n", tmp[0]);
-		dup = find_node(data->envp_head, tmp[0]);
-		// t_env *env = find_node(data->envp_head, tmp[0]);
-		if (dup)
+		else
 		{
-			free(dup->keyvalue);
-			if (tmp[1])
+			tmp = env_split(group->full_cmd[i], '=');
+			dup = find_node(data->envp_head, tmp[0]);
+			if (dup)
 			{
-				free(dup->value);
-				dup->value = tmp[1];
+				free(dup->keyvalue);
+				if (tmp[1])
+				{
+					free(dup->value);
+					dup->value = tmp[1];
+				}
+				dup->keyvalue = ft_strdup(group->full_cmd[i]);
+				free(tmp[0]);
+				free(tmp);
 			}
-			dup->keyvalue = ft_strdup(group->full_cmd[i]);
-			// free(group->full_cmd[i]);
-			free(tmp[0]);
-			free(tmp);
-		}
-		else 
-		{
-			new = ft_calloc(sizeof(t_env), 1);
-			new->keyvalue = ft_strdup(group->full_cmd[i]);
-			new->key = tmp[0];
-			new->value = tmp[1];
-			free(tmp);
-			new->printed = false;
-			new->next = NULL;
-			lst_addback(data, new);
+			else
+			{
+				new = ft_calloc(sizeof(t_env), 1);
+				new->keyvalue = ft_strdup(group->full_cmd[i]);
+				new->key = tmp[0];
+				new->value = tmp[1];
+				free(tmp);
+				new->printed = false;
+				new->next = NULL;
+				lst_addback(data, new);
+			}
 		}
 		i++;
 	}
-	return (true);
+	return (exit);
 }

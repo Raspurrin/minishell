@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 17:37:00 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/21 00:08:16 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/22 16:59:08 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*find_path(t_data *data, char *cmd_name)
 	char		**paths;
 	const t_env	*node = find_node(data->envp_head, "PATH");
 
- 	i = 0;
+	i = 0;
 	if (!node)
 		return (NULL);
 	if (ft_strchr(cmd_name, '/'))
@@ -46,8 +46,5 @@ char	*find_path(t_data *data, char *cmd_name)
 			return (free(cmd), free_2d(paths), path);
 		free(path);
 	}
-	sprintf(debugBuf + ft_strlen(debugBuf), "I am groot\n");
 	return (NULL);
-	// return (free(cmd), free_2d(paths), \
-	// 		display_error(data, "path failed", true), NULL);
 }

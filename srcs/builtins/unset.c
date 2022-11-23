@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:10:21 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/21 02:33:28 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/22 23:30:15 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,24 +18,26 @@
  * [prev]->[cur]->[next]	->		[prev]->[next]
  * Or if node is the head, just make the next node the start of the list.
  */
-bool	unset(t_data *data, t_group *group)
+int8_t	unset(t_data *data, t_group *group)
 {
 	size_t	i;
 	t_env	*lst;
 	t_env	*prev;
+	int8_t	exit;
 
 	i = 1;
+	exit = 0;
 	if (!group->full_cmd[i])
-		return (false);
-
+		return (1);
 	while (group->full_cmd[i])
 	{
-		while (!check_key(group->full_cmd[i])) // no u
+		if (!check_key(group->full_cmd[i]))
 		{
-			ft_printf_fd(STDERR_FILENO, "check_export failed\n");
+			exit = 1;
+			display_error(IDENT, join_err(group->full_cmd[i], NULL), \
+														NULL, group);
 			if (!group->full_cmd[i + 1])
-				return (display_error(data, INVID, false, \
-							join_err(group->full_cmd[i], "")), false);
+				return (exit);
 			i++;
 		}
 		lst = data->envp_head;
@@ -58,5 +60,5 @@ bool	unset(t_data *data, t_group *group)
 		}
 		i++;
 	}
-	return (true);
+	return (exit);
 }

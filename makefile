@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+         #
+#    By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/11 18:45:17 by pmoghadd          #+#    #+#              #
-#    Updated: 2022/11/21 14:21:33 by pmoghadd         ###   ########.fr        #
+#    Updated: 2022/11/22 18:29:53 by mialbert         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,8 @@ SRCS	=	./srcs/parsing/main2.c \
 			./srcs/builtins/unset.c \
 			./srcs/main.c \
 			./srcs/error.c \
-			./srcs/free.c
+			./srcs/free.c \
+			./srcs/welcome_msg.c
 
 OBJS	= $(SRCS:.c=.o)
 
@@ -88,8 +89,8 @@ $(NAME): banner $(OBJS)
 # @mkdir object_files
 # @mv $(OBJS) object_files
 
-e: all
-	./$(NAME)
+# e: all
+# 	./$(NAME)
 
 test: 
 	gcc -Wall -Werror -Wextra -g srcs/lltest.c libs/libft/libft.a -fsanitize=address
@@ -103,5 +104,8 @@ fclean: clean
 	@echo "${B_RED}🧹 Cleaning: ${RED} $(NAME)$(NC)"
 
 re: fclean all
+	cd includes
+	bash fix.sh
+	cd ..
 
 .PHONY: all clean fclean re banner $(NAME) libft e submodule
