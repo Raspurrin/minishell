@@ -26,6 +26,7 @@ void	shlvl_msg(t_env *envp_head, bool exit)
 	else
 		ft_printf_fd(STDERR_FILENO, "\033[0;34m You are at shell level: "
 			"%s🤿\n", lvl);
+	ft_printf_fd(STDERR_FILENO, "\033[0m");
 }
 
 void	greeting_msg(t_env *envp_head)

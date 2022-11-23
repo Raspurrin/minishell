@@ -89,8 +89,8 @@ $(NAME): banner $(OBJS)
 # @mkdir object_files
 # @mv $(OBJS) object_files
 
-e: all
-	./$(NAME)
+# e: all
+# 	./$(NAME)
 
 test: 
 	gcc -Wall -Werror -Wextra -g srcs/lltest.c libs/libft/libft.a -fsanitize=address

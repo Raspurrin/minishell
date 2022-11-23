@@ -40,7 +40,7 @@ int8_t	exit_check(t_data *data, t_group *group)
 		}
 		printf("exit\n");
 		if (errno)
-			display_error(ARGS, join_err(NULL, NULL), NULL, group);
+			display_error(NUMARG, join_err(NULL, NULL), NULL, group);
 		shlvl_msg(data->envp_head, true);
 		free_data(data);
 		exit(nbr);
