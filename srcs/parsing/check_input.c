@@ -72,13 +72,11 @@ static bool	only_one_char(char *s)
 bool	check_input_before_parsing_helper(char *s)
 {
 	if (pipe_check(s))
-		return (display_error(NULL, TOKEN, \
-				false, join_err("", " '|' ")), true);
+		return (display_error(TOKEN, join_err(NULL, " '|' "), NULL, NULL), true);
 	if (!space_check(s))
 		return (1);
 	if (only_one_char(s))
-		return (display_error(NULL, TOKEN, \
-				false, join_err("", "\'newline\'")), true);
+		return (display_error(TOKEN, join_err(NULL, "\'newline\'"), NULL, NULL), true);
 	return (false);
 }
 
