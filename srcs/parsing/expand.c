@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 14:50:42 by pooneh            #+#    #+#             */
-/*   Updated: 2022/11/19 15:20:07 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/21 19:49:05 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	replace_variable_value(char **name, int index, char	*variable, t_env *envp)
 	// 	tmp_head = "";
 	while (envp)
 	{
-		if (!ft_strncmp(variable, envp->key, ft_strlen(variable)))
+		if (!ft_strncmp(variable, envp->key, ft_strlen(envp->key)))
 		{
 			tmp_head = ft_strjoin_minishell(tmp_head, envp->value);
 			l = ft_strlen(envp->value);
