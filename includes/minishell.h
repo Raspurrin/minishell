@@ -23,8 +23,8 @@
 # include <sys/wait.h>
 # include <signal.h>
 # include <unistd.h>
-# include </Users/pmoghadd/goinfre/.brew/opt/readline/include/readline/readline.h>
-# include </Users/pmoghadd/goinfre/.brew/opt/readline/include/readline/history.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include "../libs/libft/includes/libft.h"
 
 # define READ 0
