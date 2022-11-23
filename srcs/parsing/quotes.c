@@ -6,13 +6,20 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 13:47:59 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/21 13:48:27 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/22 21:24:24 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"../../includes/minishell.h"
 
-char	quote_type(char *name) //finds the first quote in name
+/**
+ * @brief finds the first quote type in name.
+ * 
+ * @param name the string in which we are looking for quote
+ * @return char, the type of quote that is first seen. 
+ */
+
+char	quote_type(char *name)
 {
 	if (!ft_strchr(name, '\'') && !ft_strchr(name, '\"'))
 		return (0);
@@ -21,24 +28,32 @@ char	quote_type(char *name) //finds the first quote in name
 	return ('\'');
 }
 
-char *remove_quotes(char *name, int start)
+/**
+ * @brief removes the oppening and closing quotes.
+ * 
+ * @param name the string
+ * @param start is the place of starting quote.
+ * @return char* the string with removed strings.
+ */
+
+char	*rm_two_quotes(char *name, int start)
 {
-	int	i;
-    int end;
-	char *result;
-    int j;
+	int		i;
+	int		j;
+	int		end;
+	char	*result;
 
 	i = 0;
-    j = 0;
-    end = start + skip_quotes(name + start) - 1;
+	j = 0;
+	end = start + skip_quotes(name + start) - 1;
 	result = ft_realloc(name, sizeof(char) * (ft_strlen(name) - 1));
 	while (name[i])
 	{
-        if (i != start && i != end)
+		if (i != start && i != end)
 		{
-            result[j] = name[i];
-            j++;
-        }
+			result[j] = name[i];
+			j++;
+		}
 		i++;
 	}
 	result[j] = '\0';
@@ -46,7 +61,16 @@ char *remove_quotes(char *name, int start)
 	return (result);
 }
 
-char * rm_quotes_(char *name)
+/**
+ * @brief removes all the necessary quotes.
+ * skips the quotes that are inside another quote.
+ * 
+ * @param name the string
+ * @return char* the result string which is free of all the first coming quotes
+ * (the inside quotes should not be removed.) 
+ */
+
+char	*rm_quotes_all(char *name)
 {
 	int i;
 	int tmp;
@@ -58,7 +82,7 @@ char * rm_quotes_(char *name)
 		{
 			tmp = i;
 			i += skip_quotes(name + i) - 3;
-			name = remove_quotes(name, tmp);
+			name = rm_two_quotes(name, tmp);
 		}
 		i++;
 	}

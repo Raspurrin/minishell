@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main2.c                                            :+:      :+:    :+:   */
+/*   parsing_brain.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/21 13:50:27 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/22 20:35:38 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,47 +14,28 @@
 
 #include "../../includes/minishell.h"
 
-void executing(t_group *info) //just for test purposes
-{
-	int	y;
-	t_outfile	*head = info->outfile;
-
-	y = 0;
-	while (info->full_cmd[y])
-	{
-		printf("i   %d    word|%s|\n", y, info->full_cmd[y]);
-		y++;
-	}
-	while (info->outfile != NULL)
-	{
-		printf("info->outfiles|%s|\n", info->outfile->name);
-		info->outfile = info->outfile->next;
-	}
-	info->outfile = head;
-	while (info->infile != NULL)
-	{
-		printf("info->infiles|%s| %d\n", info->infile->name, info->infile->here_doc);
-		info->infile = info->infile->next;
-	}
-}
-
-// char *remove_quotes(char *name)
+// void executing(t_group *info) //just for test purposes
 // {
-// 	int	i;
-// 	int length;
-// 	char *result;
+// 	int	y;
+// 	t_outfile	*head = info->outfile;
 
-// 	i = 1;
-// 	length = ft_strlen(name);
-// 	result = ft_realloc(name, sizeof(char) * (length - 1));
-// 	while (i < length - 1)
+// 	y = 0;
+// 	while (info->full_cmd[y])
 // 	{
-// 		result[i - 1] = name[i];
-// 		i++;
+// 		printf("i   %d    word|%s|\n", y, info->full_cmd[y]);
+// 		y++;
 // 	}
-// 	result[i - 1] = '\0';
-// 	free (name);
-// 	return (result);
+// 	while (info->outfile != NULL)
+// 	{
+// 		printf("info->outfiles|%s|\n", info->outfile->name);
+// 		info->outfile = info->outfile->next;
+// 	}
+// 	info->outfile = head;
+// 	while (info->infile != NULL)
+// 	{
+// 		printf("info->infiles|%s| %d\n", info->infile->name, info->infile->here_doc);
+// 		info->infile = info->infile->next;
+// 	}
 // }
 
 void	make_token(char *s, t_group **info, t_env *envp)
@@ -84,7 +65,6 @@ void	make_token(char *s, t_group **info, t_env *envp)
 	}
 	if ((*info)->commandc == 0)
 		(*info)->full_cmd = NULL;
-	// executing(*info); //parsed data is printed
 }
 
 void	parser(char *str, t_env *envp, t_data *data)
@@ -94,7 +74,7 @@ void	parser(char *str, t_env *envp, t_data *data)
 	t_group	*tmp;
 
 	i = 0;
-	if (!check_input_before_handling(str))
+	if (!check_input_before_parsing(str))
 	{
 		pipe_wise_splitted = ft_split_shell(str, '|');
 		first_initialization(pipe_wise_splitted, data);
@@ -102,8 +82,10 @@ void	parser(char *str, t_env *envp, t_data *data)
 		{
 			tmp = &(data->group[i]);
 			make_token(pipe_wise_splitted[i], &tmp, envp);
+			free(pipe_wise_splitted[i]);
 			i++;
 		}
+		free(pipe_wise_splitted);
 	}
 	data->groupc = i;
- }
+}

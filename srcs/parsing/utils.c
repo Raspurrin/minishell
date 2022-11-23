@@ -6,25 +6,20 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:54:11 by pooneh            #+#    #+#             */
-/*   Updated: 2022/11/21 13:52:38 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/22 21:47:30 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"../../includes/minishell.h"
 
-// void	print_linkedlist(t_token *data)
-// {
-// 	t_token	*tmp;
-// 	size_t	i;
-
-// 	tmp = data;
-// 	i = 0;
-// 	while (tmp->next != NULL)
-// 	{
-// 		printf("i: %zu   element:%s\n", i, tmp->infile->name[0]);
-// 		tmp = tmp->next;
-// 	}
-// }
+/**
+ * @brief this is for freeing, because i am passing an allocated 
+ * memory and i need this to free that string.
+ * the only diff with strjoin is this.
+ * @param str1 the string i am talking abt
+ * @param str2 
+ * @return char* 
+ */
 char	*ft_strjoin_minishell(char *str1, char *str2)
 {
 	size_t	str1len;
@@ -40,7 +35,7 @@ char	*ft_strjoin_minishell(char *str1, char *str2)
 		return (0);
 	ft_strlcpy(out, str1, str1len + 1);
 	ft_strlcpy(out + str1len, str2, str2len + 1);
-	// free(str1);
+	// free(str1); /////check thissssssss
 	return (out);
 }
 
@@ -85,24 +80,18 @@ int	skip_spaces(char *s)
 	return (i);
 }
 
+/**
+ * @brief this is also like isalnum. 
+ * the diff is that in shell the '_' character is allowed to be part of variable.
+ * 
+ * @param c 
+ * @return true 
+ * @return false 
+ */
 bool	ft_isalnum_ms(int32_t c)
 {
 	if ((c >= '0' && c <= '9') || (c >= 'a' && c <= 'z') || \
 	(c >= 'A' && c <= 'Z') || (c == '_'))
 		return (true);
 	return (false);
-}
-
-int	first_char_check(char c)
-{
-	if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c == '_'))
-		return (1);
-	return (0);
-}
-
-int err_parser(char *msg, char c)
-{
-    printf("%s '%c'\n", msg, c);
-    return (-1);
-    // exit(EXIT_FAILURE);
 }

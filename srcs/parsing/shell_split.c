@@ -3,14 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   shell_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pooneh <pooneh@student.42.fr>              +#+  +:+       +#+        */
+/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 11:36:03 by pooneh            #+#    #+#             */
-/*   Updated: 2022/11/07 11:16:31 by pooneh           ###   ########.fr       */
+/*   Updated: 2022/11/22 21:42:09 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
+
+/**
+ * @brief the split is amended in a way that it wont consider invalid pipes as a 
+ * pipe and will split only by valid pipes.
+ * the subfunctions are splits subfuns. 
+ * @param s ...
+ * @param c ...
+ * @return ...
+ */
 
 static size_t	ft_count_words(const char *s, char c)
 {
