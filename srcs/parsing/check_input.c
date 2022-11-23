@@ -101,23 +101,23 @@ int		check_input_before_handling(char *s)
 
 	i = 0;
 	if(pipe_check(s))
-		return (display_error(NULL, TOKEN, false, join_err("", " '|' ")), 1);
+		return (display_error(TOKEN, join_err(NULL, NULL), NULL, NULL), 1);
 	if (!space_check(s))
 		return (1);
 	if (only_one_char(s))
-		return (display_error(NULL, TOKEN, false, join_err("", "\'newline\'")), 1);
+		return (display_error(TOKEN, join_err(NULL, "\'newline\'"), NULL, NULL), 1);
 	while (s[i])
 	{
 		if (s[i] == '"' || s[i] == '\'')
 		{
 			if (!s[i + skip_quotes(s + i) - 1])
-				return (c = s[i], display_error(NULL, -1, false, join_err("", &c)), 1); //seg faults , shoould fix this
+				return (c = s[i], ft_perror(&c, false), 1); //seg faults , shoould fix this
 			i += skip_quotes(s + i) - 1;
 		}
 		if (ft_strchr("><&;()", s[i]))
 		{
 			if (check_neighbouring_chars(s + i) == -1)
-				return (c = s[i], display_error(NULL, TOKEN, false, join_err("", &c)), 1);
+				return (c = s[i], display_error(TOKEN, join_err(NULL, &c), NULL, NULL), 1);
 			i = i + check_neighbouring_chars(s + i);
 		}
 		i++;
