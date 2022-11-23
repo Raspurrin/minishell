@@ -31,12 +31,12 @@
 # define WRITE 1
 # define PROMPT "🦇MiShell: "
 
-int16_t	exit_code;
+int16_t	g_exitcode;
 // #define DEBUG 1
 
 typedef struct s_group	t_group;
 typedef struct s_data	t_data;
-typedef bool			(*t_builtin)(t_data *, t_group *);
+typedef int8_t			(*t_builtin)(t_data *, t_group *);
 char	debugBuf[6969];
 
 void	this_is_debug_yo(void);
@@ -201,7 +201,6 @@ void	print_env(t_env *lst);
 
 /* execution */
 bool	check_key(char *key);
-bool	pwd(t_data *data, t_group *group);
 void	env_innit(t_data *data, char **envp);
 void	execution(t_data *data);
 bool	infiles(t_data *data, t_group *group);
@@ -217,14 +216,15 @@ void	shlvl_msg(t_env *envp_head, bool exit);
 void	greeting_msg(t_env *envp_head);
 
 /* builtins: */
-bool	exit_check(t_data *data, t_group *group);
-bool	cd(t_data *data, t_group *group);
-bool	echo(t_data *data, t_group *group);
-bool	exit_check(t_data *data, t_group *group);
-bool	export(t_data *data, t_group *group);
-bool	export_add(t_data *data, t_group *group);
-bool	init_pwd_size(t_data *data);
-bool	unset(t_data *data, t_group *group);
-bool	env(t_data *data, t_group *group);
+int8_t	exit_check(t_data *data, t_group *group);
+int8_t	cd(t_data *data, t_group *group);
+int8_t	echo(t_data *data, t_group *group);
+int8_t	exit_check(t_data *data, t_group *group);
+int8_t	export(t_data *data, t_group *group);
+int8_t	export_add(t_data *data, t_group *group);
+int8_t	init_pwd_size(t_data *data);
+int8_t	unset(t_data *data, t_group *group);
+int8_t	env(t_data *data, t_group *group);
+int8_t	pwd(t_data *data, t_group *group);
 
 #endif

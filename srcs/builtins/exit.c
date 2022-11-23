@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-bool	exit_check(t_data *data, t_group *group)
+int8_t	exit_check(t_data *data, t_group *group)
 {
 	size_t	i;
 	int32_t	nbr;
@@ -25,8 +25,8 @@ bool	exit_check(t_data *data, t_group *group)
 	if (group->full_cmd[2])
 	{
 		printf("exit\n");
-		exit_code = 1;
-		return (display_error(ARGS, join_err(NULL, NULL), NULL, group), false);
+		g_exitcode = 1;
+		return (display_error(ARGS, join_err(NULL, NULL), NULL, group), 1);
 	}
 	else if (ft_strncmp(group->full_cmd[0], "exit", 4) == 0)
 	{
@@ -45,5 +45,5 @@ bool	exit_check(t_data *data, t_group *group)
 		free_data(data);
 		exit(nbr);
 	}
-	return (true);
+	return (0);
 }

@@ -18,24 +18,26 @@
  * [prev]->[cur]->[next]	->		[prev]->[next]
  * Or if node is the head, just make the next node the start of the list.
  */
-bool	unset(t_data *data, t_group *group)
+int8_t	unset(t_data *data, t_group *group)
 {
 	size_t	i;
 	t_env	*lst;
 	t_env	*prev;
+	int8_t	exit;
 
 	i = 1;
+	exit = 0;
 	if (!group->full_cmd[i])
-		return (false);
-
+		return (1);
 	while (group->full_cmd[i])
 	{
 		if (!check_key(group->full_cmd[i]))
 		{
+			exit = 1;
 			display_error(IDENT, join_err(group->full_cmd[i], NULL), \
 														NULL, group);
 			if (!group->full_cmd[i + 1])
-				return (false);
+				return (exit);
 			i++;
 		}
 		lst = data->envp_head;
@@ -58,5 +60,5 @@ bool	unset(t_data *data, t_group *group)
 		}
 		i++;
 	}
-	return (true);
+	return (exit);
 }

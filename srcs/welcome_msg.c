@@ -21,8 +21,11 @@ void	shlvl_msg(t_env *envp_head, bool exit)
 	lvl = env->value;
 	if (exit)
 		lvl = ft_itoa(ft_atoi(lvl) - 1); // free?
-	ft_printf_fd(STDERR_FILENO, "\033[0;34m You are at shell level: "
-		"%s🤿\n\033[0m", lvl);
+	if (ft_strcmp(lvl, "1") == 0)
+		ft_printf_fd(STDERR_FILENO, "\033[0;31mYEET (╯°□°）╯︵ [you]\n");
+	else
+		ft_printf_fd(STDERR_FILENO, "\033[0;34m You are at shell level: "
+			"%s🤿\n", lvl);
 }
 
 void	greeting_msg(t_env *envp_head)
@@ -36,4 +39,5 @@ void	greeting_msg(t_env *envp_head)
 "           \\(/|\\)/ \n      "
 "      \"   \"\n");
 	shlvl_msg(envp_head, false);
+	ft_printf_fd(STDERR_FILENO, "\033[0m");
 }

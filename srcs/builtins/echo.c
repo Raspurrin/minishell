@@ -36,7 +36,7 @@ static void	print_echo(bool	newline, char **str)
  * Valid newline cancel: echo -n -n -nnnnnn -nn Hello
  * Invalid: echo -nnnn-n Hello
  */
-bool	echo(t_data *data, t_group *group)
+int8_t	echo(t_data *data, t_group *group)
 {
 	bool	newline;
 	char	**echo;

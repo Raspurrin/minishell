@@ -36,7 +36,7 @@ static void	update_oldpwd(t_data *data)
  * If PWD is not unset, the value will be changed as well.
  * data->pwd exists in case PWD doesn't, since pwd should still work.
 */
-bool	cd(t_data *data, t_group *group)
+int8_t	cd(t_data *data, t_group *group)
 {
 	t_env	*env;
 
@@ -47,6 +47,6 @@ bool	cd(t_data *data, t_group *group)
 			chdir(env->value);
 	}
 	else if (chdir(group->full_cmd[1]) == -1)
-		return (display_error(NODIR, join_err(NULL, NULL), NULL, group), false);
-	return (update_oldpwd(data), true);
+		return (display_error(NODIR, join_err(NULL, NULL), NULL, group), 1);
+	return (update_oldpwd(data), 0);
 }

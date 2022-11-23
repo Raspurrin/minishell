@@ -25,7 +25,7 @@ static void	set_printed_false(t_data *data)
 	}
 }
 
-bool	export(t_data *data, t_group *group)
+int8_t	export(t_data *data, t_group *group)
 {
 	t_env	*lst;
 	t_env	*smol;
@@ -57,7 +57,7 @@ bool	export(t_data *data, t_group *group)
 		smol->printed = true;
 		lst = lst->next;
 	}
-	return (set_printed_false(data), true);
+	return (set_printed_false(data), 0);
 }
 
 // char **env_split(size_t	wcount, )
@@ -90,22 +90,25 @@ bool	check_key(char *key)
  * example:
  * export something=====blue something= USER=mialbert
  */
-bool	export_add(t_data *data, t_group *group)
+int8_t	export_add(t_data *data, t_group *group)
 {
 	size_t	i;
 	t_env	*dup;
 	t_env	*new;
 	char	**tmp;
+	int8_t	exit;
 
 	i = 1;
+	exit = 0;
 	print_2d_fd(group->full_cmd, STDERR_FILENO);
 	while (group->full_cmd[i])
 	{
 		if (!check_key(group->full_cmd[i]))
 		{
+			exit = 1;
 			display_error(NODIR, join_err(group->full_cmd[i], NULL), NULL, group);
 			if (!group->full_cmd[i + 1])
-				return (false);
+				return (exit);
 		}
 		else
 		{
@@ -137,5 +140,5 @@ bool	export_add(t_data *data, t_group *group)
 		}
 		i++;
 	}
-	return (true);
+	return (exit);
 }
