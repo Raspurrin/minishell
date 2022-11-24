@@ -25,7 +25,6 @@ static int32_t	here_doc(t_data *data, t_infile *lst)
 
 	(void)data;
 	line = ft_calloc(2, 1);
-	printf("hi\n");
 	fd = open(lst->name, O_RDWR | O_CREAT | O_TRUNC, 0666);
 	sprintf(debugBuf + ft_strlen(debugBuf), "In heredoc\n");
 	// if (fd == -1)
@@ -71,8 +70,6 @@ bool	infiles(t_data *data, t_group *group)
 		}
 		if (lst->next == NULL)
 		{
-			printf("fd in infiles: %d\n", fd);
-			printf("name: %s\n", lst->name);
 			if (dup2(fd, STDIN_FILENO) == -1)
 				printf("yooo dup2 failed\n");
 			if (fd >= 0)

@@ -25,7 +25,7 @@ static void	set_printed_false(t_data *data)
 	}
 }
 
-int8_t	export(t_data *data, t_group *group)
+uint32_t	export(t_data *data, t_group *group)
 {
 	t_env	*lst;
 	t_env	*smol;
@@ -90,13 +90,13 @@ bool	check_key(char *key)
  * example:
  * export something=====blue something= USER=mialbert
  */
-int8_t	export_add(t_data *data, t_group *group)
+uint32_t	export_add(t_data *data, t_group *group)
 {
 	size_t	i;
 	t_env	*dup;
 	t_env	*new;
 	char	**tmp;
-	int8_t	exit;
+	uint32_t	exit;
 
 	i = 1;
 	exit = 0;

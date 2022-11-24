@@ -47,8 +47,9 @@ char	**env_2darr(t_data *data, t_env *lst)
 	// if (!lst)
 	// 	return (display_error(data, "Env list failed to create", true), NULL);
 	env = malloc((get_lstsize(data->envp_head) + 1) * sizeof(char *)); // count size each time
-	while (lst->next != NULL)
+	while (lst != NULL)
 	{
+		// if (lst && lst->keyvalue)
 		env[i] = ft_strdup(lst->keyvalue);
 		lst = lst->next;
 		i++;

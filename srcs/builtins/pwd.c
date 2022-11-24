@@ -13,9 +13,11 @@
 #include "../../includes/minishell.h"
 
 /**
- * @brief Cheeeeeeeeeeeeeese.
+ * I just use getcwd to get the current working directory.
+ * I allocate 100 for the buffer used in getcwd, and realloc
+ * more if needed.
  */
-int8_t	pwd(t_data *data, t_group *group)
+uint32_t	pwd(t_data *data, t_group *group)
 {
 	size_t	size;
 	size_t	old_size;

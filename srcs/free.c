@@ -80,7 +80,7 @@ void	free_groups(t_data *data)
 	size_t	i;
 
 	i = 0;
-	while (i < data->groupc)
+	while (i < data->groupc && data->group && &data->group[i])
 	{
 		if (data->group[i].full_cmd)
 			free_2d(data->group[i].full_cmd);
