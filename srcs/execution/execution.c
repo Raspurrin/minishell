@@ -140,7 +140,6 @@ static void	exec_cmds(t_data *data)
 	size_t	i;
 	int32_t	pid;
 	int32_t	fd[2];
-	int32_t	status;
 
 	i = 0;
 	sprintf(debugBuf + ft_strlen(debugBuf), "start exec_cmd\n");
@@ -166,8 +165,7 @@ static void	exec_cmds(t_data *data)
 			if (g_exitcode != 0)
 				exit(g_exitcode);
 		}
-		waitpid(pid, &status, 0); //parent too slow lol
-		set_exitcode(status);
+		// waitpid(pid, &status, 0); //parent too slow lol
 		if (i > 0)
 		{
 			sprintf(debugBuf + ft_strlen(debugBuf), "closing tmp_fd (%d)\n", data->tmp_fd);
@@ -186,9 +184,10 @@ static void	exec_cmds(t_data *data)
 void	execution(t_data *data)
 {
 	size_t	i;
-	// int32_t	status;
+	int32_t	status;
 
 	i = 0;
+	status = 0;
 	if (!data->group)
 		return ;
 	signal(SIGINT, SIG_IGN);
@@ -196,11 +195,11 @@ void	execution(t_data *data)
 	sprintf(debugBuf + ft_strlen(debugBuf), "after exec_cmds\n");
 	if (g_exitcode > 255)
 		g_exitcode = g_exitcode % 256;
-	// while (i < data->groupc)
-	// {
-	// 	waitpid(-1, &status, NULL);
-	// 	g_exitcode = status;
-	// 	i++;
-	// }
+	while (i < data->groupc)
+	{
+		waitpid(-1, &status, 0);
+		set_exitcode(status);
+		i++;
+	}
 	free_groups(data);
 }
