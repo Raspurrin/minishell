@@ -43,7 +43,7 @@ static int32_t	here_doc(t_data *data, t_infile *lst)
 	return (fd);
 }
 
-bool	infiles(t_data *data, t_group *group)
+bool	infiles(t_data *data, t_group *group, t_fds *fds)
 {
 	int32_t		fd;
 	t_infile	*lst;
@@ -70,6 +70,11 @@ bool	infiles(t_data *data, t_group *group)
 		}
 		if (lst->next == NULL)
 		{
+			if (fds)
+			{
+				fds->infile = fd;
+				fds->std_in = dup(STDIN_FILENO);
+			}
 			if (dup2(fd, STDIN_FILENO) == -1)
 				printf("yooo dup2 failed\n");
 			if (fd >= 0)
@@ -93,7 +98,7 @@ bool	infiles(t_data *data, t_group *group)
  * 3 - fd 
  * @param group 
  */
-bool	outfiles(t_data *data, t_group *group)
+bool	outfiles(t_data *data, t_group *group, t_fds *fds)
 {
 	int32_t		fd;
 	int16_t		flag;
@@ -128,6 +133,11 @@ bool	outfiles(t_data *data, t_group *group)
 		}
 		if (lst->next == NULL)
 		{
+			if (fds)
+			{
+				fds->outfile = fd;
+				fds->std_out = dup(STDIN_FILENO);
+			}
 			sprintf(debugBuf + ft_strlen(debugBuf), "Dupping %s to STDOUT\n", lst->name);
 			return (dup2(fd, STDOUT_FILENO), close(fd), true);
 		}

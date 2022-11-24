@@ -129,7 +129,7 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 		if (str == NULL)
 			return (printf("exit\n"), 0);
 		parser(str, data.envp_head, &data);
-		// print_parser(&data);
+		print_parser(&data);
 		if (ft_strncmp(str, "?", 1) == 0)
 			printf("exit code: %d\n", g_exitcode);
 		if (data.group)
