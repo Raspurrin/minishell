@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 14:50:42 by pooneh            #+#    #+#             */
-/*   Updated: 2022/11/24 14:18:03 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/24 16:23:51 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,7 @@ char	*expand(char *name, t_env *envp)
 
 	i = 0;
 	variable = NULL;
-	while (name[i])
+	while (i < (int)ft_strlen(name))
 	{
 		if (name[i] == '\'' && name[skip_quotes(name + i) - 1] == '\'')
 			i += skip_quotes(name + i);
