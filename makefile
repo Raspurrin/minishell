@@ -6,7 +6,7 @@
 #    By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/10/11 18:45:17 by pmoghadd          #+#    #+#              #
-#    Updated: 2022/11/23 14:40:27 by pmoghadd         ###   ########.fr        #
+#    Updated: 2022/11/24 12:24:37 by pmoghadd         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -107,7 +107,7 @@ fclean: clean
 
 re: fclean all
 	cd includes
-	bash fix.sh
+bash fix.sh
 	cd ..
 
 .PHONY: all clean fclean re banner $(NAME) libft e submodule

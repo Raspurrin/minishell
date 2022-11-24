@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/23 14:46:34 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/24 10:42:14 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,10 @@
 # include <signal.h>
 # include <unistd.h>
 # include <limits.h>
-# include </Users/mialbert/goinfre/.brew/opt/readline/include/readline/readline.h>
-# include </Users/mialbert/goinfre/.brew/opt/readline/include/readline/history.h>
+// # include </Users/mialbert/goinfre/.brew/opt/readline/include/readline/readline.h>
+// # include </Users/mialbert/goinfre/.brew/opt/readline/include/readline/history.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include "../libs/libft/includes/libft.h"
 
 # define READ 0
