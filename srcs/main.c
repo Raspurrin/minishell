@@ -25,6 +25,7 @@ static void	init(t_data *data, char **envp)
 	ft_bzero(data, sizeof(data));
 	data->group = NULL;
 	env_innit(data, envp);
+	init_oldpwd(data);
 	g_exitcode = 0;
 }
 

@@ -63,6 +63,8 @@ uint32_t	unset(t_data *data, t_group *group)
 				return (exit);
 			i++;
 		}
+		if (ft_strcmp(group->full_cmd[i], "PWD") == 0)
+			init_oldpwd(data);
 		move_pointers(data->envp_head, group->full_cmd[i]);
 		i++;
 	}

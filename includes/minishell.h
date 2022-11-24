@@ -235,9 +235,11 @@ uint32_t	echo(t_data *data, t_group *group);
 uint32_t	exit_check(t_data *data, t_group *group);
 uint32_t	export(t_data *data, t_group *group);
 uint32_t	export_add(t_data *data, t_group *group);
-uint32_t	init_pwd_size(t_data *data);
+uint32_t	init_oldpwd_size(t_data *data);
 uint32_t	unset(t_data *data, t_group *group);
 uint32_t	env(t_data *data, t_group *group);
 uint32_t	pwd(t_data *data, t_group *group);
+char		*get_pwd(void);
+void		init_oldpwd(t_data *data);
 
 #endif
