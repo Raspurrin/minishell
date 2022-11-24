@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/04 15:07:48 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/24 12:21:58 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/24 12:29:33 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,15 +46,15 @@ void	set_exitcode(int32_t status)
 		g_exitcode = WEXITSTATUS(status);
 }
 
-static void	ctrl_c(int32_t sig)
-{
-	(void)sig;
-	ft_printf_fd(STDOUT_FILENO, "\n");
-	rl_on_new_line();
-	rl_replace_line("", 1);
-	rl_redisplay(); // not sure if this is fine or not
-	g_exitcode = 1;
-}
+// static void	ctrl_c(int32_t sig)
+// {
+// 	(void)sig;
+// 	ft_printf_fd(STDOUT_FILENO, "\n");
+// 	rl_on_new_line();
+// 	rl_replace_line("", 1);
+// 	rl_redisplay(); // not sure if this is fine or not
+// 	g_exitcode = 1;
+// }
 
 // static void	ctrl_bslash(int32_t sig)
 // {
@@ -122,7 +122,7 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 	greeting_msg(data.envp_head);
 	while (69)
 	{
-		signal(SIGINT, ctrl_c);
+		// signal(SIGINT, ctrl_c);
 		// signal(SIGQUIT, ctrl_bslash);
 		signal(SIGQUIT, SIG_IGN);
 		str = readline(PROMPT);

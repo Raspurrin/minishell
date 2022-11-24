@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/24 10:42:14 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/24 13:33:04 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,8 @@ char	quote_type(char *name);
 /*		expand			*/
 
 char	*find_variable_part(char *string);
+void	replace_var_val_hlpr(t_env *envp,
+			char **tmp_head, char *variable, int l);
 int		replace_variable_value(char **name, int index,
 			char	*variable, t_env *envp);
 char	*expand(char *name, t_env *envp);
