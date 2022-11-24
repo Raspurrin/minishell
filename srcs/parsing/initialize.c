@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 18:01:38 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/22 22:06:54 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/24 11:55:43 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	in_file_init(t_group	**info, char *s, char *name, t_env *envp)
 	new = malloc(sizeof(t_infile));
 	if (!new)
 		return ;
-	if (ft_strchr(name, '$'))
+	if (ft_strchr(name, '$') && s[1] != '<')
 		name = expand(name, envp);
 	name = rm_quotes_all(name);
 	new->name = name;
@@ -110,6 +110,7 @@ void	out_file_init(t_group	**info, char *s, char *name, t_env *envp)
 	new->next = NULL;
 	lstaddback_out(&(*info)->outfile, new);
 }
+
 /**
  * @brief words mean commands. every thing other than in/out files comes here and
  * is saved in a char ** 
@@ -119,6 +120,7 @@ void	out_file_init(t_group	**info, char *s, char *name, t_env *envp)
  * @param name 
  * @param envp 
  */
+
 void	words_init(t_group	**info, char *name, t_env *envp)
 {
 	char		**command_array;

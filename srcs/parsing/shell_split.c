@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 11:36:03 by pooneh            #+#    #+#             */
-/*   Updated: 2022/11/22 21:42:09 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/24 12:20:56 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static size_t	ft_count_words(const char *s, char c)
 	i = 0;
 	while (s[i])
 	{
-		if (s[i] == '\"' || s[i] == '"')
+		if (s[i] == '\"' || s[i] == '\'')
 			i = i + skip_quotes((char *)s + i);
 		if (s[i] == c && mark == 0)
 		{
