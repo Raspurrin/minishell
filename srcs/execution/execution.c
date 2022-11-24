@@ -80,12 +80,12 @@ static int32_t	child_cmd(t_data *data, size_t i, int32_t fd[2])
 	sprintf(debugBuf + ft_strlen(debugBuf), "======in child_cmd=======\n");
 	if (data->group[i].full_cmd)
 		sprintf(debugBuf + ft_strlen(debugBuf), "i: %zu, in child_cmd cmd: %s\n", i, data->group[i].full_cmd[0]);
-	if (!infiles(data, &data->group[i]) && i > 0)
+	if (!infiles(data, &data->group[i], NULL) && i > 0)
 	{
 		sprintf(debugBuf + ft_strlen(debugBuf), "Dupping tmp_fd (%d) to STDIN\n", data->tmp_fd);
 		dup2(data->tmp_fd, STDIN_FILENO);
 	}
-	if (!outfiles(data, &data->group[i]) && i != data->groupc - 1)
+	if (!outfiles(data, &data->group[i], NULL) && i != data->groupc - 1)
 	{
 		sprintf(debugBuf + ft_strlen(debugBuf), "Dupping fd[WRITE] (%d) to STDOUT\n", fd[WRITE]);
 		dup2(fd[WRITE], STDOUT_FILENO);
@@ -113,6 +113,22 @@ static int32_t	child_cmd(t_data *data, size_t i, int32_t fd[2])
 	return (1);
 }
 
+static void	builtin_in_parent(t_data *data)
+{
+	t_fds	fds;
+	bool	infile;
+	bool	outfile;
+
+	infile = infiles(data, data->group, &fds);
+	outfile = outfiles(data, data->group, &fds);
+	g_exitcode = data->group[0].builtin(data, &data->group[0]);
+	if (infile != 0)
+		dup2(fds.std_in, infile);
+	if (outfile != 0)
+		dup2(fds.std_out, outfile);
+	return ;
+}
+
 /**
  * Creating new child processes for each command executed, facilitating
  * inter-process communication with pipes and redirecting output and input
@@ -130,10 +146,7 @@ static void	exec_cmds(t_data *data)
 	sprintf(debugBuf + ft_strlen(debugBuf), "start exec_cmd\n");
 	if (data->groupc == 1 && builtin_check(data, data->group))
 	{
-		sprintf(debugBuf + ft_strlen(debugBuf), "==================\nbuiltin not in child process\n");
-		infiles(data, data->group);
-		outfiles(data, data->group);
-		sprintf(debugBuf + ft_strlen(debugBuf), "before function pointer\n");
+		builtin_in_parent(data);
 		g_exitcode = data->group[0].builtin(data, &data->group[0]);
 		sprintf(debugBuf + ft_strlen(debugBuf), "after function pointer\n");
 		return ;

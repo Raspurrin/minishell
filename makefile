@@ -56,7 +56,7 @@ FLAGS_OS := -lreadline
 
 SUBM_STATE := $(shell find libs/libft -type f)
 
-ifeq ($(DEBUG),1)	
+ifeq ($(DEBUG),1)
 FSAN 	=	-fsanitize=address
 else 
 FSAN 	=
@@ -81,7 +81,7 @@ submodule:
 banner:
 	@echo "\n${PURPLE}======== Minishell ========$(NC)"
 
-libft: 
+libft:
 	@echo "\n${BLUE}======== Libft ========${NC}"
 	@$(MAKE) -C $(LIBFT)
 
@@ -94,7 +94,7 @@ $(NAME): banner $(OBJS)
 # e: all
 # 	./$(NAME)
 
-test: 
+test:
 	gcc -Wall -Werror -Wextra -g srcs/lltest.c libs/libft/libft.a -fsanitize=address
 
 clean:
@@ -107,7 +107,7 @@ fclean: clean
 
 re: fclean all
 	cd includes
-bash fix.sh
-	cd ..
+# bash fix.sh
+# 	cd ..
 
 .PHONY: all clean fclean re banner $(NAME) libft e submodule
