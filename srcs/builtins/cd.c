@@ -16,7 +16,7 @@
  * if PWD is unset OLDPWD's value changes to ""
  * Otherwise OLDPWD gets PWD's old value before I change PWD's value in cd.
  */
-static void	update_oldpwd(t_data *data)
+static void	update_pwd(t_data *data)
 {
 	t_env	*oldpwd;
 	t_env	*pwd;
@@ -27,6 +27,7 @@ static void	update_oldpwd(t_data *data)
 		oldpwd->value = "";
 	else
 		oldpwd->value = pwd->value;
+	pwd->value = get_pwd();
 }
 
 /**
@@ -48,5 +49,6 @@ uint32_t	cd(t_data *data, t_group *group)
 	}
 	else if (chdir(group->full_cmd[1]) == -1)
 		return (display_error(NODIR, join_err(NULL, NULL), NULL, group), 1);
-	return (update_oldpwd(data), 0);
+	update_pwd(data);
+	return (0);
 }
