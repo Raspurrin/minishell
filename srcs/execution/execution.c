@@ -147,9 +147,7 @@ static void	exec_cmds(t_data *data)
 		sprintf(debugBuf + ft_strlen(debugBuf), "forked\n");
 		if (pid == 0)
 		{
-			ft_printf_fd(STDERR_FILENO, "g_exitcode before child_cmd in child: %d\n", g_exitcode);
 			g_exitcode = child_cmd(data, i, fd);
-			ft_printf_fd(STDERR_FILENO, "g_exitcode after child_cmd in child: %d\n", g_exitcode);
 			if (g_exitcode != 0)
 				exit(g_exitcode);
 		}

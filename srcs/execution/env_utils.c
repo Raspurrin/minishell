@@ -28,7 +28,6 @@ size_t	get_lstsize(t_env *lst)
 
 t_env	*find_node(t_env *lst, char *key)
 {
-	ft_printf_fd(STDERR_FILENO, "in find_node\n");
 	while (lst != NULL)
 	{
 		if (ft_strncmp(lst->key, key, ft_strlen(lst->key)) == 0 && \
