@@ -43,7 +43,7 @@ static int32_t	here_doc(t_data *data, t_infile *lst)
 	return (fd);
 }
 
-bool	infiles(t_data *data, t_group *group)
+bool	infiles(t_data *data, t_group *group, t_fds *fds)
 {
 	int32_t		fd;
 	t_infile	*lst;
@@ -64,12 +64,17 @@ bool	infiles(t_data *data, t_group *group)
 			fd = open(lst->name, O_RDONLY, 0666);
 			if (fd == -1)
 			{
-				free_fds();
+				// free_fds();
 				return (display_error(NODIR, join_err(lst->name, NULL), data, NULL), 1);
 			}
 		}
 		if (lst->next == NULL)
 		{
+			if (fds)
+			{
+				fds->infile = fd;
+				fds->std_in = dup(STDIN_FILENO);
+			}
 			if (dup2(fd, STDIN_FILENO) == -1)
 				printf("yooo dup2 failed\n");
 			if (fd >= 0)
@@ -93,7 +98,7 @@ bool	infiles(t_data *data, t_group *group)
  * 3 - fd 
  * @param group 
  */
-bool	outfiles(t_data *data, t_group *group)
+bool	outfiles(t_data *data, t_group *group, t_fds *fds)
 {
 	int32_t		fd;
 	int16_t		flag;
@@ -123,13 +128,20 @@ bool	outfiles(t_data *data, t_group *group)
 		fd = open(lst->name, flag, 0666);
 		if (fd == -1)
 		{
-			free_fds();
+			// free_fds();
 			return (display_error(NODIR, join_err(lst->name, NULL), data, NULL), 1);
 		}
 		if (lst->next == NULL)
 		{
 			sprintf(debugBuf + ft_strlen(debugBuf), "Dupping %s to STDOUT\n", lst->name);
-			return (dup2(fd, STDOUT_FILENO), close(fd), true);
+			if (fds)
+			{
+				fds->outfile = fd;
+				fds->std_out = dup(STDOUT_FILENO);
+			}
+			dup2(fd, STDOUT_FILENO);
+			close(fd);
+			return (true);
 		}
 		close(fd);
 		lst = lst->next;

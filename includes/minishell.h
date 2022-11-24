@@ -117,13 +117,19 @@ typedef struct s_env
 
 typedef struct s_data
 {
-	t_env		*envp_head;
-	t_group		*group;
-	size_t		groupc;
-	int32_t		tmp_fd;
+	t_env			*envp_head;
+	t_group			*group;
+	size_t			groupc;
+	int32_t			tmp_fd;
 }	t_data;
 
-
+typedef struct s_fds
+{
+	int32_t	std_out;
+	int32_t	std_in;
+	int32_t	infile;
+	int32_t	outfile;
+}	t_fds;
 
 /*		remove later	*/
 void	free_fds();
@@ -216,8 +222,8 @@ void	print_env(t_env *lst);
 bool	check_key(char *key);
 void	env_innit(t_data *data, char **envp);
 void	execution(t_data *data);
-bool	infiles(t_data *data, t_group *group);
-bool	outfiles(t_data *data, t_group *group);
+bool	infiles(t_data *data, t_group *group, t_fds *fds);
+bool	outfiles(t_data *data, t_group *group, t_fds *fds);
 char	*get_path(t_data *data);
 char	*find_path(t_data *data, char *cmd_name);
 void	path_innit(t_data *data);
