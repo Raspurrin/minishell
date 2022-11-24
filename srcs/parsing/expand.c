@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 14:50:42 by pooneh            #+#    #+#             */
-/*   Updated: 2022/11/24 10:41:28 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/24 16:23:51 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,33 @@ char	*find_variable_part(char *string)
 }
 
 /**
+ * @brief this function is helping the next function from being more than 25 lines! :D
+ * so it only iterates through the env list and finds the value/key.
+ * 
+ * @param envp 
+ * @param tmp_head 
+ * @param variable 
+ * @param l 
+ */
+void	replace_var_val_hlpr(t_env *envp, char **tmp_head, char *var, int l)
+{
+	while (envp)
+	{
+		if (!ft_strncmp(var, envp->key, ft_strlen(envp->key)))
+		{
+			*tmp_head = ft_strjoin_minishell(*tmp_head, envp->value);
+			l = ft_strlen(envp->value);
+		}
+		else if (!ft_strncmp(var, "?", 1))
+		{
+			*tmp_head = ft_strjoin_minishell(*tmp_head, ft_itoa(g_exitcode));
+			break ;
+		}
+		envp = envp->next;
+	}
+}
+
+/**
  * @brief after receiving the variable, it expands the variable 
  * by goinf through the env prointer that is handed in the t_env data struct.
  * @param name 
@@ -61,24 +88,12 @@ int	replace_variable_value(char **name, int index, char	*variable, t_env *envp)
 	i = 0;
 	l = 0;
 	tmp_tail = *name + index + ft_strlen(variable);
-		tmp_head = ft_substr(*name, 0, index - 1);
-	while (envp)
-	{
-		if (!ft_strncmp(variable, envp->key, ft_strlen(envp->key)))
-		{
-			tmp_head = ft_strjoin_minishell(tmp_head, envp->value);
-			l = ft_strlen(envp->value);
-		}
-		else if (!ft_strncmp(variable, "?", 1))
-		{
-			tmp_head = ft_strjoin_minishell(tmp_head, ft_itoa(g_exitcode));
-			break ;
-		}
-		envp = envp->next;
-	}
+	tmp_head = ft_substr(*name, 0, index - 1);
+	replace_var_val_hlpr(envp, &tmp_head, variable, l);
 	if (l == 0 && (variable[0] == '"' || variable[0] == '\''))
 		tmp_head = ft_strjoin_minishell(tmp_head, variable);
 	tmp_head = ft_strjoin_minishell(tmp_head, tmp_tail);
+	free(*name);
 	*name = tmp_head;
 	return (l + index);
 }
@@ -97,7 +112,8 @@ char	*expand(char *name, t_env *envp)
 	int		i;
 
 	i = 0;
-	while (name[i])
+	variable = NULL;
+	while (i < (int)ft_strlen(name))
 	{
 		if (name[i] == '\'' && name[skip_quotes(name + i) - 1] == '\'')
 			i += skip_quotes(name + i);
@@ -109,5 +125,7 @@ char	*expand(char *name, t_env *envp)
 		}
 		i++;
 	}
+	if (variable)
+		free (variable);
 	return (name);
 }

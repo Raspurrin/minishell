@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 11:36:03 by pooneh            #+#    #+#             */
-/*   Updated: 2022/11/24 12:20:56 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/24 16:22:00 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ static size_t	ft_count_words(const char *s, char c)
 	mark = 0;
 	number_of_pipes = 0;
 	i = 0;
-	while (s[i])
+	while (i < ft_strlen(s))
 	{
 		if (s[i] == '\"' || s[i] == '\'')
 			i = i + skip_quotes((char *)s + i);
@@ -51,7 +51,7 @@ static size_t	ft_word_len_shell(const char *s, char c, size_t i)
 	size_t	nbr_of_letters;
 
 	nbr_of_letters = 0;
-	while (s[i] != c && s[i] != '\0' && i < ft_strlen(s))
+	while (i < ft_strlen(s) && s[i] != c)
 	{
 		if (s[i] == '\'' || s[i] == '"')
 		{
@@ -79,9 +79,9 @@ char	**ft_split_shell(const char *s, char c)
 		return (NULL);
 	while (i < ft_count_words(s, c))
 	{
-		while (s[j] == c && s[j] != '\0')
+		while (s[j] != '\0' && s[j] == c)
 			j++;
-		lst[i] = (char *)malloc(sizeof(char) * ft_word_len_shell(s, c, j) + 1);
+		lst[i] = (char *)malloc(sizeof(char) * (ft_word_len_shell(s, c, j) + 1));
 		if (!lst[i])
 			free (lst[i]);
 		ft_strlcpy(lst[i], &s[j], ft_word_len_shell(s, c, j) + 1);

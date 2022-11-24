@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 18:01:38 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/24 11:55:43 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/24 12:57:10 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,9 +129,9 @@ void	words_init(t_group	**info, char *name, t_env *envp)
 		name = expand(name, envp);
 	name = rm_quotes_all(name);
 	(*info)->commandc = (*info)->commandc + 1;
-	command_array = (char **)realloc((*info)->full_cmd,
+	command_array = (char **)ft_realloc((*info)->full_cmd,
 			sizeof(char *) * ((*info)->commandc + 1));
-	// free((*info)->full_cmd);
+	free((*info)->full_cmd);
 	command_array[((*info)->commandc) - 1] = name;
 	command_array[((*info)->commandc)] = NULL;
 	(*info)->full_cmd = command_array;

@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:54:11 by pooneh            #+#    #+#             */
-/*   Updated: 2022/11/22 21:47:30 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/24 14:19:16 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*ft_strjoin_minishell(char *str1, char *str2)
 		return (0);
 	ft_strlcpy(out, str1, str1len + 1);
 	ft_strlcpy(out + str1len, str2, str2len + 1);
-	// free(str1); /////check thissssssss
+	free(str1);
 	return (out);
 }
 
