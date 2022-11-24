@@ -48,7 +48,6 @@ bool	infiles(t_data *data, t_group *group, t_fds *fds)
 	int32_t		fd;
 	t_infile	*lst;
 
-	// fd = -1;
 	lst = group->infile;
 	(void)data;
 	while (lst != NULL)
@@ -57,7 +56,7 @@ bool	infiles(t_data *data, t_group *group, t_fds *fds)
 		{
 			fd = here_doc(data, lst);
 			if (!fd)
-				break; // weird behaviour 
+				break ;
 		}
 		else
 		{
@@ -103,33 +102,21 @@ bool	outfiles(t_data *data, t_group *group, t_fds *fds)
 	int32_t		fd;
 	int16_t		flag;
 	t_outfile	*lst;
-	
+
 	(void)data;
 	lst = group->outfile;
-	// sprintf(debugBuf + ft_strlen(debugBuf), "%s\n", group->outfile);
-	// sprintf(debugBuf + ft_strlen(debugBuf), "%s\n", group->full_cmd[0]);
-	// sprintf(debugBuf + ft_strlen(debugBuf), "%p\n", group->outfile);
-	// sprintf(debugBuf + ft_strlen(debugBuf), "%s\n", group->outfile->name);
-	sprintf(debugBuf + ft_strlen(debugBuf), "in outfiles\n");
 	while (lst != NULL)
 	{
-		sprintf(debugBuf + ft_strlen(debugBuf), "outfile: %s\n", lst->name);
 		if (lst->append == !false)
-		{
-			sprintf(debugBuf + ft_strlen(debugBuf), "is appended\n");
 			flag = (O_RDWR | O_CREAT | O_APPEND);
-		}
 		else
-		{
-			sprintf(debugBuf + ft_strlen(debugBuf), "is not appended\n");
 			flag = (O_RDWR | O_CREAT | O_TRUNC);
-		}
-		sprintf(debugBuf + ft_strlen(debugBuf), "opened: %s\nappend: %d\n", lst->name, lst->append);
 		fd = open(lst->name, flag, 0666);
 		if (fd == -1)
 		{
 			free_fds();
-			return (display_error(NODIR, join_err(lst->name, NULL), data, NULL), 1);
+			return (display_error(NODIR, join_err(lst->name, NULL), \
+													data, NULL), 1);
 		}
 		if (lst->next == NULL)
 		{
@@ -138,7 +125,6 @@ bool	outfiles(t_data *data, t_group *group, t_fds *fds)
 				fds->outfile = fd;
 				fds->std_out = dup(STDIN_FILENO);
 			}
-			sprintf(debugBuf + ft_strlen(debugBuf), "Dupping %s to STDOUT\n", lst->name);
 			return (dup2(fd, STDOUT_FILENO), close(fd), true);
 		}
 		close(fd);
