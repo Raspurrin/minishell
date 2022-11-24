@@ -41,11 +41,8 @@ uint32_t	exit_check(t_data *data, t_group *group)
 		nbr = ft_atoi(group->full_cmd[1]);
 	}
 	printf("exit\n");
-	fprintf(stderr, "brrrrrrr | exitcode: %d\n", nbr);
-	ft_printf_fd(STDERR_FILENO, "data->envp_head: %p\n", data->envp_head);
+
 	// print_env(data->envp_head);
-	t_env *env = find_node(data->envp_head, "SHLVL");
-	ft_printf_fd(STDERR_FILENO, "SHLVL node: %p\n", env);
 	shlvl_msg(data->envp_head, true);
 	if (errno)
 		display_error(NUMARG, join_err(NULL, NULL), NULL, group);

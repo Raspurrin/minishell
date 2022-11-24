@@ -15,7 +15,7 @@
 bool	builtin_check(t_data *data, t_group *group)
 {
 	(void)data;
-	if (!group || !group->full_cmd)
+	if (!group || !group->full_cmd || !group->full_cmd[0])
 		return (false);
 	sprintf(debugBuf + ft_strlen(debugBuf), "in builtlin_check, cmd: %s\n", group->full_cmd[0]);
 	if (ft_strcmp(group->full_cmd[0], "cd") == 0)

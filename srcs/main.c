@@ -93,7 +93,6 @@ void	print_parser(t_data *data)
 		}
 		j = 0;
 		print_2d_fd(data->group[i].full_cmd, 1);
-		fprintf(stderr, "data->group[i].full_cmd[1]: %s", data->group[i].full_cmd[1]);
 		while (outfile != NULL)
 		{
 			printf("outfile name: %s append: %d\n", outfile->name, outfile->append);
