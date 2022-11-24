@@ -100,8 +100,10 @@ static int32_t	child_cmd(t_data *data, size_t i, int32_t fd[2])
 	env = env_2darr(data, data->envp_head);
 	if (data->group[i].full_cmd)
 		path = find_path(data, data->group[i].full_cmd[0]);
-	this_is_debug_yo();
 	sprintf(debugBuf + ft_strlen(debugBuf), "path: %s\n", path);
+	// this_is_debug_yo();
+	if (!data->group[i].full_cmd)
+		exit(0);
 	if (!path)
 		return (display_error(CMD, join_err(data->group[i].full_cmd[0], NULL), NULL, NULL), 127);
 	sprintf(debugBuf + ft_strlen(debugBuf), "before execv\n");

@@ -16,7 +16,7 @@
 // #ifdef (DEBUG)
 void	this_is_debug_yo(void)
 {
-	// ft_printf_fd(STDERR_FILENO, "%s", debugBuf);
+	ft_printf_fd(STDERR_FILENO, "%s", debugBuf);
 }
 // #endif
 

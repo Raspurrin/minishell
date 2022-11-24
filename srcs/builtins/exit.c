@@ -26,7 +26,6 @@ uint32_t	exit_check(t_data *data, t_group *group)
 	if (group->full_cmd[2] && !group->full_cmd[3])
 	{
 		printf("exit\n");	g_exitcode = 1;
-		fprintf(stderr, "group->full_cmd[2]: %s group->full_cmd[3]: %s\n", group->full_cmd[2], group->full_cmd[3]);
 		return (display_error(ARGS, join_err(NULL, NULL), NULL, group), 1);
 	}
 	if (group->full_cmd[1])

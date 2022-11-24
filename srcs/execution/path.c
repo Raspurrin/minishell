@@ -31,6 +31,7 @@ char	*find_path(t_data *data, char *cmd_name)
 	const t_env	*node = find_node(data->envp_head, "PATH");
 
 	i = 0;
+	ft_printf_fd(STDERR_FILENO, "cmd_name: %s\n", cmd_name);
 	if (!node)
 		return (NULL);
 	if (ft_strchr(cmd_name, '/'))
@@ -42,6 +43,7 @@ char	*find_path(t_data *data, char *cmd_name)
 	while (paths[i++])
 	{
 		path = ft_strjoin(paths[i - 1], cmd);
+
 		if (access(path, F_OK | X_OK) == 0)
 			return (free(cmd), free_2d(paths), path);
 		free(path);
