@@ -65,7 +65,7 @@ bool	infiles(t_data *data, t_group *group)
 			if (fd == -1)
 			{
 				free_fds();
-				//display_error(data, "Opening infile failed", true);
+				return (display_error(NODIR, join_err(lst->name, NULL), data, NULL), 1);
 			}
 		}
 		if (lst->next == NULL)
@@ -124,7 +124,7 @@ bool	outfiles(t_data *data, t_group *group)
 		if (fd == -1)
 		{
 			free_fds();
-			//display_error(data, "Opening outfile failed", true);
+			return (display_error(NODIR, join_err(lst->name, NULL), data, NULL), 1);
 		}
 		if (lst->next == NULL)
 		{
