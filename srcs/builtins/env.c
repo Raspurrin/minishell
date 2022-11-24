@@ -28,7 +28,7 @@ void	print_env(t_env *lst)
  * Printing out the environmental variables that have a value, 
  * otherwise they are ignored. 
  */
-int8_t	env(t_data *data, t_group *group)
+uint32_t	env(t_data *data, t_group *group)
 {
 	size_t	i;
 

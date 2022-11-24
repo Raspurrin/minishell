@@ -71,7 +71,7 @@ static void	close_fds(t_data *data, size_t i, int32_t fd[2])
  * Which is why this is done in a child process. 
  * At the very last itteration, the output is redirected to a file. 
  */
-static int16_t	child_cmd(t_data *data, size_t i, int32_t fd[2])
+static int32_t	child_cmd(t_data *data, size_t i, int32_t fd[2])
 {
 	char	*path;
 	char	**env;
@@ -103,7 +103,7 @@ static int16_t	child_cmd(t_data *data, size_t i, int32_t fd[2])
 	this_is_debug_yo();
 	sprintf(debugBuf + ft_strlen(debugBuf), "path: %s\n", path);
 	if (!path)
-		return (display_error(CMD, join_err(data->group[i].full_cmd[0], NULL), data, NULL), 127);
+		return (display_error(CMD, join_err(data->group[i].full_cmd[0], NULL), NULL, NULL), 127);
 	sprintf(debugBuf + ft_strlen(debugBuf), "before execv\n");
 	sprintf(debugBuf + ft_strlen(debugBuf), "%s\n", path);
 	if (execve(path, data->group[i].full_cmd, env) == -1)
@@ -122,6 +122,7 @@ static void	exec_cmds(t_data *data)
 	size_t	i;
 	int32_t	pid;
 	int32_t	fd[2];
+	int32_t	status;
 
 	i = 0;
 	sprintf(debugBuf + ft_strlen(debugBuf), "start exec_cmd\n");
@@ -145,8 +146,15 @@ static void	exec_cmds(t_data *data)
 		// 	display_error(data, "fork failed", true);
 		sprintf(debugBuf + ft_strlen(debugBuf), "forked\n");
 		if (pid == 0)
+		{
+			ft_printf_fd(STDERR_FILENO, "g_exitcode before child_cmd in child: %d\n", g_exitcode);
 			g_exitcode = child_cmd(data, i, fd);
-		waitpid(pid, NULL, 0); //parent too slow lol
+			ft_printf_fd(STDERR_FILENO, "g_exitcode after child_cmd in child: %d\n", g_exitcode);
+			if (g_exitcode != 0)
+				exit(g_exitcode);
+		}
+		waitpid(pid, &status, 0); //parent too slow lol
+		set_exitcode(status);
 		if (i > 0)
 		{
 			sprintf(debugBuf + ft_strlen(debugBuf), "closing tmp_fd (%d)\n", data->tmp_fd);
@@ -168,20 +176,17 @@ void	execution(t_data *data)
 	// int32_t	status;
 
 	i = 0;
-	//sprintf(debugBuf + ft_strlen(debugBuf), "my leg hurts\n");
 	if (!data->group)
 		return ;
 	signal(SIGINT, SIG_IGN);
 	exec_cmds(data);
 	sprintf(debugBuf + ft_strlen(debugBuf), "after exec_cmds\n");
-	// #if (DEBUG)
-	// this_is_debug_yo();
-	// #endif
+	if (g_exitcode > 255)
+		g_exitcode = g_exitcode % 256;
 	// while (i < data->groupc)
 	// {
-	// 	// wait(&status);
-	// 	waitpid(-1, &status, WNOHANG);
-	// 	exit_code = status;
+	// 	waitpid(-1, &status, NULL);
+	// 	g_exitcode = status;
 	// 	i++;
 	// }
 	free_groups(data);

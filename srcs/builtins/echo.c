@@ -29,6 +29,35 @@ static void	print_echo(bool	newline, char **str)
 }
 
 /**
+ * If I find a valid "-n", I move the pointer of echo to skip it,
+ * so it won't be printed in print_echo(). 
+ * @param echo Array of strings containing everything after "echo"
+ * ex: from "echo -nnn --n--n hi", you would get "-nnn --n--n hi"
+ * @return True if there is a newline
+ * @return False if not.
+ */
+bool	check_flag(char	***echo)
+{
+	bool	newline;
+	size_t	i;
+
+	i = 1;
+	newline = true;
+	while ((**echo && ft_strncmp("-n", (**echo), 2) == 0))
+	{
+		while ((**echo)[i])
+		{
+			if ((**echo)[i++] != 'n')
+				return (newline);
+		}
+		(*echo)++;
+		newline = false;
+		i = 1;
+	}
+	return (newline);
+}
+
+/**
  * @brief Echo prints out whatever comes afterwards with a newline 
  * char afterwards. -n cancels out this newline character.
  * This is only registered with one '-' and any amount of 'n'
@@ -36,7 +65,7 @@ static void	print_echo(bool	newline, char **str)
  * Valid newline cancel: echo -n -n -nnnnnn -nn Hello
  * Invalid: echo -nnnn-n Hello
  */
-int8_t	echo(t_data *data, t_group *group)
+uint32_t	echo(t_data *data, t_group *group)
 {
 	bool	newline;
 	char	**echo;
@@ -54,16 +83,6 @@ int8_t	echo(t_data *data, t_group *group)
 		return (print_echo(newline, echo), true);
 	}	
 	echo++;
-	while ((*echo && ft_strncmp("-n", (*echo), 2) == 0))
-	{
-		while ((*echo)[i])
-		{
-			if ((*echo)[i++] != 'n')
-				return (print_echo(newline, echo), true);
-		}
-		echo++;
-		newline = !true;
-		i = 1;
-	}
+	newline = check_flag(&echo);
 	return (print_echo(newline, echo), true);
 }

@@ -28,6 +28,7 @@ size_t	get_lstsize(t_env *lst)
 
 t_env	*find_node(t_env *lst, char *key)
 {
+	ft_printf_fd(STDERR_FILENO, "in find_node\n");
 	while (lst != NULL)
 	{
 		if (ft_strncmp(lst->key, key, ft_strlen(lst->key)) == 0 && \
@@ -47,8 +48,9 @@ char	**env_2darr(t_data *data, t_env *lst)
 	// if (!lst)
 	// 	return (display_error(data, "Env list failed to create", true), NULL);
 	env = malloc((get_lstsize(data->envp_head) + 1) * sizeof(char *)); // count size each time
-	while (lst->next != NULL)
+	while (lst != NULL)
 	{
+		// if (lst && lst->keyvalue)
 		env[i] = ft_strdup(lst->keyvalue);
 		lst = lst->next;
 		i++;

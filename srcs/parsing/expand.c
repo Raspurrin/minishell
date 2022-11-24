@@ -70,7 +70,10 @@ int	replace_variable_value(char **name, int index, char	*variable, t_env *envp)
 			l = ft_strlen(envp->value);
 		}
 		else if (!ft_strncmp(variable, "?", 1))
-			tmp_head = ft_strjoin_minishell(tmp_head, envp->key);
+			{
+				tmp_head = ft_strjoin_minishell(tmp_head, ft_itoa(g_exitcode));
+				break;
+			}
 		envp = envp->next;
 	}
 	if (l == 0 && (variable[0] == '"' || variable[0] == '\''))

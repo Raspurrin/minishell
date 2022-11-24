@@ -22,6 +22,7 @@
 # include <sys/wait.h>
 # include <signal.h>
 # include <unistd.h>
+# include <limits.h>
 # include </Users/mialbert/goinfre/.brew/opt/readline/include/readline/readline.h>
 # include </Users/mialbert/goinfre/.brew/opt/readline/include/readline/history.h>
 # include "../libs/libft/includes/libft.h"
@@ -30,12 +31,12 @@
 # define WRITE 1
 # define PROMPT "🦇MiShell: "
 
-int16_t	g_exitcode;
+uint32_t	g_exitcode;
 // #define DEBUG 1
 
 typedef struct s_group	t_group;
 typedef struct s_data	t_data;
-typedef int8_t			(*t_builtin)(t_data *, t_group *);
+typedef uint32_t			(*t_builtin)(t_data *, t_group *);
 char	debugBuf[6969];
 
 void	this_is_debug_yo(void);
@@ -223,20 +224,20 @@ void	path_innit(t_data *data);
 char	*find_new_path(char *str, char *path);
 char	*absolute_or_relative(char *path, char *old_path);
 char	*relative_path(char *relative, char *pwd);
-void	set_exitcode(void);
+void	set_exitcode(int32_t status);
 void	shlvl_msg(t_env *envp_head, bool exit);
 void	greeting_msg(t_env *envp_head);
 
 /* builtins: */
-int8_t	exit_check(t_data *data, t_group *group);
-int8_t	cd(t_data *data, t_group *group);
-int8_t	echo(t_data *data, t_group *group);
-int8_t	exit_check(t_data *data, t_group *group);
-int8_t	export(t_data *data, t_group *group);
-int8_t	export_add(t_data *data, t_group *group);
-int8_t	init_pwd_size(t_data *data);
-int8_t	unset(t_data *data, t_group *group);
-int8_t	env(t_data *data, t_group *group);
-int8_t	pwd(t_data *data, t_group *group);
+uint32_t	exit_check(t_data *data, t_group *group);
+uint32_t	cd(t_data *data, t_group *group);
+uint32_t	echo(t_data *data, t_group *group);
+uint32_t	exit_check(t_data *data, t_group *group);
+uint32_t	export(t_data *data, t_group *group);
+uint32_t	export_add(t_data *data, t_group *group);
+uint32_t	init_pwd_size(t_data *data);
+uint32_t	unset(t_data *data, t_group *group);
+uint32_t	env(t_data *data, t_group *group);
+uint32_t	pwd(t_data *data, t_group *group);
 
 #endif

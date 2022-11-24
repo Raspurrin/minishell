@@ -14,12 +14,11 @@
 
 void	shlvl_msg(t_env *envp_head, bool exit)
 {
-	t_env	*env;
-	char	*lvl;
+	const t_env	*env = find_node(envp_head, "SHLVL");
+	char		*lvl;
 
-	env = find_node(envp_head, "SHLVL");
 	lvl = env->value;
-	if (exit)
+	if (exit && lvl)
 		lvl = ft_itoa(ft_atoi(lvl) - 1); // free?
 	if (ft_strcmp(lvl, "1") == 0)
 		ft_printf_fd(STDERR_FILENO, "\033[0;31mYEET (╯°□°）╯︵ [you]\n");

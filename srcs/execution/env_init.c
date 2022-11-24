@@ -55,7 +55,7 @@ char	**env_split(char *str, char del)
 		i++;
 	split[0] = ft_substr(str, 0, i);
 	if (str[i])
-		split[1] = ft_substr(str, i + 1, ft_strlen(str) - 1); // how is this working with length of str? Huh?
+		split[1] = ft_substr(str, i + 1, ft_strlen(str) - 1);
 	else 
 		split[1] = NULL;
 	return (split);
