@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 14:50:42 by pooneh            #+#    #+#             */
-/*   Updated: 2022/11/24 16:23:51 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/25 21:10:56 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 /**
  * @brief when there is a $, this function is called to 
- * find out what is the variable that should expand? acc to bash behavior, every
- * charnum that comes right after that is considered a variable, except for quotes.
+ * find out what is the variable that should expand? 
+ * acc to bash behavior, every
+ * charnum that comes right after that is considered a variable, 
+ * except for quotes.
  * @param string clear
  * @return char* the variable part that can/may be expanded. 
  */
@@ -40,14 +42,18 @@ char	*find_variable_part(char *string)
 }
 
 /**
- * @brief this function is helping the next function from being more than 25 lines! :D
- * so it only iterates through the env list and finds the value/key.
+ * @brief this function is helping the 
+ * next function from 
+ * being more than 25 lines! :D
+ * so it only iterates through the env list and
+ *  finds the value/key.
  * 
  * @param envp 
  * @param tmp_head 
  * @param variable 
  * @param l 
  */
+
 void	replace_var_val_hlpr(t_env *envp, char **tmp_head, char *var, int l)
 {
 	while (envp)

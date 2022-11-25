@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 13:47:59 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/22 21:24:24 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/24 17:39:21 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ char	*rm_two_quotes(char *name, int start)
 
 char	*rm_quotes_all(char *name)
 {
-	int i;
-	int tmp;
+	int	i;
+	int	tmp;
 
 	i = 0;
 	while (name[i])

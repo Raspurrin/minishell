@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 11:36:03 by pooneh            #+#    #+#             */
-/*   Updated: 2022/11/24 16:22:00 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/24 17:39:03 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,8 @@ char	**ft_split_shell(const char *s, char c)
 	{
 		while (s[j] != '\0' && s[j] == c)
 			j++;
-		lst[i] = (char *)malloc(sizeof(char) * (ft_word_len_shell(s, c, j) + 1));
+		lst[i] = (char *)malloc(sizeof(char)
+				* (ft_word_len_shell(s, c, j) + 1));
 		if (!lst[i])
 			free (lst[i]);
 		ft_strlcpy(lst[i], &s[j], ft_word_len_shell(s, c, j) + 1);
