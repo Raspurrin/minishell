@@ -25,7 +25,7 @@ bool	builtin_check(t_data *data, t_group *group)
 		group->builtin = &env;
 	else if (ft_strcmp(group->full_cmd[0], "exit") == 0)
 		group->builtin = &exit_check;
-	else if (ft_strcmp(group->full_cmd[0], "export") == 0) 
+	else if (ft_strcmp(group->full_cmd[0], "export") == 0)
 	{
 		if (group->full_cmd[1] == NULL)
 			group->builtin = &export;
@@ -36,23 +36,16 @@ bool	builtin_check(t_data *data, t_group *group)
 		group->builtin = &pwd;
 	else if (ft_strcmp(group->full_cmd[0], "unset") == 0)
 		group->builtin = &unset;
-	return (true);
-}
-
-static void	close_fds(t_data *data, size_t i, int32_t fd[2])
-{
-	close(fd[WRITE]);
-	if (i > 0)
-		close(data->tmp_fd);
-	if (i == data->groupc - 1)
-		close(fd[READ]);
+	if (group->builtin)
+		return (true);
+	return (false);
 }
 
 /**
  * First I find the correct path for the next command in find_path()
  * Execve will execute another program which takes over the entire process.
  * Which is why this is done in a child process. 
- * At the very last itteration, the output is redirected to a file. 
+ * At the very last iteration, the output is redirected to a file. 
  */
 static int32_t	child_cmd(t_data *data, size_t i, int32_t fd[2])
 {
@@ -73,11 +66,11 @@ static int32_t	child_cmd(t_data *data, size_t i, int32_t fd[2])
 	env = env_2darr(data, data->envp_head);
 	if (data->group[i].full_cmd)
 		path = find_path(data, data->group[i].full_cmd[0]);
-	if (!data->group[i].full_cmd)
-		exit(0);
 	if (!path)
 		return (display_error(CMD, join_err(data->group[i].full_cmd[0], \
 												NULL), NULL, NULL), 127);
+	if (!data->group[i].full_cmd)
+		exit(0);
 	if (execve(path, data->group[i].full_cmd, env) == -1)
 		return (free(env), ft_perror(data->group[i].full_cmd[0], NULL), 127);
 	return (1);
@@ -142,6 +135,7 @@ void	execution(t_data *data)
 	status = 0;
 	if (!data->group)
 		return ;
+	data->group[0].builtin = NULL;
 	signal(SIGINT, SIG_IGN);
 	exec_cmds(data);
 	if (g_exitcode > 255)

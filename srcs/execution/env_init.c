@@ -32,6 +32,12 @@ void	change_(t_data *data)
 		env->keyvalue = ft_strjoin("_=", path);
 		env->printed = true;
 	}
+	env = find_node(data->envp_head, "SHLVL");
+	if (env != NULL)
+	{
+		env->value = ft_itoa(ft_atoi(env->value) + 1);
+		env->keyvalue = ft_strjoin("SHLVL=", env->value);
+	}
 }
 
 /**
@@ -56,7 +62,7 @@ char	**env_split(char *str, char del)
 	split[0] = ft_substr(str, 0, i);
 	if (str[i])
 		split[1] = ft_substr(str, i + 1, ft_strlen(str) - 1);
-	else 
+	else
 		split[1] = NULL;
 	return (split);
 }
@@ -67,29 +73,20 @@ void	env_innit(t_data *data, char **envp)
 	t_env	*lst;
 
 	data->envp_head = malloc(sizeof(t_env));
-	// if (!data->envp_head)
-		// return (display_error(data, "Malloc failed", true));
+	if (!data->envp_head)
+		return (error_line("Env list failed to create", __LINE__, __FILE__, 1));
 	lst = data->envp_head;
 	while (*envp != NULL)
 	{
-		lst->keyvalue = ft_strdup(*envp);
 		tmp = env_split(*envp, '=');
-		lst->key = tmp[0];
-		if (ft_strcmp(lst->key, "SHLVL") == 0)
-		{
-			lst->value = ft_itoa(ft_atoi(tmp[1]) + 1);
-			lst->keyvalue = ft_strjoin("SHLVL=", lst->value);
-		}
-		else
-			lst->value = tmp[1];
-		free(tmp);
+		lst = env_addvalue(lst, tmp, *envp);
 		envp++;
-		// printf("%s\n", *envp);
 		if (*envp != NULL)
 		{
 			lst->next = malloc(sizeof(t_env));
-			// if (!lst->next)
-			// 	return (display_error(data, "Malloc failed", true));
+			if (!lst->next)
+				return (error_line("Env list failed to create", \
+										__LINE__, __FILE__, 1));
 			lst = lst->next;
 		}
 	}

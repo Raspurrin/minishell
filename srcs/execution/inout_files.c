@@ -26,9 +26,8 @@ static int32_t	here_doc(t_data *data, t_infile *lst)
 	(void)data;
 	line = ft_calloc(2, 1);
 	fd = open(lst->name, O_RDWR | O_CREAT | O_TRUNC, 0666);
-	sprintf(debugBuf + ft_strlen(debugBuf), "In heredoc\n");
-	// if (fd == -1)
-	// 	display_error(data, "Heredoc inout_files, Open infile failed", true);
+	if (fd == -1)
+		return (false);
 	while (ft_strncmp(line, lst->name, ft_strlen(lst->name) + 1) != 10)
 	{
 		free(line);
@@ -56,15 +55,15 @@ bool	infiles(t_data *data, t_group *group, t_fds *fds)
 		{
 			fd = here_doc(data, lst);
 			if (!fd)
-				break ;
+				return (false);
 		}
 		else
 		{
 			fd = open(lst->name, O_RDONLY, 0666);
 			if (fd == -1)
 			{
-				free_fds();
-				return (display_error(NODIR, join_err(lst->name, NULL), data, NULL), 1);
+				fprintf(stderr, "opening file failed\n");
+				return (display_error(NODIR, join_err(NULL, NULL), data, NULL), 1);
 			}
 		}
 		if (lst->next == NULL)
@@ -76,12 +75,10 @@ bool	infiles(t_data *data, t_group *group, t_fds *fds)
 			}
 			if (dup2(fd, STDIN_FILENO) == -1)
 				printf("yooo dup2 failed\n");
-			if (fd >= 0)
-				close(fd);
+			close(fd);
 			return (true);
 		}
-		if (fd >= 0)
-			close(fd);
+		close(fd);
 		lst = lst->next;
 	}
 	return (false);
@@ -100,7 +97,6 @@ bool	infiles(t_data *data, t_group *group, t_fds *fds)
 bool	outfiles(t_data *data, t_group *group, t_fds *fds)
 {
 	int32_t		fd;
-	int16_t		flag;
 	t_outfile	*lst;
 
 	(void)data;
@@ -108,16 +104,12 @@ bool	outfiles(t_data *data, t_group *group, t_fds *fds)
 	while (lst != NULL)
 	{
 		if (lst->append == !false)
-			flag = (O_RDWR | O_CREAT | O_APPEND);
+			fd = open(lst->name, O_RDWR | O_CREAT | O_APPEND);
 		else
-			flag = (O_RDWR | O_CREAT | O_TRUNC);
-		fd = open(lst->name, flag, 0666);
+			fd = open(lst->name, O_RDWR | O_CREAT | O_TRUNC);
 		if (fd == -1)
-		{
-			free_fds();
 			return (display_error(NODIR, join_err(lst->name, NULL), \
 													data, NULL), 1);
-		}
 		if (lst->next == NULL)
 		{
 			if (fds)
