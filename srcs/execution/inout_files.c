@@ -103,10 +103,10 @@ bool	outfiles(t_data *data, t_group *group, t_fds *fds)
 	lst = group->outfile;
 	while (lst != NULL)
 	{
-		if (lst->append == !false)
-			fd = open(lst->name, O_RDWR | O_CREAT | O_APPEND);
+		if (lst->append == true)
+			fd = open(lst->name, O_RDWR | O_CREAT | O_APPEND, 0666);
 		else
-			fd = open(lst->name, O_RDWR | O_CREAT | O_TRUNC);
+			fd = open(lst->name, O_RDWR | O_CREAT | O_TRUNC, 0666);
 		if (fd == -1)
 			return (display_error(NODIR, join_err(lst->name, NULL), \
 													data, NULL), 1);
@@ -115,7 +115,7 @@ bool	outfiles(t_data *data, t_group *group, t_fds *fds)
 			if (fds)
 			{
 				fds->outfile = fd;
-				fds->std_out = dup(STDIN_FILENO);
+				fds->std_out = dup(STDOUT_FILENO);
 			}
 			return (dup2(fd, STDOUT_FILENO), close(fd), true);
 		}
