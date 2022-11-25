@@ -101,5 +101,5 @@ void	ft_perror(char *msg, t_data *data)
 	perror(err);
 	if (data)
 		yeet(data);
-	// free(err);
+	free(err);
 }

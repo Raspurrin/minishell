@@ -53,7 +53,7 @@ void	lst_clear(void *file_lst)
 	t_infile	*lst;
 	t_infile	*tmp;
 
-	if(!file_lst)
+	if (!file_lst)
 		return ;
 	tmp = (t_infile *)file_lst;
 	lst = tmp;
