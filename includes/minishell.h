@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/24 13:33:04 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/24 17:44:36 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,13 +25,13 @@
 # include <limits.h>
 // # include </Users/mialbert/goinfre/.brew/opt/readline/include/readline/readline.h>
 // # include </Users/mialbert/goinfre/.brew/opt/readline/include/readline/history.h>
-# include </Users/mialbert/goinfre/.brew/opt/readline/include/readline/readline.h>
-# include </Users/mialbert/goinfre/.brew/opt/readline/include/readline/history.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include "../libs/libft/includes/libft.h"
 
 # define READ 0
 # define WRITE 1
-# define PROMPT "🦇MiShell: "
+# define PROMPT "🦇Minishell: "
 
 uint32_t	g_exitcode;
 // #define DEBUG 1
@@ -146,7 +146,7 @@ void	parser(char *str, t_env *envp, t_data *data);
 /*		check_input		*/
 
 int		check_input_before_parsing(char *s);
-bool	check_input_before_parsing_helper(char *s);
+bool	check_input_b4_parsing_hlpr(char *s);
 int		check_neighbouring_chars(char *s);
 
 /*		check_input_utils	*/

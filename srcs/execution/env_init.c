@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 22:46:32 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/21 19:06:43 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/25 19:28:39 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,12 @@ void	change_(t_data *data)
 	env = find_node(data->envp_head, "_");
 	if (env != NULL)
 	{
-		free_env_node(env, false);
+		// free_env_node(env, false);
 		path = find_path(data, "env");
+		free(env->key);
 		env->key = ft_strdup("_");
 		env->value = path;
+		free(env->keyvalue);
 		env->keyvalue = ft_strjoin("_=", path);
 		env->printed = true;
 	}
@@ -78,6 +80,8 @@ void	env_innit(t_data *data, char **envp)
 		if (ft_strcmp(lst->key, "SHLVL") == 0)
 		{
 			lst->value = ft_itoa(ft_atoi(tmp[1]) + 1);
+			free(tmp[1]);
+			free(lst->keyvalue);
 			lst->keyvalue = ft_strjoin("SHLVL=", lst->value);
 		}
 		else

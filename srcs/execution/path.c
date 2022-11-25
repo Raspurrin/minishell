@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   path.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/17 17:37:00 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/22 16:59:08 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/25 19:23:30 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,9 @@ char	*find_path(t_data *data, char *cmd_name)
 	while (paths[i++])
 	{
 		path = ft_strjoin(paths[i - 1], cmd);
-
 		if (access(path, F_OK | X_OK) == 0)
 			return (free(cmd), free_2d(paths), path);
 		free(path);
 	}
-	return (NULL);
+	return (free(cmd), free_2d(paths), NULL);
 }
