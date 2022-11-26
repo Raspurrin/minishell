@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 21:10:22 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/22 21:50:42 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/26 16:48:17 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,32 @@ int	first_char_check(char c)
 	return (0);
 }
 
-int	err_parser(char *msg, char c)
+void	*ft_memalloc(size_t size)
 {
-	printf("%s '%c'\n", msg, c);
-	return (-1);
+	void	*ret;
+
+	if (!(ret = malloc(size)))
+		return (NULL);
+	ft_bzero(ret, size);
+	return (ret);
+}
+
+void	ft_memdel(void **ap)
+{
+	if (ap)
+	{
+		free(*ap);
+		*ap = NULL;
+	}
+}
+
+void	*ft_realloc2(void *src, size_t old_len, size_t new_len)
+{
+	void	*res;
+
+	if (!(res = ft_memalloc(new_len)))
+		return (NULL);
+	ft_memcpy(res, src, old_len);
+	ft_memdel(&src);
+	return (res);
 }

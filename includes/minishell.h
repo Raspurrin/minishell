@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/24 17:44:36 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/26 16:54:05 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,8 +193,10 @@ bool		ft_isalnum_ms(int32_t c);
 /*		utils2				*/
 
 int			first_char_check(char c);
-int			err_parser(char *msg, char c);
 int			ft_strlen_array(char **s);
+void		*ft_realloc2(void *src, size_t old_len, size_t new_len);
+void		ft_memdel(void **ap);
+void		*ft_memalloc(size_t size);
 
 /********************************EXECUTION***************************/
 /* general */

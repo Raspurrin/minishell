@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 14:50:42 by pooneh            #+#    #+#             */
-/*   Updated: 2022/11/25 21:10:56 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/26 16:52:49 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,8 @@ void	replace_var_val_hlpr(t_env *envp, char **tmp_head, char *var, int l)
 {
 	while (envp)
 	{
-		if (!ft_strncmp(var, envp->key, ft_strlen(envp->key)))
+		if (!ft_strncmp(var, envp->key, ft_strlen(envp->key))
+			&& ft_strlen(var) == ft_strlen(envp->key))
 		{
 			*tmp_head = ft_strjoin_minishell(*tmp_head, envp->value);
 			l = ft_strlen(envp->value);
