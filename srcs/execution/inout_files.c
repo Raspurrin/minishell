@@ -35,15 +35,16 @@ static int32_t	here_doc(t_data *data, t_infile *lst)
 	char		*line;
 
 	(void)data;
-	line = ft_calloc(2, 1);
 	fd = open_file(data, (O_RDWR | O_CREAT | O_TRUNC), lst->name);
-	while (ft_strncmp(line, lst->name, ft_strlen(lst->name) + 1) != 10)
+	while (true)
 	{
-		free(line);
 		line = get_next_line(STDIN_FILENO);
 		if (line == NULL)
 			return (unlink(lst->name), 0);
+		if (ft_strncmp(line, lst->name, ft_strlen(lst->name) + 1) == 10)
+			break ;
 		write(fd, line, ft_strlen(line));
+		free(line);
 	}
 	free(line);
 	close(fd);

@@ -84,7 +84,6 @@ void	replace_var_val_hlpr(t_env *envp, char **tmp_head, char *var, int l)
  * @param envp environment pointer is saved in this data struct. 
  * @return int the index which should be considered for future iterartions. 
  */
-
 int	replace_variable_value(char **name, int index, char	*variable, t_env *envp)
 {
 	int		i;
