@@ -36,7 +36,7 @@ bool	builtin_check(t_data *data, t_group *group)
 		group->builtin = &pwd;
 	else if (ft_strcmp(group->full_cmd[0], "unset") == 0)
 		group->builtin = &unset;
-	if (group->builtin)
+	if (group && group->builtin)
 		return (true);
 	return (false);
 }

@@ -42,6 +42,7 @@ void	initialize(t_group	**info)
 {
 	(*info)->infile = NULL;
 	(*info)->outfile = NULL;
+	(*info)->builtin = NULL;
 	(*info)->read_in = 0;
 	(*info)->read_out = 0;
 	(*info)->full_cmd = (char **)ft_calloc(sizeof(char *), 1);

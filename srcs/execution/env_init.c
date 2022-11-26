@@ -21,21 +21,27 @@ void	change_(t_data *data)
 {
 	t_env	*env;
 	char	*path;
+	char	*shlvl;
 
 	env = find_node(data->envp_head, "_");
 	if (env != NULL)
 	{
-		free_env_node(env, false);
 		path = find_path(data, "env");
+		free(env->key);
 		env->key = ft_strdup("_");
+		free(env->value);
 		env->value = path;
+		free(env->keyvalue);
 		env->keyvalue = ft_strjoin("_=", path);
 		env->printed = true;
 	}
 	env = find_node(data->envp_head, "SHLVL");
 	if (env != NULL)
 	{
-		env->value = ft_itoa(ft_atoi(env->value) + 1);
+		shlvl = ft_itoa(ft_atoi(env->value) + 1);
+		free(env->value);
+		env->value = shlvl;
+		free(env->keyvalue);
 		env->keyvalue = ft_strjoin("SHLVL=", env->value);
 	}
 }

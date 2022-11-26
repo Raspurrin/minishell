@@ -28,8 +28,6 @@ void	move_pointers(t_env *envp_head, char *var)
 			else if (lst->next)
 				prev->next = lst->next;
 			free_env_node(lst, 1);
-			if (lst->next == NULL)
-				prev->next = NULL;
 			break ;
 		}
 		prev = lst;

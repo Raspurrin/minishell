@@ -64,7 +64,7 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 		signal(SIGQUIT, SIG_IGN);
 		str = readline(PROMPT);
 		if (str == NULL)
-			return (printf("exit\n"), 0);
+			return (printf("exit\n"), free_data(&data), 0);
 		parser(str, data.envp_head, &data);
 		if (data.group)
 			execution(&data);

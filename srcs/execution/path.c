@@ -47,5 +47,5 @@ char	*find_path(t_data *data, char *cmd_name)
 			return (free(cmd), free_2d(paths), path);
 		free(path);
 	}
-	return (NULL);
+	return (free(cmd), free_2d(paths), NULL);
 }

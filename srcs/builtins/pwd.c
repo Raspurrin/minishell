@@ -18,7 +18,10 @@ void	init_oldpwd(t_data *data)
 
 	env = find_node(data->envp_head, "OLDPWD");
 	if (env && env->value)
+	{
+		free(env->value);
 		env->value = NULL;
+	}
 }
 
 /**
@@ -43,6 +46,7 @@ char	*get_pwd(void)
 			break ;
 		old_size = size;
 		size += 100;
+		free(pwd);
 		pwd = ft_realloc_n(pwd, size, old_size);
 		if (!pwd)
 			return (NULL);
