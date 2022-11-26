@@ -26,15 +26,14 @@ static void	update_pwd(t_data *data)
 	if (oldpwd && oldpwd->value)
 		free(oldpwd->value);
 	if (!pwd)
-	{
 		oldpwd->value = "";
-	}
 	else
 	{
 		oldpwd->value = pwd->value;
-	if (pwd && pwd->value)
-		free(pwd->value);
-	pwd->value = get_pwd();
+		if (pwd && pwd->value)
+			free(pwd->value);
+		pwd->value = get_pwd();
+	}
 }
 
 /**

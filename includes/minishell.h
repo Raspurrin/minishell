@@ -23,8 +23,6 @@
 # include <signal.h>
 # include <unistd.h>
 # include <limits.h>
-// # include </Users/mialbert/goinfre/.brew/opt/readline/include/readline/readline.h>
-// # include </Users/mialbert/goinfre/.brew/opt/readline/include/readline/history.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../libs/libft/includes/libft.h"
@@ -33,15 +31,10 @@
 # define WRITE 1
 # define PROMPT "🦇Minishell: "
 
-uint32_t	g_exitcode;
-// #define DEBUG 1
-
-typedef struct s_group	t_group;
-typedef struct s_data	t_data;
+uint32_t					g_exitcode;
+typedef struct s_group		t_group;
+typedef struct s_data		t_data;
 typedef uint32_t			(*t_builtin)(t_data *, t_group *);
-char	debugBuf[6969];
-
-void	this_is_debug_yo(void);
 
 /**
 	EMPTY	- ""
@@ -77,15 +70,15 @@ enum e_errno
 
 typedef struct s_outfile
 {
-	char	*name;
-	bool	append;
+	char				*name;
+	bool				append;
 	struct s_outfile	*next;
 }	t_outfile;
 
 typedef struct s_infile
 {
-	char	*name;
-	bool	here_doc;
+	char			*name;
+	bool			here_doc;
 	struct s_infile	*next;
 }	t_infile;
 
@@ -134,112 +127,113 @@ typedef struct s_fds
 }	t_fds;
 
 /*		remove later	*/
-void	free_fds();
+void		free_fds(void);
 
 /********************************PARSING***************************/
 
 /*		parsing brain	*/
 
-void	make_token(char *s, t_group **info, t_env *envp);
-void	parser(char *str, t_env *envp, t_data *data);
+void		make_token(char *s, t_group **info, t_env *envp);
+void		parser(char *str, t_env *envp, t_data *data);
 
 /*		check_input		*/
 
-int		check_input_before_parsing(char *s);
-bool	check_input_b4_parsing_hlpr(char *s);
-int		check_neighbouring_chars(char *s);
+int			check_input_before_parsing(char *s);
+bool		check_input_b4_parsing_hlpr(char *s);
+int			check_neighbouring_chars(char *s);
 
 /*		check_input_utils	*/
 
-int		check_neighbouring_chars(char *s);
-int		skip_spaces_backwards(char *s, int i);
+int			check_neighbouring_chars(char *s);
+int			skip_spaces_backwards(char *s, int i);
 
 /*		initialize		*/
 
-void	first_initialization(char **pipe_wise_splitted_array, t_data *data);
-void	initialize(t_group	**data);
-void	words_init(t_group	**info, char *name, t_env *envp);
-void	out_file_init(t_group	**info, char *s, char *name, t_env *envp);
-void	in_file_init(t_group	**info, char *s, char *name, t_env *envp);
+void		first_initialization(char **pipe_wise_splitted_array, t_data *data);
+void		initialize(t_group	**data);
+void		words_init(t_group	**info, char *name, t_env *envp);
+void		out_file_init(t_group	**info, char *s, char *name, t_env *envp);
+void		in_file_init(t_group	**info, char *s, char *name, t_env *envp);
 
 /*		lexical_scan	*/
 
-int		skip_chars(char *s);
-int		skip_quotes(char *s);
-int		special_chars(t_group **info, char *s, t_env *envp);
-int		quoted_word_extract(t_group **info, char *s, t_env *envp);
-int		normal_word_extract(t_group **info, char *s, t_env *envp);
+int			skip_chars(char *s);
+int			skip_quotes(char *s);
+int			special_chars(t_group **info, char *s, t_env *envp);
+int			quoted_word_extract(t_group **info, char *s, t_env *envp);
+int			normal_word_extract(t_group **info, char *s, t_env *envp);
 
 /*		quotes		*/
 
-char	*rm_quotes_all(char *name);
-char	*rm_two_quotes(char *name, int start);
-char	quote_type(char *name);
+char		*rm_quotes_all(char *name);
+char		*rm_two_quotes(char *name, int start);
+char		quote_type(char *name);
 
 /*		expand			*/
 
-char	*find_variable_part(char *string);
-void	replace_var_val_hlpr(t_env *envp,
-			char **tmp_head, char *variable, int l);
-int		replace_variable_value(char **name, int index,
-			char	*variable, t_env *envp);
-char	*expand(char *name, t_env *envp);
+char		*find_variable_part(char *string);
+void		replace_var_val_hlpr(t_env *envp, char **tmp_head, \
+												char *var, int l);
+int			replace_variable_value(char **name, int index, \
+									char *variable, t_env *envp);
+char		*expand(char *name, t_env *envp);
 
 /*		shell_split		*/
 
-char	**ft_split_shell(const char *s, char c);
+char		**ft_split_shell(const char *s, char c);
 
 /*		utils			*/
 
-void	lstaddback(t_infile **lst, t_infile *new);
-void	lstaddback_out(t_outfile **lst, t_outfile *new);
-char	*ft_strjoin_minishell(char *str1, char *str2);
-int		skip_spaces(char *s);
-bool	ft_isalnum_ms(int32_t c);
+void		lstaddback(t_infile **lst, t_infile *new);
+void		lstaddback_out(t_outfile **lst, t_outfile *new);
+char		*ft_strjoin_minishell(char *str1, char *str2);
+int			skip_spaces(char *s);
+bool		ft_isalnum_ms(int32_t c);
 
 /*		utils2				*/
 
-int		first_char_check(char c);
-int		err_parser(char *msg, char c);
-int		ft_strlen_array(char **s);
+int			first_char_check(char c);
+int			err_parser(char *msg, char c);
+int			ft_strlen_array(char **s);
 
 /********************************EXECUTION***************************/
 /* general */
-void	display_error(int8_t nbr, char *str[], t_data *data, t_group *group);
-void	free_at_exit(t_data *data);
-void	free_data(t_data *data);
-void	free_groups(t_data *data);
-char	**join_err(char *str1, char *str2);
-char	*join_builtin(char *str1, char *str2);
-void	ft_perror(char *msg, t_data *data);
+void		display_error(int8_t nbr, char *str[], t_data *data, \
+													t_group *group);
+void		free_at_exit(t_data *data);
+void		free_data(t_data *data);
+void		free_groups(t_data *data);
+char		**join_err(char *str1, char *str2);
+char		*join_builtin(char *str1, char *str2);
+void		ft_perror(char *msg, t_data *data);
 
 /* environment variable linked list handlers */
-char	**env_2darr(t_data *data, t_env *lst);
-void	print_group(void);
-t_env	*find_node(t_env *lst, char *key);
-void	lst_addback(t_data *data, t_env *new);
-void	free_env_node(t_env *lst, bool free_all);
-char	**env_split(char *str, char del);
-void	print_env(t_env *lst);
-t_env	*env_addvalue(t_env *lst, char **tmp, char *keyvalue);
+char		**env_2darr(t_data *data, t_env *lst);
+void		print_group(void);
+t_env		*find_node(t_env *lst, char *key);
+void		lst_addback(t_data *data, t_env *new);
+void		free_env_node(t_env *lst, bool free_all);
+char		**env_split(char *str, char del);
+void		print_env(t_env *lst);
+t_env		*env_addvalue(t_env *lst, char **tmp, char *keyvalue);
 
 /* execution */
-bool	check_key(t_group *group, char *key, char *next_key);
-void	env_innit(t_data *data, char **envp);
-void	execution(t_data *data);
-bool	infiles(t_data *data, t_group *group, t_fds *fds);
-bool	outfiles(t_data *data, t_group *group, t_fds *fds);
-void	close_fds(t_data *data, size_t i, int32_t fd[2]);
-char	*get_path(t_data *data);
-char	*find_path(t_data *data, char *cmd_name);
-void	path_innit(t_data *data);
-char	*find_new_path(char *str, char *path);
-char	*absolute_or_relative(char *path, char *old_path);
-char	*relative_path(char *relative, char *pwd);
-void	set_exitcode(int32_t status);
-void	shlvl_msg(t_env *envp_head, bool exit);
-void	greeting_msg(t_env *envp_head);
-bool	dup_key(t_env *envp_head, char **tmp, char *keyvalue);
+bool		check_key(t_group *group, char *key, char *next_key);
+void		env_innit(t_data *data, char **envp);
+void		execution(t_data *data);
+bool		infiles(t_data *data, t_group *group, t_fds *fds);
+bool		outfiles(t_data *data, t_group *group, t_fds *fds);
+void		close_fds(t_data *data, size_t i, int32_t fd[2]);
+char		*get_path(t_data *data);
+char		*find_path(t_data *data, char *cmd_name);
+void		path_innit(t_data *data);
+char		*find_new_path(char *str, char *path);
+char		*absolute_or_relative(char *path, char *old_path);
+char		*relative_path(char *relative, char *pwd);
+void		set_exitcode(int32_t status);
+void		shlvl_msg(t_env *envp_head, bool exit);
+void		greeting_msg(t_env *envp_head);
+bool		dup_key(t_env *envp_head, char **tmp, char *keyvalue);
 
 /* builtins: */
 uint32_t	exit_check(t_data *data, t_group *group);
