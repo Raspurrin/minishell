@@ -39,7 +39,8 @@ void	*ft_memalloc(size_t size)
 {
 	void	*ret;
 
-	if (!(ret = malloc(size)))
+	ret = malloc(size);
+	if (!(ret))
 		return (NULL);
 	ft_bzero(ret, size);
 	return (ret);
@@ -58,7 +59,8 @@ void	*ft_realloc2(void *src, size_t old_len, size_t new_len)
 {
 	void	*res;
 
-	if (!(res = ft_memalloc(new_len)))
+	res = ft_memalloc(new_len);
+	if (!(res))
 		return (NULL);
 	ft_memcpy(res, src, old_len);
 	ft_memdel(&src);

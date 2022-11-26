@@ -39,52 +39,14 @@ void	set_exitcode(int32_t status)
 		g_exitcode = WEXITSTATUS(status);
 }
 
-// static void	ctrl_c(int32_t sig)
-// {
-// 	(void)sig;
-// 	ft_printf_fd(STDOUT_FILENO, "\n");
-// 	rl_on_new_line();
-// 	rl_replace_line("", 1);
-// 	rl_redisplay();
-// 	g_exitcode = 1;
-// }
-
-void	print_parser(t_data *data)
+static void	ctrl_c(int32_t sig)
 {
-	size_t		i;
-	size_t		j;
-	t_infile	*infile;
-	t_outfile	*outfile;
-
-	i = 0;
-	j = 0;
-	printf("=====PRINTING PARSER=======\n");
-	while (i < data->groupc)
-	{
-		infile = data->group[i].infile;
-		outfile = data->group[i].outfile;
-		printf("groupc: %zu\n", data->groupc);
-		while (data->group[i].full_cmd[j])
-		{
-			printf("cmd[%zu]: %s\n", j, data->group[i].full_cmd[j]);
-			j++;
-		}
-		j = 0;
-		print_2d_fd(data->group[i].full_cmd, 1);
-		while (outfile != NULL)
-		{
-			printf("outfile name: %s append: %d\n", outfile->name, outfile->append);
-			outfile = outfile->next;
-		}
-		while (infile != NULL)
-		{
-			printf("infile name: %s here_doc: %d\n", infile->name, infile->here_doc);
-			infile = infile->next;
-		}
-		printf("builtin: %p\n", data->group[i].builtin);
-		i++;
-	}
-	printf("==========================\n");
+	(void)sig;
+	ft_printf_fd(STDOUT_FILENO, "\n");
+	rl_on_new_line();
+	rl_replace_line("", 1);
+	rl_redisplay();
+	g_exitcode = 1;
 }
 
 int32_t	main(int32_t argc, char **argv, char **envp)
@@ -98,13 +60,13 @@ int32_t	main(int32_t argc, char **argv, char **envp)
 	greeting_msg(data.envp_head);
 	while (69)
 	{
-		// signal(SIGINT, ctrl_c);
+		signal(SIGINT, ctrl_c);
 		signal(SIGQUIT, SIG_IGN);
 		str = readline(PROMPT);
 		if (str == NULL)
-			return (printf("exit\n"), free_data(&data), 0);
+			return (printf("exit\n"), shlvl_msg(data.envp_head, true), \
+										free_data(&data), 0);
 		parser(str, data.envp_head, &data);
-		// print_parser(&data);
 		if (data.group)
 			execution(&data);
 		add_history(str);
