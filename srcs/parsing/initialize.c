@@ -105,7 +105,7 @@ void	out_file_init(t_group	**info, char *s, char *name, t_env *envp)
 		name = expand(name, envp);
 	name = rm_quotes_all(name);
 	new->name = name;
-	if (s[1] == '<')
+	if (s[1] == '>')
 		new->append = 1;
 	else
 		new->append = 0;
