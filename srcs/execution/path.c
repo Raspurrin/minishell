@@ -31,7 +31,6 @@ char	*find_path(t_data *data, char *cmd_name)
 	const t_env	*node = find_node(data->envp_head, "PATH");
 
 	i = 0;
-	ft_printf_fd(STDERR_FILENO, "cmd_name: %s\n", cmd_name);
 	if (!node)
 		return (NULL);
 	if (ft_strchr(cmd_name, '/'))
