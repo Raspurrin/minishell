@@ -44,15 +44,15 @@ char	debugBuf[6969];
 void	this_is_debug_yo(void);
 
 /**
- *  EMPTY	- ""
+	EMPTY	- ""
 	CMD		- command not found
 	TOKEN	- syntax error near unexpexted token
 	ISDIR	- is a directory
-	NODIR	- No such file or directory				1
-	IDENT	- not a valid identifier				1
+	NODIR	- No such file or directory
+	IDENT	- not a valid identifier
 	NOEVENT	- event not found
 	INVOPT	- invalid option
-	ARGS	- too many arguments					1
+	ARGS	- too many arguments
 	HOME	- HOME not set
 	PERM	- permission denied
 	NUMARG	- numeric arugment required
@@ -221,13 +221,15 @@ void	lst_addback(t_data *data, t_env *new);
 void	free_env_node(t_env *lst, bool free_all);
 char	**env_split(char *str, char del);
 void	print_env(t_env *lst);
+t_env	*env_addvalue(t_env *lst, char **tmp, char *keyvalue);
 
 /* execution */
-bool	check_key(char *key);
+bool	check_key(t_group *group, char *key, char *next_key);
 void	env_innit(t_data *data, char **envp);
 void	execution(t_data *data);
 bool	infiles(t_data *data, t_group *group, t_fds *fds);
 bool	outfiles(t_data *data, t_group *group, t_fds *fds);
+void	close_fds(t_data *data, size_t i, int32_t fd[2]);
 char	*get_path(t_data *data);
 char	*find_path(t_data *data, char *cmd_name);
 void	path_innit(t_data *data);
@@ -237,6 +239,7 @@ char	*relative_path(char *relative, char *pwd);
 void	set_exitcode(int32_t status);
 void	shlvl_msg(t_env *envp_head, bool exit);
 void	greeting_msg(t_env *envp_head);
+bool	dup_key(t_env *envp_head, char **tmp, char *keyvalue);
 
 /* builtins: */
 uint32_t	exit_check(t_data *data, t_group *group);

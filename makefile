@@ -32,11 +32,13 @@ SRCS	=	./srcs/parsing/parsing_brain.c \
 			./srcs/execution/env_init.c \
 			./srcs/execution/env_utils.c \
 			./srcs/execution/path.c \
+			./srcs/execution/fds.c \
 			./srcs/builtins/cd.c \
 			./srcs/builtins/echo.c \
 			./srcs/builtins/env.c \
 			./srcs/builtins/exit.c \
 			./srcs/builtins/export.c \
+			./srcs/builtins/export_add.c \
 			./srcs/builtins/pwd.c \
 			./srcs/builtins/unset.c \
 			./srcs/main.c \

@@ -28,8 +28,6 @@ void	move_pointers(t_env *envp_head, char *var)
 			else if (lst->next)
 				prev->next = lst->next;
 			free_env_node(lst, 1);
-			if (lst->next == NULL)
-				prev->next = NULL;
 			break ;
 		}
 		prev = lst;
@@ -54,15 +52,8 @@ uint32_t	unset(t_data *data, t_group *group)
 		return (1);
 	while (group->full_cmd[i])
 	{
-		if (!check_key(group->full_cmd[i]))
-		{
-			exit = 1;
-			display_error(IDENT, join_err(group->full_cmd[i], NULL), \
-														NULL, group);
-			if (!group->full_cmd[i + 1])
-				return (exit);
-			i++;
-		}
+		if (!check_key(group, group->full_cmd[i], group->full_cmd[i + 1]))
+			return (exit);
 		if (ft_strcmp(group->full_cmd[i], "PWD") == 0)
 			init_oldpwd(data);
 		move_pointers(data->envp_head, group->full_cmd[i]);

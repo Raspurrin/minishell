@@ -23,6 +23,8 @@ static void	update_pwd(t_data *data)
 
 	oldpwd = find_node(data->envp_head, "OLDPWD");
 	pwd = find_node(data->envp_head, "PWD");
+	if (oldpwd && oldpwd->value)
+		free(oldpwd->value);
 	if (!pwd)
 	{
 		oldpwd->value = "";
@@ -30,8 +32,8 @@ static void	update_pwd(t_data *data)
 	else
 	{
 		oldpwd->value = pwd->value;
-	}
-	// free(pwd->value);
+	if (pwd && pwd->value)
+		free(pwd->value);
 	pwd->value = get_pwd();
 }
 
