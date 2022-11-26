@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:24:43 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/22 22:01:31 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/26 17:23:47 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	skip_chars(char *s)
 	{
 		if (s[i] == '"' || s[i] == '\'')
 			i = i + skip_quotes(s + i) - 1;
+		if ((s[i] == '>' || s[i] == '<') && (i != 0 && i != 1))
+			break ;
 		i++;
 	}
 	end = i;
@@ -110,5 +112,5 @@ int	normal_word_extract(t_group **info, char *s, t_env *envp)
 	i = 0;
 	end = skip_chars(s);
 	words_init(info, ft_substr(s, 0, end), envp);
-	return (end);
+	return (end - 1);
 }
