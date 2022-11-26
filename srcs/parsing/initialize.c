@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/09 18:01:38 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/24 11:55:43 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/25 21:11:54 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ void	first_initialization(char **pipe_wise_splitted_array, t_data *data)
 }
 
 /**
- * @brief initialized the linked lists of in and outfile and commands char ** space
+ * @brief initialized the linked lists of in and outfile and
+ * commands char ** space
  * is made
  * 
  * @param info 
@@ -52,10 +53,10 @@ void	initialize(t_group	**info)
 }
 
 /**
- * @brief initialized the input linked list. creates a node of t_infile types and saves in
- * it wether it is a heredoc or input file. 
- * if a variable, it is expanded. if containing quotes, they are passed to the quote removal
- * func. 
+ * @brief initialized the input linked list. creates a node of t_infile 
+ * types and saves in it wether it is a heredoc or input file. 
+ * if a variable, it is expanded. if containing quotes, they are passed 
+ * to the quote removal func. 
  * @param info 
  * @param s 
  * @param name 
@@ -115,7 +116,8 @@ void	out_file_init(t_group	**info, char *s, char *name, t_env *envp)
 /**
  * @brief words mean commands. every thing other than in/out files comes here and
  * is saved in a char ** 
- * if a variable, it is expanded. if containing quotes, they are passed to the quote removal
+ * if a variable, it is expanded. if containing quotes, they are passed to 
+ * the quote removal
  * func. 
  * @param info 
  * @param name 
@@ -130,9 +132,9 @@ void	words_init(t_group	**info, char *name, t_env *envp)
 		name = expand(name, envp);
 	name = rm_quotes_all(name);
 	(*info)->commandc = (*info)->commandc + 1;
-	command_array = (char **)realloc((*info)->full_cmd,
+	command_array = (char **)ft_realloc((*info)->full_cmd,
 			sizeof(char *) * ((*info)->commandc + 1));
-	// free((*info)->full_cmd);
+	free((*info)->full_cmd);
 	command_array[((*info)->commandc) - 1] = name;
 	command_array[((*info)->commandc)] = NULL;
 	(*info)->full_cmd = command_array;

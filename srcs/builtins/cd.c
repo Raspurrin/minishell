@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 03:22:30 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/23 03:28:12 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/25 19:36:23 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,11 @@ static void	update_pwd(t_data *data)
 	if (oldpwd && oldpwd->value)
 		free(oldpwd->value);
 	if (!pwd)
+	{
 		oldpwd->value = "";
+	}
 	else
+	{
 		oldpwd->value = pwd->value;
 	if (pwd && pwd->value)
 		free(pwd->value);
@@ -52,7 +55,10 @@ uint32_t	cd(t_data *data, t_group *group)
 			chdir(env->value);
 	}
 	else if (chdir(group->full_cmd[1]) == -1)
+	{
+		fprintf(stderr, "pwd: %s\n", group->full_cmd[1]);
 		return (display_error(NODIR, join_err(NULL, NULL), NULL, group), 1);
+	}
 	update_pwd(data);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/31 12:58:33 by pooneh            #+#    #+#             */
-/*   Updated: 2022/11/23 14:47:47 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/24 17:50:05 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,14 @@ static bool	pipe_check(char *s)
 	int	i;
 
 	i = ft_strlen(s) - 1;
-	if (s[0] == '|' || (s[skip_spaces(s)] && s[skip_spaces(s)] == '|')) //starts with a pipe
+	if (s[0] == '|' || (s[skip_spaces(s)] && s[skip_spaces(s)] == '|'))
 		return (true);
-	while (i >= 0 && s[i] != '|' && s[i] == ' ' ) //ends with a pipe
+	while (i >= 0 && s[i] != '|' && s[i] == ' ' )
 		i--;
 	if (s[i] == '|')
 		return (true);
 	i = 0;
-	while (s[i]) //special cases
+	while (s[i])
 	{
 		if (s[i] == '|')
 		{
@@ -43,8 +43,7 @@ static bool	space_check(char *s)
 
 	tmp = ft_strtrim(s, " ");
 	if (ft_strlen(tmp) == 0
-		|| (ft_strlen(tmp) == 1 && (tmp[0] == ':'
-				|| tmp[0] == '!')))
+		|| (ft_strlen(tmp) == 1 && (tmp[0] == ':')))
 	{
 		free(tmp);
 		return (false);
@@ -59,24 +58,26 @@ static bool	only_one_char(char *s)
 
 	tmp = ft_strtrim(s, " ");
 	if (ft_strlen(tmp) == 1 && s[0] != '-' && s[0] != '/'
-		&& s[0] != ':' && s[0] != '!' && s[0] != '*'
+		&& s[0] != ':' && s[0] != '*'
 		&& s[0] != '.' && s[0] != '~')
 		return (free(tmp), true);
 	else if (ft_strlen(tmp) == 2 && (ft_strchr("<>", tmp[0])
-			|| ft_strchr("<>", tmp[1]))) //<< and >> and <>
+			|| ft_strchr("<>", tmp[1])))
 		return (free(tmp), true);
 	free(tmp);
 	return (false);
 }
 
-bool	check_input_before_parsing_helper(char *s)
+bool	check_input_b4_parsing_hlpr(char *s)
 {
 	if (pipe_check(s))
-		return (display_error(TOKEN, join_err(NULL, " '|' "), NULL, NULL), true);
+		return (display_error(TOKEN, join_err(NULL, " '|' "),
+				NULL, NULL), true);
 	if (!space_check(s))
 		return (1);
 	if (only_one_char(s))
-		return (display_error(TOKEN, join_err(NULL, "\'newline\'"), NULL, NULL), true);
+		return (display_error(TOKEN, join_err(NULL, "\'newline\'"),
+				NULL, NULL), true);
 	return (false);
 }
 
@@ -86,24 +87,22 @@ int	check_input_before_parsing(char *s)
 	char	c;
 
 	i = 0;
-	if(pipe_check(s))
-		return (display_error(TOKEN, join_err(NULL, NULL), NULL, NULL), 1);
-	if (!space_check(s))
+	if (check_input_b4_parsing_hlpr(s))
 		return (1);
-	if (only_one_char(s))
-		return (display_error(TOKEN, join_err(NULL, "\'newline\'"), NULL, NULL), 1);
 	while (s[i])
 	{
 		if (s[i] == '"' || s[i] == '\'')
 		{
 			if (!s[i + skip_quotes(s + i) - 1])
-				return (c = s[i], ft_perror(&c, false), 1); //seg faults , shoould fix this
+				return (c = s[i],
+					ft_perror("Unclosed quote", false), 1);
 			i += skip_quotes(s + i) - 1;
 		}
 		if (ft_strchr("><&;()", s[i]))
 		{
 			if (check_neighbouring_chars(s + i) == -1)
-				return (c = s[i], display_error(TOKEN, join_err(NULL, &c), NULL, NULL), 1);
+				return (c = s[i], display_error(TOKEN,
+						join_err(NULL, &c), NULL, NULL), 1);
 			i = i + check_neighbouring_chars(s + i);
 		}
 		i++;
