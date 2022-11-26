@@ -29,9 +29,8 @@ static void	update_pwd(t_data *data)
 		oldpwd->value = "";
 	else
 	{
-		oldpwd->value = pwd->value;
 		if (pwd && pwd->value)
-			free(pwd->value);
+			oldpwd->value = pwd->value;
 		pwd->value = get_pwd();
 	}
 }
