@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 14:50:42 by pooneh            #+#    #+#             */
-/*   Updated: 2022/11/26 16:52:49 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/27 16:23:50 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include"../../includes/minishell.h"
+
+extern uint32_t	g_exitcode;
 
 /**
  * @brief when there is a $, this function is called to 
@@ -51,19 +53,14 @@ char	*find_variable_part(char *string)
  * @param envp 
  * @param tmp_head 
  * @param variable 
- * @param l 
  */
-
-void	replace_var_val_hlpr(t_env *envp, char **tmp_head, char *var, int l)
+void	replace_var_val_hlpr(t_env *envp, char **tmp_head, char *var)
 {
 	while (envp)
 	{
 		if (!ft_strncmp(var, envp->key, ft_strlen(envp->key))
 			&& ft_strlen(var) == ft_strlen(envp->key))
-		{
 			*tmp_head = ft_strjoin_minishell(*tmp_head, envp->value);
-			l = ft_strlen(envp->value);
-		}
 		else if (!ft_strncmp(var, "?", 1))
 		{
 			*tmp_head = ft_strjoin_minishell(*tmp_head, ft_itoa(g_exitcode));
@@ -86,16 +83,14 @@ void	replace_var_val_hlpr(t_env *envp, char **tmp_head, char *var, int l)
  */
 int	replace_variable_value(char **name, int index, char	*variable, t_env *envp)
 {
-	int		i;
 	int		l;
 	char	*tmp_tail;
 	char	*tmp_head;
 
-	i = 0;
 	l = 0;
 	tmp_tail = *name + index + ft_strlen(variable);
 	tmp_head = ft_substr(*name, 0, index - 1);
-	replace_var_val_hlpr(envp, &tmp_head, variable, l);
+	replace_var_val_hlpr(envp, &tmp_head, variable);
 	if (l == 0 && (variable[0] == '"' || variable[0] == '\''))
 		tmp_head = ft_strjoin_minishell(tmp_head, variable);
 	tmp_head = ft_strjoin_minishell(tmp_head, tmp_tail);

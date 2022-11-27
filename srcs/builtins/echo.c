@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 03:04:01 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/21 22:20:38 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/27 15:44:29 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,8 @@ uint32_t	echo(t_data *data, t_group *group)
 {
 	bool	newline;
 	char	**echo;
-	size_t	i;
 
 	(void)data;
-	i = 1;
 	newline = true;
 	echo = group->full_cmd;
 	if (!echo || !*echo)

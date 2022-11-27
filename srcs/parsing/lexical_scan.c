@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexical_scan.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/10 15:24:43 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/26 17:23:47 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/27 15:32:07 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,7 @@ int	quoted_word_extract(t_group **info, char *s, t_env *envp)
 int	normal_word_extract(t_group **info, char *s, t_env *envp)
 {
 	int	end;
-	int	i;
 
-	i = 0;
 	end = skip_chars(s);
 	words_init(info, ft_substr(s, 0, end), envp);
 	return (end - 1);

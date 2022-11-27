@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/26 16:54:05 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/27 16:04:47 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,10 +31,11 @@
 # define WRITE 1
 # define PROMPT "🦇Minishell: "
 
-uint32_t					g_exitcode;
 typedef struct s_group		t_group;
 typedef struct s_data		t_data;
 typedef uint32_t			(*t_builtin)(t_data *, t_group *);
+
+extern uint32_t	g_exitcode;
 
 /**
 	EMPTY	- ""
@@ -173,7 +174,7 @@ char		quote_type(char *name);
 
 char		*find_variable_part(char *string);
 void		replace_var_val_hlpr(t_env *envp, char **tmp_head, \
-												char *var, int l);
+												char *var);
 int			replace_variable_value(char **name, int index, \
 									char *variable, t_env *envp);
 char		*expand(char *name, t_env *envp);
