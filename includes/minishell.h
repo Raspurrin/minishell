@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/27 16:04:47 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/27 17:06:55 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 
 # define READ 0
 # define WRITE 1
-# define PROMPT "🦇Minishell: "
+# define PROMPT "👑Minikingdom: "
 
 typedef struct s_group		t_group;
 typedef struct s_data		t_data;
