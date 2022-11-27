@@ -22,7 +22,7 @@ bool	check_key(t_group *group, char *key, char *next_key)
 					&& *key != ' ' && *key != '_' && *key != '='))
 		{
 			g_exitcode = 1;
-			display_error(NODIR, join_err(key, \
+			display_error(IDENT, join_err(key, \
 											NULL), NULL, group);
 			if (!next_key)
 				return (false);

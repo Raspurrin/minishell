@@ -21,15 +21,15 @@ char	**join_err(char *str1, char *str2)
 {
 	char	**str;
 
-	str = ft_calloc(2, sizeof(char *));
+	str = ft_calloc(3, sizeof(char *));
 	if (str1)
 		str[0] = ft_strjoin(str1, ": ");
 	else
-		str[0] = "";
+		str[0] = ft_strdup("");
 	if (str2)
 		str[1] = ft_strjoin(": ", str2);
 	else
-		str[1] = "";
+		str[1] = ft_strdup("");
 	return (str);
 }
 
@@ -65,7 +65,7 @@ static void	errno(t_group *group, int8_t nbr, char *str[2])
 	else
 		ft_printf_fd(STDERR_FILENO, "%s%s%s%s\n", \
 								PROMPT, str[0], errors[nbr], str[1]);
-	free(str);
+	free_2d(str);
 }
 
 static void	yeet(t_data *data)

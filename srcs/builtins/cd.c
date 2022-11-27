@@ -26,7 +26,7 @@ static void	update_pwd(t_data *data)
 	if (oldpwd && oldpwd->value)
 		free(oldpwd->value);
 	if (!pwd)
-		oldpwd->value = "";
+		oldpwd->value = ft_strdup("");
 	else
 	{
 		if (pwd && pwd->value)
@@ -53,10 +53,7 @@ uint32_t	cd(t_data *data, t_group *group)
 			chdir(env->value);
 	}
 	else if (chdir(group->full_cmd[1]) == -1)
-	{
-		fprintf(stderr, "pwd: %s\n", group->full_cmd[1]);
 		return (display_error(NODIR, join_err(NULL, NULL), NULL, group), 1);
-	}
 	update_pwd(data);
 	return (0);
 }

@@ -63,7 +63,6 @@ static int32_t	child_cmd(t_data *data, size_t i, int32_t fd[2])
 		g_exitcode = data->group[i].builtin(data, &data->group[i]);
 		exit(g_exitcode);
 	}
-	env = env_2darr(data, data->envp_head);
 	if (data->group[i].full_cmd)
 		path = find_path(data, data->group[i].full_cmd[0]);
 	if (!path)
@@ -71,6 +70,7 @@ static int32_t	child_cmd(t_data *data, size_t i, int32_t fd[2])
 												NULL), NULL, NULL), 127);
 	if (!data->group[i].full_cmd)
 		exit(0);
+	env = env_2darr(data, data->envp_head);
 	if (execve(path, data->group[i].full_cmd, env) == -1)
 		return (free(env), ft_perror(data->group[i].full_cmd[0], NULL), 127);
 	return (1);
@@ -140,7 +140,7 @@ void	execution(t_data *data)
 	exec_cmds(data);
 	if (g_exitcode > 255)
 		g_exitcode = g_exitcode % 256;
-	while (i < data->groupc)
+	while (i < data->groupc && (!(data->groupc == 1 && data->group[0].builtin)))
 	{
 		waitpid(-1, &status, 0);
 		set_exitcode(status);

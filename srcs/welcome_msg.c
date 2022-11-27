@@ -16,16 +16,20 @@ void	shlvl_msg(t_env *envp_head, bool exit)
 {
 	const t_env	*env = find_node(envp_head, "SHLVL");
 	char		*lvl;
+	char		*lvl2;
 
 	lvl = env->value;
 	if (exit && lvl)
-		lvl = ft_itoa(ft_atoi(lvl) - 1);
-	if (ft_strcmp(lvl, "1") == 0)
+		lvl2 = ft_itoa(ft_atoi(lvl) - 1);
+	else
+		lvl2 = ft_strdup(env->value);
+	if (ft_strcmp(lvl2, "1") == 0)
 		ft_printf_fd(STDERR_FILENO, "\033[0;31mYEET (╯°□°）╯︵ [you]\n");
 	else
 		ft_printf_fd(STDERR_FILENO, "\033[0;34m You are at shell level: "
-			"%s🤿\n", lvl);
+			"%s🤿\n", lvl2);
 	ft_printf_fd(STDERR_FILENO, "\033[0m");
+	free(lvl2);
 }
 
 void	greeting_msg(t_env *envp_head)
@@ -37,7 +41,6 @@ void	greeting_msg(t_env *envp_head)
 		"  | \\_ / `;=/ \" \\=;` \\ _/ |\n"
 		"   \\/ `\\__|`\\___/`|__/` \\/\n"
 		"           \\(/|\\)/ \n      "
-		"      \"   \"\n");
+		"      \"   \"\n\033[0m");
 	shlvl_msg(envp_head, false);
-	ft_printf_fd(STDERR_FILENO, "\033[0m");
 }
