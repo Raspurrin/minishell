@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 01:54:20 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/28 15:15:34 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/28 15:32:30 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ bool	check_digits(t_group *group)
 	max_int = ft_itoa(INT_MAX);
 	len = ft_strlen(group->full_cmd[1]);
 	if (len > 10 && ft_strncmp(group->full_cmd[1], max_int, len))
-		return (ft_atoi(group->full_cmd[1]));
+		return (free(max_int), ft_atoi(group->full_cmd[1]));
 	while (ft_isdigit(group->full_cmd[1][i]))
 		i++;
 	free(max_int);
