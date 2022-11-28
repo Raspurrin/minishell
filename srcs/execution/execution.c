@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/28 19:39:31 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/28 20:12:19 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ static void	exec_cmds(t_data *data)
 			g_exitcode = child_cmd(data, i, fd);
 			if (g_exitcode != 0)
 			{
+				fprintf(stderr, "hi\n");
 				free_data(data);
 				exit(g_exitcode);
 			}

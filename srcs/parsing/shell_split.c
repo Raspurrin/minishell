@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shell_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/30 11:36:03 by pooneh            #+#    #+#             */
-/*   Updated: 2022/11/24 17:39:03 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/28 20:13:25 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static size_t	ft_count_words(const char *s, char c)
 	while (i < ft_strlen(s))
 	{
 		if (s[i] == '\"' || s[i] == '\'')
-			i = i + skip_quotes((char *)s + i);
+			i = i + skip_quotes((char *)s + i) - 1;
 		if (s[i] == c && mark == 0)
 		{
 			mark = 1;
@@ -55,8 +55,8 @@ static size_t	ft_word_len_shell(const char *s, char c, size_t i)
 	{
 		if (s[i] == '\'' || s[i] == '"')
 		{
-			nbr_of_letters += skip_quotes((char *)s + i);
-			i += skip_quotes((char *)s + i);
+			nbr_of_letters += skip_quotes((char *)s + i) - 1;
+			i += skip_quotes((char *)s + i) - 1;
 		}
 		nbr_of_letters++;
 		i++;
