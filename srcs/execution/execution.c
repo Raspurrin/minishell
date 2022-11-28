@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/28 20:12:19 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/28 21:02:04 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ static int32_t	child_cmd(t_data *data, size_t i, int32_t fd[2])
 	if (builtin_check(data, &data->group[i]) == true)
 	{
 		g_exitcode = data->group[i].builtin(data, &data->group[i]);
+		free_data(data);
 		exit(g_exitcode);
 	}
 	if (data->group[i].full_cmd)
