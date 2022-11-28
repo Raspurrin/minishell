@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/23 01:07:33 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/28 15:21:14 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ static int32_t	child_cmd(t_data *data, size_t i, int32_t fd[2])
 		exit(0);
 	env = env_2darr(data, data->envp_head);
 	if (execve(path, data->group[i].full_cmd, env) == -1)
-		return (free(env), ft_perror(data->group[i].full_cmd[0], NULL), 127);
+		return (free_2d(env), ft_perror(data->group[i].full_cmd[0], NULL), 127);
 	return (1);
 }
 
