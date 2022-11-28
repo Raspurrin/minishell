@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 14:50:42 by pooneh            #+#    #+#             */
-/*   Updated: 2022/11/27 16:23:50 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/28 14:38:31 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ char	*find_variable_part(char *string)
  */
 void	replace_var_val_hlpr(t_env *envp, char **tmp_head, char *var)
 {
+	char *tmp;
+
+	tmp = ft_itoa(g_exitcode);
 	while (envp)
 	{
 		if (!ft_strncmp(var, envp->key, ft_strlen(envp->key))
@@ -63,11 +66,13 @@ void	replace_var_val_hlpr(t_env *envp, char **tmp_head, char *var)
 			*tmp_head = ft_strjoin_minishell(*tmp_head, envp->value);
 		else if (!ft_strncmp(var, "?", 1))
 		{
-			*tmp_head = ft_strjoin_minishell(*tmp_head, ft_itoa(g_exitcode));
+			
+			*tmp_head = ft_strjoin_minishell(*tmp_head, tmp);
 			break ;
 		}
 		envp = envp->next;
 	}
+	free(tmp);
 }
 
 /**
@@ -123,10 +128,10 @@ char	*expand(char *name, t_env *envp)
 			variable = find_variable_part(name + i + 1);
 			i = replace_variable_value(&name, i + 1, variable, envp) - 1;
 			i--;
+			if (variable)
+				free (variable);
 		}
 		i++;
 	}
-	if (variable)
-		free (variable);
 	return (name);
 }
