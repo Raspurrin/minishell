@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 01:54:20 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/28 15:32:30 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/28 19:41:12 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ uint32_t	exit_check(t_data *data, t_group *group)
 	if (!digits)
 		display_error(NUMARG, join_err(NULL, NULL), NULL, group);
 	g_exitcode = nbr;
+	free_data(data);
 	exit(nbr);
 	return (nbr);
 }
