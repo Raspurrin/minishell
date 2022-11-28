@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/11 18:45:27 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/27 17:06:55 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/28 21:34:35 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # include <signal.h>
 # include <unistd.h>
 # include <limits.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+# include </Users/pmoghadd/goinfre/.brew/opt/readline/include/readline/readline.h>
+# include </Users/pmoghadd/goinfre/.brew/opt/readline/include/readline/history.h>
 # include "../libs/libft/includes/libft.h"
 
 # define READ 0
@@ -35,7 +35,7 @@ typedef struct s_group		t_group;
 typedef struct s_data		t_data;
 typedef uint32_t			(*t_builtin)(t_data *, t_group *);
 
-extern uint32_t	g_exitcode;
+extern uint32_t				g_exitcode;
 
 /**
 	EMPTY	- ""
@@ -209,6 +209,7 @@ void		free_groups(t_data *data);
 char		**join_err(char *str1, char *str2);
 char		*join_builtin(char *str1, char *str2);
 void		ft_perror(char *msg, t_data *data);
+void		yeet(t_data *data);
 
 /* environment variable linked list handlers */
 char		**env_2darr(t_data *data, t_env *lst);

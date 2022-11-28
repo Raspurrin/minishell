@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 03:16:49 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/28 17:42:43 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/28 21:42:50 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,21 +18,17 @@ void	init_oldpwd(t_data *data)
 	t_env	*new;
 
 	env = find_node(data->envp_head, "OLDPWD");
-	if (env)
-		fprintf(stderr, "oldpwd stuff: %s %s %s", env->key, env->value, env->keyvalue);
-	if (env)
+	if (env && env->value)
 	{
-		if (env->value)
-		{
-			free(env->value);
-			env->value = NULL;
-		}
+		free(env->value);
 		env->value = NULL;
-		if (env->keyvalue)
-		{
-			free(env->keyvalue);
-			env->keyvalue = ft_strdup("OLDPWD");
-		}
+	}
+	if (env)
+		env->value = NULL;
+	if (env && env->keyvalue)
+	{
+		free(env->keyvalue);
+		env->keyvalue = ft_strdup("OLDPWD");
 	}
 	else
 	{
@@ -42,7 +38,6 @@ void	init_oldpwd(t_data *data)
 		new->value = NULL;
 		lst_addback(data, new);
 	}
-	// print_env(data->envp_head);
 }
 
 /**

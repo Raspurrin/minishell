@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/21 13:47:59 by pmoghadd          #+#    #+#             */
-/*   Updated: 2022/11/28 20:52:31 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/28 20:59:13 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ char	*rm_two_quotes(char *name, int start)
 	i = 0;
 	j = 0;
 	end = start + skip_quotes(name + start) - 1;
-	// result = ft_realloc2(name, sizeof(char) * (ft_strlen(name)), sizeof(char) * (ft_strlen(name) - 1));
 	result = ft_calloc(sizeof(char), ft_strlen(name) - 1);
 	while (name[i])
 	{

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/22 14:50:42 by pooneh            #+#    #+#             */
-/*   Updated: 2022/11/28 14:38:31 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/28 21:29:48 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*find_variable_part(char *string)
  */
 void	replace_var_val_hlpr(t_env *envp, char **tmp_head, char *var)
 {
-	char *tmp;
+	char	*tmp;
 
 	tmp = ft_itoa(g_exitcode);
 	while (envp)
@@ -66,7 +66,6 @@ void	replace_var_val_hlpr(t_env *envp, char **tmp_head, char *var)
 			*tmp_head = ft_strjoin_minishell(*tmp_head, envp->value);
 		else if (!ft_strncmp(var, "?", 1))
 		{
-			
 			*tmp_head = ft_strjoin_minishell(*tmp_head, tmp);
 			break ;
 		}

@@ -6,8 +6,7 @@
 /*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/06 22:53:56 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/23 03:28:07 by mialbert         ###   ########.fr       */
-/*   Updated: 2022/11/21 18:26:08 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/28 21:43:15 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,10 +67,10 @@ static void	errno(t_group *group, int8_t nbr, char *str[2])
 	free_2d(str);
 }
 
-static void	yeet(t_data *data)
+void	yeet(t_data *data)
 {
 	free_data(data);
-	exit(EXIT_FAILURE);
+	exit(g_exitcode);
 }
 
 /**

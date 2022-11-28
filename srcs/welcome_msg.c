@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   welcome_msg.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 18:29:41 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/27 17:45:26 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/28 21:28:07 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,21 +34,22 @@ void	shlvl_msg(t_env *envp_head, bool exit)
 
 void	greeting_msg(t_env *envp_head)
 {
-	ft_printf_fd(STDERR_FILENO, "\033[1;35mWelcome to the Minishell queens': %s \n\n"
-	"               T~~\n"
-	"               |\n"
-	 "              /\"\\\n"
-	 "      T~~     |\'| T~~\n"
-	 "  T~~ |    T~ WWWW|\n"
-	 "  |  /\'\\   |  |  |/\\T~~\n"
-	 " /\"\\ WWW  /\"\\ |\' |WW|\n"
-	 "WWWWW/\\| /   \\|\'/\\|/\"\\\n"
-	"|   /__\\/|WWW|\\/__\\WWWW\n"
-	 "|\"  WWWW\'|I_I|\'WWWW\'  |\n"
-	 "|   |\' |/  -  \\|\' |\'  |\n"
-	 "|\'  |  |LI=H=LI|\' |   |\n"
-	 "|   |\' | |[_]| |  |\'  |\n"
-	 "|   |  |_|###|_|  |   |\n"
-	 "\'---\'--\'-/___\\-\'--\'---\'\n", PROMPT);
+	ft_printf_fd(STDERR_FILENO, "\033[1;35mWelcome to the"
+		"Minishell queens': %s \n\n"
+		"               T~~\n"
+		"               |\n"
+		"              /\"\\\n"
+		"      T~~     |\'| T~~\n"
+		"  T~~ |    T~ WWWW|\n"
+		"  |  /\'\\   |  |  |/\\T~~\n"
+		" /\"\\ WWW  /\"\\ |\' |WW|\n"
+		"WWWWW/\\| /   \\|\'/\\|/\"\\\n"
+		"|   /__\\/|WWW|\\/__\\WWWW\n"
+		"|\"  WWWW\'|I_I|\'WWWW\'  |\n"
+		"|   |\' |/  -  \\|\' |\'  |\n"
+		"|\'  |  |LI=H=LI|\' |   |\n"
+		"|   |\' | |[_]| |  |\'  |\n"
+		"|   |  |_|###|_|  |   |\n"
+		"\'---\'--\'-/___\\-\'--\'---\'\n", PROMPT);
 	shlvl_msg(envp_head, false);
 }

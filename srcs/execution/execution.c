@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/08 18:48:19 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/28 21:02:04 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/28 21:34:06 by pmoghadd         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,7 @@ static int32_t	child_cmd(t_data *data, size_t i, int32_t fd[2])
 	if (builtin_check(data, &data->group[i]) == true)
 	{
 		g_exitcode = data->group[i].builtin(data, &data->group[i]);
-		free_data(data);
-		exit(g_exitcode);
+		yeet(data);
 	}
 	if (data->group[i].full_cmd)
 		path = find_path(data, data->group[i].full_cmd[0]);
@@ -116,11 +115,7 @@ static void	exec_cmds(t_data *data)
 		{
 			g_exitcode = child_cmd(data, i, fd);
 			if (g_exitcode != 0)
-			{
-				fprintf(stderr, "hi\n");
-				free_data(data);
-				exit(g_exitcode);
-			}
+				yeet(data);
 		}
 		if (i > 0)
 			close(data->tmp_fd);
