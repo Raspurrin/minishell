@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 03:16:49 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/20 03:45:23 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/28 17:42:43 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,34 @@
 void	init_oldpwd(t_data *data)
 {
 	t_env	*env;
+	t_env	*new;
 
 	env = find_node(data->envp_head, "OLDPWD");
-	if (env && env->value)
+	if (env)
+		fprintf(stderr, "oldpwd stuff: %s %s %s", env->key, env->value, env->keyvalue);
+	if (env)
 	{
-		free(env->value);
+		if (env->value)
+		{
+			free(env->value);
+			env->value = NULL;
+		}
 		env->value = NULL;
+		if (env->keyvalue)
+		{
+			free(env->keyvalue);
+			env->keyvalue = ft_strdup("OLDPWD");
+		}
 	}
+	else
+	{
+		new = ft_calloc(1, sizeof(t_env));
+		new->keyvalue = ft_strdup("OLDPWD");
+		new->key = ft_strdup("OLDPWD");
+		new->value = NULL;
+		lst_addback(data, new);
+	}
+	// print_env(data->envp_head);
 }
 
 /**

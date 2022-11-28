@@ -6,7 +6,7 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 03:04:01 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/27 15:44:29 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/11/28 16:16:31 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,9 @@ uint32_t	echo(t_data *data, t_group *group)
 	if (!echo || !echo[1])
 	{
 		echo[0] = ft_strdup("");
-		return (print_echo(newline, echo), true);
+		return (print_echo(newline, echo), 0);
 	}	
 	echo++;
 	newline = check_flag(&echo);
-	return (print_echo(newline, echo), true);
+	return (print_echo(newline, echo), 0);
 }

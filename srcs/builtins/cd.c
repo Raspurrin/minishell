@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/08 03:22:30 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/25 19:36:23 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/28 18:15:52 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,20 @@ static void	update_pwd(t_data *data)
 	oldpwd = find_node(data->envp_head, "OLDPWD");
 	pwd = find_node(data->envp_head, "PWD");
 	if (oldpwd && oldpwd->value)
+	{
 		free(oldpwd->value);
+		oldpwd->value = NULL;
+	}
 	if (!pwd)
 		oldpwd->value = ft_strdup("");
 	else
 	{
-		if (pwd && pwd->value)
+		if (!oldpwd->value)
+			oldpwd->value = ft_strdup(pwd->value);
+		else if (pwd && pwd->value)
 			oldpwd->value = pwd->value;
+		if (pwd && pwd->value)
+			free(pwd->value);
 		pwd->value = get_pwd();
 	}
 }
@@ -49,8 +56,9 @@ uint32_t	cd(t_data *data, t_group *group)
 	if (!group->full_cmd[1])
 	{
 		env = find_node(data->envp_head, "HOME");
-		if (env && env->value)
-			chdir(env->value);
+		if (!env && !env->value)
+			return (display_error(NODIR, join_err(NULL, NULL), NULL, group), 1);
+		chdir(env->value);
 	}
 	else if (chdir(group->full_cmd[1]) == -1)
 		return (display_error(NODIR, join_err(NULL, NULL), NULL, group), 1);
