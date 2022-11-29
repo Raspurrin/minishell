@@ -9,6 +9,7 @@ A project where we have to make our own shell!
 ## Diving tasks, execution and parsing
 
 ## Environment variables
+They are variables that exist in the environment of a process. Any following child processes will inherit the environment variables from the parent, but any changes made in a child won't affect the environment of the parent. Environment variables can be initialized in different scopes, like globally across your entire system or on the user-level. In Linux global variables can be found in etc/environment and user-specific ones in ~.profile  
 
 ## Why built-ins?
 There are two types of commands, external programs and built-in functions executed from within the shell. 
