@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   welcome_msg.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pmoghadd <pmoghadd@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/22 18:29:41 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/28 21:28:07 by pmoghadd         ###   ########.fr       */
+/*   Updated: 2022/11/30 12:09:10 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@ void	shlvl_msg(t_env *envp_head, bool exit)
 	char		*lvl;
 	char		*lvl2;
 
+	if (!env)
+	{
+		ft_printf_fd(STDERR_FILENO, "\033[0;34mShell level has been unset. By you. Thanks.\n"
+		"Who knows where we are now\n\033[0m");
+		return ;
+		}
 	lvl = env->value;
 	if (exit && lvl)
 		lvl2 = ft_itoa(ft_atoi(lvl) - 1);
