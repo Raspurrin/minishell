@@ -6,25 +6,25 @@
 /*   By: mialbert <mialbert@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/07 20:10:21 by mialbert          #+#    #+#             */
-/*   Updated: 2022/11/22 23:30:15 by mialbert         ###   ########.fr       */
+/*   Updated: 2022/12/01 20:34:38 by mialbert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	move_pointers(t_env *envp_head, char *var)
+static void	move_pointers(t_env **envp_head, char *var)
 {
 	t_env	*prev;
 	t_env	*lst;
 
-	prev = envp_head;
-	lst = envp_head;
+	prev = *envp_head;
+	lst = *envp_head;
 	while (lst != NULL)
 	{
 		if (ft_strcmp(var, lst->key) == 0)
 		{
-			if (lst == envp_head && lst->next)
-				envp_head = lst->next;
+			if (lst == *envp_head && lst->next)
+				*envp_head = lst->next;
 			else if (lst->next)
 				prev->next = lst->next;
 			else
@@ -58,7 +58,7 @@ uint32_t	unset(t_data *data, t_group *group)
 			return (exit);
 		if (ft_strcmp(group->full_cmd[i], "PWD") == 0)
 			init_oldpwd(data);
-		move_pointers(data->envp_head, group->full_cmd[i]);
+		move_pointers(&data->envp_head, group->full_cmd[i]);
 		i++;
 	}
 	return (exit);
